@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/common.css" />
+		<link rel="stylesheet" type="text/css" href="css/index.css" />
+		<script type="text/javascript" src="../../js/plugin/vue.js"></script>
+		<title></title>
+		<style type="text/css">
+			.mui-scroll-wrapper {
+				overflow: auto!important;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="vueBox" class="order-list">
+			<div id="slider" class="mui-slider mui-fullscreen" :style="{visibility: activeShow ? 'visible' : 'hidden'}">
+				<div id="sliderNav" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted mui-segmented-control-positive">
+					<a class="mui-control-item" href="#item1">全部</a>
+					<a class="mui-control-item" href="#item2">待付款</a>
+					<a class="mui-control-item" href="#item3">待发货</a>
+					<a class="mui-control-item" href="#item4">待收货</a>
+					<a class="mui-control-item" href="#item5">已收货</a>
+				</div>
+				<div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-5"></div>
+				<div id="sliderPage" class="mui-slider-group">
+
+					<div id="item1" class="mui-slider-item mui-control-content">
+						<div id="refreshContainer" class="mui-content mui-scroll-wrapper" v-if="active==0&&orderData.length!=0">
+							<scroller :on-refresh="refresh" :on-infinite="infinite" class="mcm-scroller" ref="scroller">
+								<order-list :order-data="orderData" @pay="goPay" @cancel="cancelOrder"></order-list>
+							</scroller>
+						</div>
+						<empty-page v-if="orderData.length === 0 && !isLoad" :datas="emptyData"></empty-page>
+					</div>
+					<div id="item2" class="mui-slider-item mui-control-content">
+						<div id="refreshContainer2" class="mui-content mui-scroll-wrapper" v-if="active==1&&orderData.length!=0">
+							<scroller :on-refresh="refresh" :on-infinite="infinite" class="mcm-scroller" ref="scroller">
+								<order-list :order-data="orderData" @pay="goPay" @cancel="cancelOrder"></order-list>
+							</scroller>
+						</div>
+						<empty-page v-else :datas="emptyData"></empty-page>
+					</div>
+					<div id="item3" class="mui-slider-item mui-control-content">
+						<div id="refreshContainer3" class="mui-content mui-scroll-wrapper" v-if="active==2&&orderData.length!=0">
+							<scroller :on-refresh="refresh" :on-infinite="infinite" class="mcm-scroller" ref="scroller">
+								<order-list :order-data="orderData" @pay="goPay" @cancel="cancelOrder"></order-list>
+							</scroller>
+						</div>
+						<empty-page v-else :datas="emptyData"></empty-page>
+					</div>
+					<div id="item4" class="mui-slider-item mui-control-content">
+						<div id="refreshContainer4" class="mui-content mui-scroll-wrapper" v-if="active==3&&orderData.length!=0">
+							<scroller :on-refresh="refresh" :on-infinite="infinite" class="mcm-scroller" ref="scroller">
+								<order-list :order-data="orderData" @pay="goPay" @cancel="cancelOrder"></order-list>
+							</scroller>
+						</div>
+						<empty-page v-else :datas="emptyData"></empty-page>
+					</div>
+					<div id="item5" class="mui-slider-item mui-control-content">
+						<div id="refreshContainer5" class="mui-content mui-scroll-wrapper" v-if="active==4&&orderData.length!=0">
+							<scroller :on-refresh="refresh" :on-infinite="infinite" class="mcm-scroller" ref="scroller">
+								<order-list :order-data="orderData" @pay="goPay" @cancel="cancelOrder"></order-list>
+							</scroller>
+						</div>
+						<empty-page v-else :datas="emptyData"></empty-page>
+					</div>
+
+				</div>
+			</div>
+			<cancel-page :datas="cancelData" @cancelorder="cancelSub"></cancel-page>
+			<loading v-if="isLoad"></loading>
+		</div>
+		<script type="text/javascript" src="../../js/plugin/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/common/common.js"></script>
+		<script type="text/javascript" src="../../js/plugin/vue-scroller.min.js"></script>
+		<script type="text/javascript" src="../../components/cancel-order.js"></script>
+		<script type="text/javascript" src="../../components/empty-page.js"></script>
+		<script type="text/javascript" src="../../js/api/order.js"></script>
+		<script type="text/javascript" src="../../components/loading.js"></script>
+		<script type="text/javascript" src="../../components/order-list.js"></script>
+	</body>
+	<script type="text/javascript">
+		mui.plusReady(function() {
+			//禁止横屏
+			plus.screen.lockOrientation("portrait-primary");
+			mcm.closeWebView(["cartOrders", "ordersError", "ordersSuccess"])
+			var self = plus.webview.currentWebview();
+			vm.active = self.active;
+			mui('#slider').slider().gotoItem(vm.active);
+			setTimeout(function() {
+				vm.activeShow = true;
+			}, 500)
+			vm.initPage();
+		});
+		mui.back = function() {
+			var me = plus.webview.getWebviewById("me");
+			var home = plus.webview.getLaunchWebview();
+			mui.fire(home, "switchMenu", {
+				index: 5
+			});
+			mui.fire(me, 'openThatPage')
+			plus.webview.currentWebview().close('auto');
+			setTimeout(function() {
+				home.show()
+				me.show("none");
+			}, 100);
+		}
+		document.addEventListener('anewLoadOrder', function() {
+			vm.options.pageNum = 1;
+			vm.initPage();
+		});
+		document.addEventListener('refreshPage', function() {
+			vm.options.pageNum = 1;
+			vm.initPage();
+		})
+		//预加载支付
+		mcm.preloadPayPage();
+		var vm = new Vue({
+			el: "#vueBox",
+			data: function() {
+				return {
+					orderData: [],
+					cancelData: {
+						isShow: false
+					},
+					emptyData: {
+						isShow: true,
+						src: "../../img/no_order.png",
+						info: "您还没有任何订单哦"
+					},
+					orderStatus: ['', '20,50', 35, 40, 100],
+					options: {
+						orderStatus: '',
+						pageNum: 1,
+						pageSize: 10,
+						prodQuantity: 5
+					},
+					active: 0,
+					isLoad: true,
+					activeShow: false
+				}
+			},
+			methods: {
+				refresh: function() {
+					var that = this;
+					vm.$refs.scroller && setTimeout(function() {
+						vm.orderData = [];
+						vm.options.pageNum = 1;
+						vm.loadData();
+					}, 1000);
+				},
+				infinite: function(done) {
+					setTimeout(function() {
+						vm.loadData(done);
+					}, 1000)
+
+				},
+				cancelOrder: function(id) {
+					this.cancelData.isShow = true;
+					this.cancelData.sellOrderId = id;
+				},
+				cancelSub: function(str) {
+					var _that = this;
+					api.cancelOrder.cancelOrderAPI({
+						data: {
+							sellOrderId: this.cancelData.sellOrderId,
+							cancelRemark: str
+						},
+						success: function(data) {
+							mui.toast("取消成功！");
+							_that.cancelData.isShow = false;
+							_that.orderData.forEach(function(v, k) {
+								if(v.sellOrderId == _that.cancelData.sellOrderId) {
+									_that.orderData.splice(k, 1);
+								}
+							});
+						}
+					})
+				},
+				initPage: function() {
+					this.orderData = [];
+					this.defaultAcrive();
+					this.loadData();
+				},
+				loadData: function(done) {
+					var _that = this;
+					this.isLoad = true;
+					api.orderList.orderListAPI({
+						data: this.options,
+						success: function(data) {
+							_that.isLoad = false;
+							++_that.options.pageNum;
+							var resultList = data.resultList;
+							_that.orderData = _that.orderData.concat(resultList)
+							if(vm.$refs.scroller) {
+								vm.$refs.scroller.finishPullToRefresh();
+								if(!resultList || resultList.length < _that.options.pageSize) {
+									done && done(true)
+								} else {
+									done && done();
+								}
+							}
+						},
+						error: function() {
+							_that.isLoad = false;
+						}
+					});
+				},
+				defaultAcrive: function() {},
+				goPay: function(data) {
+					var result = {
+						totalAmount: data.totalAmount,
+						sellOrderIds: [data.sellOrderId],
+						type: 'unpaid'
+					}
+					var pay = plus.webview.getWebviewById('paymentType')
+					if(pay) {
+						mui.fire(pay, 'noOrderChange', {
+							payOrderInfo: result
+						})
+						setTimeout(function() {
+							pay.show('slide-in-bottom');
+						}, 100)
+					} else {
+						mui.openWindow({
+							url: '../common/payment-type.html',
+							id: "paymentType",
+							styles: {
+								"render": "always",
+								"popGesture": "hide",
+								background: "transparent"
+							},
+							show: {
+								aniShow: 'slide-in-bottom',
+								duration: 500
+							},
+							extras: {
+								payOrderInfo: result
+							}
+						});
+					}
+				}
+			}
+		});
+		//切换加载
+		document.querySelector(".mui-slider").addEventListener('slide', function(event) {
+			vm.orderData = [event.detail.slideNumber];
+			vm.active = event.detail.slideNumber;
+			vm.options.orderStatus = vm.orderStatus[event.detail.slideNumber];
+			if(vm.active == 0) {
+				vm.options.orderStatus = "";
+			}
+			vm.orderData = [];
+			vm.options.pageNum = 1;
+			vm.loadData();
+		});
+	</script>
+
+</html>

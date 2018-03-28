@@ -1,0 +1,112 @@
+/**
+ * author pzh
+ * 商户系统主题配置
+ */
+/*主色调*/
+/*辅助色*/
+/*禁用*/
+/*主要字体色*/
+/*常规文字颜色*/
+/*次要文字颜色*/
+/*不可输入*/
+/*背景色*/
+/*主要边框*/
+/*分割线*/
+.clearFloat {
+  content: "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  *zoom: 1;
+  clear: both;
+  visibility: hidden;
+}
+.user-debtList {
+  padding-top: 10px;
+}
+.user-debtList .debtList-list {
+  background: #fff;
+}
+.user-debtList .debtList-list .item {
+  height: 0.734375rem;
+  zoom: 1;
+  border-bottom: 1px solid #F0F0F0;
+}
+.user-debtList .debtList-list .item:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.user-debtList .debtList-list .item img {
+  width: 0.578125rem;
+  height: 0.578125rem;
+  margin-right: 0.265625rem;
+}
+.user-debtList .debtList-list .item .reduce-img {
+  display: none;
+}
+.user-debtList .debtList-list .item section p {
+  font-size: 0.28125rem;
+}
+.user-debtList .debtList-list .item section span {
+  font-size: 0.21875rem;
+  color: #535353;
+}
+.user-debtList .debtList-list .item > span {
+  font-size: 0.3125rem;
+  color: #1EC551;
+  line-height: 0.734375rem;
+}
+.user-debtList .debtList-list .active img {
+  display: none;
+}
+.user-debtList .debtList-list .active .reduce-img {
+  display: inline-block;
+}
+.user-debtList .debtList-list .active > span {
+  color: #F9AB0C;
+}
+.user-debtDatails {
+  padding-top: 10px;
+}
+.user-debtDatails .main {
+  background: #fff;
+}
+.user-debtDatails .main .head {
+  border-bottom: 1px solid #F0F0F0;
+  height: 40px;
+  line-height: 40px;
+  margin-bottom: 10px;
+  zoom: 1;
+}
+.user-debtDatails .main .head:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.user-debtDatails .main .head .title {
+  font-size: 0.28125rem;
+  color: #0A0B0C;
+}
+.user-debtDatails .main .head .text {
+  font-size: 0.3125rem;
+  color: #F77E44;
+}
+.user-debtDatails .main .item {
+  zoom: 1;
+  height: 30px;
+  line-height: 30px;
+}
+.user-debtDatails .main .item:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.user-debtDatails .main .item .title {
+  font-size: 0.234375rem;
+  color: #8F8F8F;
+}
+.user-debtDatails .main .item .text {
+  font-size: 0.25rem;
+  color: #0A0B0C;
+}

@@ -1,0 +1,28 @@
+/*
+ * author pzh
+ * 生产环境
+ */
+import Vue from 'vue'
+import App from '@/App'
+import Router from 'vue-router'
+import adminRouter from '@/admin/router/router'
+import ElementUI from 'element-ui'
+import '@/common/less/common.less'
+
+Vue.config.productionTip = false
+Vue.use(Router)
+Vue.use(ElementUI)
+/* eslint-disable no-new */
+let routerArray = []
+routerArray = routerArray.concat(adminRouter.router)
+var router = new Router({
+	mode: 'history',
+	base: __dirname,
+  	routes: routerArray
+})
+new Vue({
+  el: '#app',
+  router,
+  components: { App },
+  template: '<App/>'
+})

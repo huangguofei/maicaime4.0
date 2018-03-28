@@ -1,0 +1,67 @@
+/**
+ * author pzh
+ * 商户系统主题配置
+ */
+/*主色调*/
+/*辅助色*/
+/*禁用*/
+/*主要字体色*/
+/*常规文字颜色*/
+/*次要文字颜色*/
+/*不可输入*/
+/*背景色*/
+/*主要边框*/
+/*分割线*/
+.clearFloat {
+  content: "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  *zoom: 1;
+  clear: both;
+  visibility: hidden;
+}
+.user-set {
+  padding-top: 10px;
+}
+.user-set .list {
+  margin-bottom: 0.1875rem;
+}
+.user-set .list .item .switch {
+  width: 0.734375rem;
+  margin-top: -0.046875rem;
+}
+.user-set .list .item img {
+  margin-top: 0.109375rem;
+}
+.user-set .list .item:first-child {
+  border-bottom: 1px solid #E5E5E5;
+}
+.user-set .item {
+  zoom: 1;
+  background: #fff;
+  box-sizing: border-box;
+  height: 0.890625rem;
+}
+.user-set .item:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.user-set .item span {
+  line-height: 0.640625rem;
+}
+.user-set .logout {
+  display: block;
+  width: 80%;
+  color: #fff;
+  background: #1EC551;
+  border-color: #1EC551;
+  height: 0.5rem;
+  line-height: 0.5rem;
+  border-radius: 0.0703125rem;
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 0.1875rem;
+  font-size: 0.28125rem;
+}

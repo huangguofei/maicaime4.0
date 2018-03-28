@@ -1,0 +1,54 @@
+/**
+ * author pzh
+ * 商户系统主题配置
+ */
+/*主色调*/
+/*辅助色*/
+/*禁用*/
+/*主要字体色*/
+/*常规文字颜色*/
+/*次要文字颜色*/
+/*不可输入*/
+/*背景色*/
+/*主要边框*/
+/*分割线*/
+.clearFloat {
+  content: "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  *zoom: 1;
+  clear: both;
+  visibility: hidden;
+}
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.guide-page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.guide-page .slider-1 {
+  background: url(../../../img/guide01.png) no-repeat;
+  background-size: cover;
+}
+.guide-page .slider-2 {
+  background: url(../../../img/guide02.png) no-repeat;
+  background-size: cover;
+}
+.guide-page .slider-3 {
+  background: url(../../../img/guide03.png) no-repeat;
+  background-size: cover;
+}
+.guide-page .slider-3 .open-home {
+  position: absolute;
+  left: 30px;
+  right: 30px;
+  height: 90px;
+  bottom: 30px;
+}

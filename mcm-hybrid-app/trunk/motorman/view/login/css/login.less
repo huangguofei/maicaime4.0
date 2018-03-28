@@ -1,0 +1,116 @@
+@import "../../../css/config.less";
+body {}
+
+.login {
+    .login-head {
+        background: url(../../../img/login_bg.png) no-repeat;
+        background-size: 100% 100%;
+        .pxrem(height, 480);
+        color: #282828;
+        h1 {
+            .pxrem(font-size, 60);
+            font-weight: normal;
+            margin-top: 20px;
+        }
+        p {
+            .pxrem(font-size, 32);
+        }
+    }
+    .main {
+        background: #fff;
+        position: absolute;
+        .pxrem(top, 250);
+        .pxrem(left, 26);
+        .pxrem(right, 26);
+        border-radius: 5px;
+        box-shadow: 0 0 20px #ccc;
+        .head {
+            position: relative;
+            text-align: center;
+            margin: 20px 0;
+            img {
+                .pxrem(width, 150);
+                height: auto;
+            }
+            .forget-psw {
+                position: absolute;
+                top: 0px;
+                right: 0;
+                .pxrem(font-size, 28);
+                color: #6e6e6e;
+            }
+        }
+        form {
+            .pxrem(height, 650);
+            .form-item {
+                border: 1px solid #CECFD2;
+                border-radius: 3px;
+                .pxrem(height, 90);
+                .pxrem(line-height, 90);
+                padding: 0 10px;
+                color: #282828;
+                margin-bottom: 10px;
+                img {
+                    .pxrem(width, 35);
+                    height: auto;
+                    margin-right: 5px;
+                    vertical-align: middle;
+                }
+                input {
+                    .pxrem(height, 50);
+                    border: 0;
+                    .pxrem(font-size, 34);
+                    width: 80%;
+                }
+                a {
+                    .pxrem(font-size, 28);
+                    color: #282828;
+                }
+            }
+            .address {
+                .pxrem(font-size, 34);
+                
+                input {
+                    width: 30%;
+                    text-align: right;
+                }
+                .gps{
+                    margin-left: 10px;
+                }
+            }
+            .form-item:first-child {
+                input {
+                    width: 60%;
+                }
+            }
+            .sub_btn {
+                display: block;
+                text-align: center;
+                .pxrem(height, 90);
+                border-radius: 3px;
+                .pxrem(font-size, 36);
+                color: #282828;
+                width: 100%;
+                border: 0;
+                background: url(../../../img/buttom.png) no-repeat;
+                background-size: cover;
+                margin: 30px 0 10px;
+            }
+            .change-login {
+                display: block;
+                text-align: center;
+                .pxrem(font-size, 36);
+                color: #282828;
+                .pxrem(padding-top, 20);
+            }
+        }
+    }
+    .go_register {
+        position: absolute;
+        bottom: -60px;
+        width: 100%;
+        text-align: center;
+        .pxrem(font-size, 36);
+        color: #282828;
+    }
+}

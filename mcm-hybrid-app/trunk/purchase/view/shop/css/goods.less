@@ -1,0 +1,75 @@
+@import "../../../css/config.less";
+.shop-goods-page{
+    overflow: hidden;
+    .category-nar{
+        position: relative;
+        z-index:2;
+        background: #FCFCFC;
+        box-shadow: 0px 4px 10px 0px rgba(0,0,0,0.1);
+    }
+    .prod-area{
+        .left{
+            position:absolute;
+            left: 0;
+            .pxrem(top, 90);
+            .pxrem(width, 179);
+            overflow-y:auto;
+            background: @mcm-background-color-base;
+            border-right:1px solid #DCDFE6;
+            z-index:999999;
+            .item{
+                text-align: center;
+                .prem(25, 0);
+                padding: @prem;
+                .pxrem(font-size, 32);
+                color: @mcm-color-text-regular;
+                border-bottom: 1px solid #DCDFE6;
+            }
+            .active{
+                color: @mcm-color-primary;
+            }
+        }
+        .right{
+            background: @mcm-color-white;
+            .pxrem(padding-left, 181);
+            position: relative;
+            height: 100%;
+            .condition{
+                .prem(0, 20);
+                padding: @prem;
+                .pxrem(height, 80);
+                .pxrem(line-height, 80);
+                .wrap{
+                    height:100%;
+                    border-bottom: 1px solid @mcm-border-color-base;
+                }
+                .c-l,.c-r{
+                    position: relative;
+                    width: 50%;
+                    float: left;
+                    text-align: center;
+                    .pxrem(font-size, 28);
+                    color: @mcm-color-text-secondary;
+                }
+                .c-l{
+                   &:after{
+                       content: "";
+                       position: absolute;
+                       .pxrem(width, 1);
+                       .pxrem(height, 50);
+                       right: 0;
+                       .pxrem(top, 10);
+                       background: @mcm-border-color-base;
+                   } 
+                }
+                .active{
+                    color: @mcm-color-primary;
+                }
+            }
+            .items{
+                position:relative;
+                height:100%;
+            }
+        }
+    }
+}

@@ -1,0 +1,35 @@
+/**
+ * author pzh
+ * 商户系统主题配置
+ */
+/*主色调*/
+/*辅助色*/
+/*禁用*/
+/*主要字体色*/
+/*常规文字颜色*/
+/*次要文字颜色*/
+/*不可输入*/
+/*背景色*/
+/*主要边框*/
+/*分割线*/
+.clearFloat {
+  content: "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  *zoom: 1;
+  clear: both;
+  visibility: hidden;
+}
+.order-map {
+  height: 100%;
+  width: 100%;
+}
+.order-map .map-wrap {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: -1;
+}

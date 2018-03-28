@@ -1,0 +1,92 @@
+/**
+ * author pzh
+ * 商户系统主题配置
+ */
+/*主色调*/
+/*辅助色*/
+/*禁用*/
+/*主要字体色*/
+/*常规文字颜色*/
+/*次要文字颜色*/
+/*不可输入*/
+/*背景色*/
+/*主要边框*/
+/*分割线*/
+.clearFloat {
+  content: "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  *zoom: 1;
+  clear: both;
+  visibility: hidden;
+}
+.shop-goods-page {
+  overflow: hidden;
+}
+.shop-goods-page .category-nar {
+  position: relative;
+  z-index: 2;
+  background: #FCFCFC;
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.1);
+}
+.shop-goods-page .prod-area .left {
+  position: absolute;
+  left: 0;
+  top: 0.734375rem;
+  width: 1.4296875rem;
+  overflow-y: auto;
+  background: #F2F2F2;
+  border-right: 1px solid #DCDFE6;
+  z-index: 999999;
+}
+.shop-goods-page .prod-area .left .item {
+  text-align: center;
+  padding: 0.2265625rem 0.03125rem;
+  font-size: 0.28125rem;
+  color: #606266;
+  border-bottom: 1px solid #DCDFE6;
+}
+.shop-goods-page .prod-area .left .active {
+  color: #1EC551;
+}
+.shop-goods-page .prod-area .right {
+  background: #fff;
+  padding-left: 1.4453125rem;
+  position: relative;
+  height: 100%;
+}
+.shop-goods-page .prod-area .right .condition {
+  padding: 0.03125rem 0.1875rem;
+  height: 0.65625rem;
+  line-height: 0.65625rem;
+}
+.shop-goods-page .prod-area .right .condition .wrap {
+  height: 100%;
+  border-bottom: 1px solid #F0F0F0;
+}
+.shop-goods-page .prod-area .right .condition .c-l,
+.shop-goods-page .prod-area .right .condition .c-r {
+  position: relative;
+  width: 50%;
+  float: left;
+  text-align: center;
+  font-size: 0.25rem;
+  color: #3E3E3E;
+}
+.shop-goods-page .prod-area .right .condition .c-l:after {
+  content: "";
+  position: absolute;
+  width: 0.0390625rem;
+  height: 0.421875rem;
+  right: 0;
+  top: 0.109375rem;
+  background: #F0F0F0;
+}
+.shop-goods-page .prod-area .right .condition .active {
+  color: #1EC551;
+}
+.shop-goods-page .prod-area .right .items {
+  position: relative;
+  height: 100%;
+}

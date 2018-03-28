@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../../css/common.css" />
+		<link rel="stylesheet" type="text/css" href="css/user-coupon.css" />
+		<script type="text/javascript" src="../../../js/plugin/vue.js"></script>
+		<title></title>
+	</head>
+
+	<body>
+		<div id="vueBox" class="user-coupon padding">
+			<ul v-if="couponList.length>0">
+				<li class="padding" @click="selectCoupon(v)" v-for="v in couponList">
+					<article class="item-left pull-left">
+						<p>¥<b>{{v.coupon.amount}}</b></p>
+						<span class="remark">{{v.coupon.preconditionTypeText}}{{v.coupon.preconditionAmount}}元使用</span>
+						<!--<span class="remark" v-else>无条件</span>-->
+					</article>
+					<article class="item-right pull-left">
+						<p class="title">{{v.coupon.title}}
+							<img src="" />
+						</p>
+						<p class="time">有效期到 {{v.expirationTime}}</p>
+						<p class="remark"><i></i>{{v.coupon.purpose}}</p>
+					</article>
+				</li>
+
+			</ul>
+			<p class="order-null" v-else>暂无使用券</p>
+			<a href="javascript:;" class="view-other" v-show="!amount" @click="showOutCoupon">查看{{isOutCoupon?'有效':'无效'}}券<img src="../../../img/user_more.png" /></a>
+		</div>
+		<script type="text/javascript" src="../../../js/plugin/mui.min.js"></script>
+		<script type="text/javascript" src="../../../js/common/common.js"></script>
+		<script type="text/javascript" src="../../../js/api/me.js"></script>
+	</body>
+	<script type="text/javascript">
+		mui.plusReady(function() {
+			var self = plus.webview.currentWebview();
+			vm.amount = self.amount;
+			vm.initPage();
+		})
+		var vm = new Vue({
+			el: "#vueBox",
+			data: function() {
+				return {
+					couponList: [],
+					query: {
+						pageSize: 10,
+						pageNum: 1
+					},
+					isOutCoupon: false,
+					couponId: '',
+					amount: "",
+				}
+			},
+			methods: {
+				selectCoupon: function(data) {
+					if(this.amount != "") {
+						var orderPage = plus.webview.getWebviewById("cartOrders");
+						mui.fire(orderPage, 'selectCallback', {
+							couponId: data.userCouponId,
+							amount: data.coupon.amount,
+							title: data.coupon.title
+						})
+						mui.back();
+					}
+				},
+				initPage: function() {
+					if(this.amount) {
+						this.loadUsableCoupon();
+					} else {
+						this.loadCoupon();
+					}
+				},
+				loadCoupon: function() {
+					var _that = this;
+					api.userCoupon.couponListAPI({
+						data: _that.query,
+						success: function(data) {
+							_that.couponList = data.resultList;
+						}
+					});
+				},
+				loadOutCoupon: function() {
+					var _that = this;
+					api.userCoupon.couponOutListAPI({
+						data: _that.query,
+						success: function(data) {
+							_that.couponList = data.resultList;
+						}
+					});
+				},
+				loadUsableCoupon: function() {
+					var _that = this;
+					api.userCoupon.couponUsableListAPI({
+						data: _that.query,
+						success: function(data) {
+							data.forEach(function(v, k) {
+								if(v.coupon.preconditionAmount < _that.amount) {
+									_that.couponList.push(v);
+								}
+							});
+						}
+					});
+				},
+				showOutCoupon: function() {
+					this.isOutCoupon = !this.isOutCoupon;
+					this.couponList = [];
+					this.query.pageNum = 1;
+					if(this.isOutCoupon) {
+						this.loadOutCoupon();
+					} else {
+						this.loadCoupon();
+					}
+				}
+			}
+		})
+	</script>
+
+</html>

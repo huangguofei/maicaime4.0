@@ -1,0 +1,111 @@
+/**
+ * author pzh
+ * 商户系统主题配置
+ */
+/*主色调*/
+/*辅助色*/
+/*禁用*/
+/*主要字体色*/
+/*常规文字颜色*/
+/*次要文字颜色*/
+/*不可输入*/
+/*背景色*/
+/*主要边框*/
+/*分割线*/
+.clearFloat {
+  content: "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  *zoom: 1;
+  clear: both;
+  visibility: hidden;
+}
+.user-money .bg {
+  background: #fff;
+  height: 50px;
+}
+.user-money .main {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.user-money .main .item {
+  position: relative;
+  border-radius: 10px;
+  background: #fff;
+  margin-top: 10px;
+}
+.user-money .main .item .item-head {
+  font-size: 0.25rem;
+  color: #3E3E3E;
+}
+.user-money .main .item .item-head img {
+  width: 0.34375rem;
+  height: auto;
+  vertical-align: sub;
+  margin-right: 5px;
+}
+.user-money .main .item h2 {
+  font-size: 0.59375rem;
+  color: #1EC551;
+  text-indent: .5rem;
+}
+.user-money .main .item p {
+  display: inline-block;
+  color: #3E3E3E;
+  font-size: 0.21875rem;
+  padding: 0 10px;
+  text-align: center;
+  height: 26px;
+  line-height: 26px;
+  border-radius: 18px;
+  border: 1px solid #F0F0F0;
+  margin-left: 20px;
+  margin-top: 10px;
+}
+.user-money .main .item .view-details {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 15px 0 0 15px;
+  background: #FFF1D4;
+  text-align: center;
+  padding: 0 10px;
+  color: #F77E44;
+}
+.user-money .main .item .view-details img {
+  width: 10px;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+.user-money .main .item:first-child {
+  box-shadow: 0 0 20px #ccc;
+}
+.user-money .main .item:last-child .item-head {
+  text-align: center;
+  font-size: 0.3125rem;
+  color: #0A0B0C;
+}
+.user-money .main .item:last-child .item-head img {
+  width: 0.421875rem;
+  height: auto;
+}
+.user-money .main .item:last-child input {
+  display: block;
+  width: 100%;
+  font-size: 0.40625rem;
+  color: #000;
+  border: 1px solid #F0F0F0;
+  text-align: center;
+  border-radius: 5px;
+  height: 40px;
+  line-height: 40px;
+  font-weight: normal;
+  margin: 20px 0;
+}

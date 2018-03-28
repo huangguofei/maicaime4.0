@@ -1,0 +1,71 @@
+    @import "../../../../css/config.less";
+    .shop-manage {
+        .shop-list {
+            .shop-item {
+                background: #fff;
+                .pxrem(margin-top, 20);
+                .shop-info {
+                    position: relative;
+                    .clearfix();
+                    padding-bottom: 10px;
+                    .shop-logo {
+                        .pxrem(width, 120);
+                        .pxrem(height, 120);
+                        border-radius: 50%;
+                        margin-right: 10px;
+                    }
+                    .shop-details {
+                        width: 80%;
+                        padding: 10px 0;
+                        .shop-name {
+                            .clearfix();
+                            h2 {
+                                .pxrem(font-size, 32);
+                                color: #0A0B0C;
+                            }
+                            span {
+                                display: inline-block;
+                                color: #fff;
+                                background: @mcm-color-primary;
+                                .pxrem(font-size, 20);
+                                padding: 0px 4px;
+                                height: 16px;
+                                line-height:18px;
+                                border-radius: 5px;
+                                margin-left: 5px;
+                                margin-top: -5px;
+                            }
+                        }
+                        p {
+                            .pxrem(font-size, 24);
+                            color: #3E3E3E;
+                        }
+                    }
+                    .details-icon {
+                        position: absolute;
+                        top: 30px;
+                        right: 10px;
+                        .pxrem(width, 50);
+                    }
+                }
+                .item-fol {
+                    .pxrem(font-size, 28);
+                    color: #3E3E3E;
+                    border-top: 1px solid #F0F0F0;
+                    padding-top: 10px;
+                    .clearfix();
+                    img {
+                        position: relative;
+                        .pxrem(top, -8);
+                        .pxrem(width, 60);
+                        height: auto;
+                        margin-right: 5px;
+                        vertical-align: middle;
+                    }
+                }
+            }
+        }
+        .go-perfect{
+            color: @mcm-color-primary;
+        }
+    }

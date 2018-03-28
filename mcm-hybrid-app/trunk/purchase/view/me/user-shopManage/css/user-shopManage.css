@@ -1,0 +1,109 @@
+/**
+ * author pzh
+ * 商户系统主题配置
+ */
+/*主色调*/
+/*辅助色*/
+/*禁用*/
+/*主要字体色*/
+/*常规文字颜色*/
+/*次要文字颜色*/
+/*不可输入*/
+/*背景色*/
+/*主要边框*/
+/*分割线*/
+.clearFloat {
+  content: "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  *zoom: 1;
+  clear: both;
+  visibility: hidden;
+}
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.shop-manage .shop-list .shop-item {
+  background: #fff;
+  margin-top: 0.1875rem;
+}
+.shop-manage .shop-list .shop-item .shop-info {
+  position: relative;
+  zoom: 1;
+  padding-bottom: 10px;
+}
+.shop-manage .shop-list .shop-item .shop-info:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.shop-manage .shop-list .shop-item .shop-info .shop-logo {
+  width: 0.96875rem;
+  height: 0.96875rem;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.shop-manage .shop-list .shop-item .shop-info .shop-details {
+  width: 80%;
+  padding: 10px 0;
+}
+.shop-manage .shop-list .shop-item .shop-info .shop-details .shop-name {
+  zoom: 1;
+}
+.shop-manage .shop-list .shop-item .shop-info .shop-details .shop-name:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.shop-manage .shop-list .shop-item .shop-info .shop-details .shop-name h2 {
+  font-size: 0.28125rem;
+  color: #0A0B0C;
+}
+.shop-manage .shop-list .shop-item .shop-info .shop-details .shop-name span {
+  display: inline-block;
+  color: #fff;
+  background: #1EC551;
+  font-size: 0.1875rem;
+  padding: 0px 4px;
+  height: 16px;
+  line-height: 18px;
+  border-radius: 5px;
+  margin-left: 5px;
+  margin-top: -5px;
+}
+.shop-manage .shop-list .shop-item .shop-info .shop-details p {
+  font-size: 0.21875rem;
+  color: #3E3E3E;
+}
+.shop-manage .shop-list .shop-item .shop-info .details-icon {
+  position: absolute;
+  top: 30px;
+  right: 10px;
+  width: 0.421875rem;
+}
+.shop-manage .shop-list .shop-item .item-fol {
+  font-size: 0.25rem;
+  color: #3E3E3E;
+  border-top: 1px solid #F0F0F0;
+  padding-top: 10px;
+  zoom: 1;
+}
+.shop-manage .shop-list .shop-item .item-fol:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.shop-manage .shop-list .shop-item .item-fol img {
+  position: relative;
+  top: -0.03125rem;
+  width: 0.5rem;
+  height: auto;
+  margin-right: 5px;
+  vertical-align: middle;
+}
+.shop-manage .go-perfect {
+  color: #1EC551;
+}

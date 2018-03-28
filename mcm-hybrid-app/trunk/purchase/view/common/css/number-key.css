@@ -1,0 +1,92 @@
+/**
+ * author pzh
+ * 商户系统主题配置
+ */
+/*主色调*/
+/*辅助色*/
+/*禁用*/
+/*主要字体色*/
+/*常规文字颜色*/
+/*次要文字颜色*/
+/*不可输入*/
+/*背景色*/
+/*主要边框*/
+/*分割线*/
+.clearFloat {
+  content: "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  *zoom: 1;
+  clear: both;
+  visibility: hidden;
+}
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.number-key-body {
+  background: none;
+}
+.number-key-body .number-input {
+  position: fixed;
+  z-index: 999999;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.number-key-body .number-input .back {
+  position: fixed;
+  z-index: 1;
+  bottom: 0;
+  top: 0;
+  right: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.45);
+}
+.number-key-body .number-input .num-con {
+  position: relative;
+  z-index: 2;
+  background: #FFF;
+}
+.number-key-body .number-input .num-con .show-num {
+  height: 0.734375rem;
+  line-height: 0.734375rem;
+  color: #3E3E3E;
+  text-indent: 0.1875rem;
+}
+.number-key-body .number-input .num-con .show-num .clear {
+  display: inline-block;
+  width: 0.265625rem;
+  height: 0.265625rem;
+  border-radius: 50%;
+  float: right;
+  margin-top: 0.2265625rem;
+  margin-right: 0.1875rem;
+  background: #999 url(../../../img/shopcar_details_close1.png) no-repeat;
+  background-size: cover;
+}
+.number-key-body .number-input .num-con .count {
+  font-size: 0.28125rem;
+}
+.number-key-body .number-input .num-con .num-item {
+  height: 0.734375rem;
+  line-height: 0.734375rem;
+  text-align: center;
+  font-size: 0.3125rem;
+  border-top: 1px solid #F0F0F0;
+}
+.number-key-body .number-input .num-con .num-item .num {
+  float: left;
+  width: 33.333%;
+  display: inline-block;
+  border-right: 1px solid #F0F0F0;
+  margin-right: -1px;
+}
+.number-key-body .number-input .num-con .num-item .canel {
+  color: #8F8F8F;
+}
+.number-key-body .number-input .num-con .num-item .confim {
+  color: #1EC551;
+}

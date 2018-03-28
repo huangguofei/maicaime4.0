@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/common.css" />
+		<link rel="stylesheet" type="text/css" href="css/login.css" />
+		<script type="text/javascript" src="../../js/plugin/vue.js"></script>
+		<title>登录</title>
+	</head>
+	<body>
+		<div id="vueBox" class="login-page mui-content"  >
+			<div class="bac" v-show="loading" ></div>
+			<article class="main" >
+				<img class="logo" src="../../img/login/login_logo.png" />
+				<form class="login-form">
+					<div class="list">
+						<img src="../../img/login/login_mobile.png" />
+						<input type="number" v-model="form.mobile" id="number" maxlength="11" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" placeholder="手机号" />
+						<a href="javascript:;"  @click="sendcode" class="get_code">{{codeStr}}</a>
+					</div>
+					<div class="list" >
+						<img src="../../img/login/login_yanzhengma.png" />
+						<input type="number" v-model="form.authCode" placeholder="输入验证码" />
+					</div>
+
+					<div class="list" >
+						<img src="../../img/login/login_secret.png" />
+						<input type="password" maxlength="12" v-model="form.userPassword" placeholder="输入6~16位数字或字母密码" />
+					</div>
+					<div class="list" >
+						<img src="../../img/login/login_invite.png" />
+						<input type="text"  v-model="form.invitationCode" placeholder="邀请码，选填" />
+					</div>
+					<div class="from-btn">
+						<input type="button"  @click="subEvent" value="注册" />
+					</div>
+				</form>
+				<a href="javascript:;" class="go_login" @click="jumpLogin">已有账号，立即登录</a>
+			</article>
+		</div>
+		<script type="text/javascript" src="../../js/plugin/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/common/common.js"></script>
+		<script type="text/javascript" src="../../components/loading.js"></script>
+		<script type="text/javascript" src="../../js/api/login.js"></script>
+	</body>
+	<script type="text/javascript">
+		mui.plusReady(function() {
+		  	var addrInfo = plus.storage.getItem(mcm.config.LOCATIONINFO);
+		  	if(addrInfo) {
+		  		try{
+		  			var info = JSON.parse(addrInfo), form = vm.form;
+		  			form.regProvince = info.province;
+					form.regCity = info.city;
+					form.regArea = info.district;
+					form.regLongitude = info.longitude;
+					form.regLatitude = info.latitude;
+		  		}catch(e) {}
+		  	}
+		});
+		var vm = new Vue({
+			el: "#vueBox",
+			data: function() {
+				return {
+					loading: false,
+					logoType: 1,
+					numTime: 0,
+					codeStr:"获取验证码",
+					form: {
+						mobile: "",
+						userPassword: "",
+						authCode: "",
+						regProvince: "",
+						regCity: "",
+						regArea: "",
+						regLongitude: "",
+						regLatitude: "",
+						invitationCode: ""
+					}
+				}
+			},
+			mounted: function() {
+				setTimeout(function() {
+					vm.loading = true;
+				}, 500);
+			},
+			methods: {
+				sendcode: function() {
+					var form = this.form, error = null;
+					if(!form.mobile) {
+						error = mcm.message.mobileNull;
+					} else if(!mcm.validation.checkMobile(form.mobile)) {
+						error = mcm.message.mobileError;
+					} 
+					if(error) {
+						mui.toast(error);
+						return;
+					} else {
+						if(vm.numTime === 0) {
+							var params = {
+								mobile: vm.form.mobile
+							}
+							mcm.sendCode(vm, params, "reg");
+						}
+					}
+				},
+				subEvent:function(){
+					if(this.verificationForm()) {
+						var	w = plus.nativeUI.showWaiting("提交中，请等待...");
+						api.register.registerAPI({
+							data: this.form,
+							success: function(result) {
+								w.close();
+								mui.toast(mcm.message.regSuccess);
+								mui.back();
+							},
+							error: function() {
+								w.close();
+							}
+						});
+					}
+				},
+				jumpLogin: function() {
+					mui.back();
+					mui.openWindow({
+						url: "login.html",
+						id: "login"
+					});
+				},
+				verificationForm: function() {
+					var form = this.form, error = null;
+					if(!form.mobile) {
+						error = mcm.message.mobileNull;
+					} else if(!mcm.validation.checkMobile(form.mobile)) {
+						error = mcm.message.mobileError;
+					} else if(!form.authCode) {
+						error = mcm.message.codeNull;
+					} else if(!form.userPassword) {
+						error = mcm.message.pwdNull;
+					} else if(form.userPassword.length < 6) {
+						error = mcm.message.pwdMinLen;
+					} else if(form.userPassword.length > 6) {
+						error = mcm.message.pwdMaxLen;
+					}
+					if(error) {
+						mui.toast(error);
+						return false;
+					} 
+					return true;
+				}
+			}
+		})
+	</script>
+
+</html>

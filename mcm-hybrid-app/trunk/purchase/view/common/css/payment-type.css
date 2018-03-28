@@ -1,0 +1,117 @@
+/**
+ * author pzh
+ * 商户系统主题配置
+ */
+/*主色调*/
+/*辅助色*/
+/*禁用*/
+/*主要字体色*/
+/*常规文字颜色*/
+/*次要文字颜色*/
+/*不可输入*/
+/*背景色*/
+/*主要边框*/
+/*分割线*/
+.clearFloat {
+  content: "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  *zoom: 1;
+  clear: both;
+  visibility: hidden;
+}
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.payment-type-body {
+  background: none;
+}
+.payment-type {
+  background: none;
+}
+.payment-type .bank {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+.payment-type .fixed-pay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: #FFF;
+  width: 100%;
+  z-index: 999;
+}
+.payment-type .fixed-pay .pay-content {
+  padding: 0.1875rem;
+}
+.payment-type .fixed-pay .pay-content .header {
+  text-align: center;
+  border-bottom: 1px solid #F0F0F0;
+  height: 0.8125rem;
+  line-height: 0.8125rem;
+  font-size: 0.3125rem;
+}
+.payment-type .fixed-pay .pay-content .header .close {
+  display: inline-block;
+  width: 0.2734375rem;
+  height: 0.2734375rem;
+  float: right;
+  margin-top: 0.2265625rem;
+  background: url(../../../img/shopcar_details_pay_close.png) no-repeat;
+  background-size: cover;
+}
+.payment-type .fixed-pay .pay-content .pay-con .item {
+  padding: 0.1875rem 0rem;
+  width: 100%;
+  position: relative;
+  display: table;
+}
+.payment-type .fixed-pay .pay-content .pay-con .item .pay-icon {
+  position: absolute;
+  width: 0.65625rem;
+  height: 0.65625rem;
+}
+.payment-type .fixed-pay .pay-content .pay-con .item .pay-icon img {
+  width: 100%;
+}
+.payment-type .fixed-pay .pay-content .pay-con .item .check {
+  position: absolute;
+  right: 0;
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  background: url(../../../img/shopcar_unchoose.png) no-repeat;
+  background-size: cover;
+}
+.payment-type .fixed-pay .pay-content .pay-con .item .active {
+  background: url(../../../img/login/home_info_address_choice.png) no-repeat;
+  background-size: cover;
+}
+.payment-type .fixed-pay .pay-content .pay-con .item .info {
+  height: 0.65625rem;
+  display: table-cell;
+  vertical-align: middle;
+  padding: 0.03125rem 0.03125rem 0.03125rem 0.8125rem;
+}
+.payment-type .fixed-pay .pay-content .pay-con .item .info .title {
+  font-size: 0.28125rem;
+}
+.payment-type .fixed-pay .pay-content .pay-con .item .info .val {
+  color: #8F8F8F;
+  font-size: 0.21875rem;
+}
+.payment-type .fixed-pay .pay-content .pay-con .btn-pay {
+  width: 100%;
+  background: #1EC551;
+  color: #FFF;
+  border-color: #1EC551;
+  padding: 0.1875rem 0rem;
+  font-size: 0.28125rem;
+}

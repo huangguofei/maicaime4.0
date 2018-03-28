@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>买菜么-首页</title>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <!--<link rel="stylesheet" type="text/css" href="../../css/mui.css"/>-->
+    <link rel="stylesheet" type="text/css" href="css/index.css"/>
+    <script type="text/javascript" src="../../js/plugin/vue.js"></script>
+</head>
+	<body>
+		<div id="refreshContainer" class="mui-content mui-scroll-wrapper">
+		<div class="mui-scroll">
+		<div class="home-index-page" id="homeIndexPage">
+				<div class="header fixed-header">
+		    		<div class="con">
+		    			<div class="position" @click="switchLocation">
+		    				<i class="icon">
+		    					<img src="../../img/mine_address.png" alt="" />
+		    				</i>
+		    				<span class="addr">{{positionAddr}}</span>
+		    			</div>
+		    			<div class="search">
+		    				<p class="con" @click="jumpSearch">搜索食材</p>
+		    			</div>
+		    		</div>
+		    	</div>
+		    	<div class="content">
+			    		<!--轮播-->
+			    		<div class="mui-slider">
+							  <div class="mui-slider-group mui-slider-loop">
+							    <div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img src="../../img/home/home_banner.png" /></a></div>
+							    <div class="mui-slider-item"><a href="#"><img src="../../img/home/home_banner.png" /></a></div>
+							    <div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img src="../../img/home/home_banner.png" /></a></div>
+							  </div>
+						</div>
+						
+						<div class="food-category">
+							<ul>
+								<li class="item " v-for="c in categorys" @click="jumpCategory">
+									<i class="icon"><img :src="c.img" alt="" /></i>
+									<p class="name">{{c.name}}</p>
+								</li>
+							</ul>
+						</div>
+						<!--推荐-->
+						<div class="recommend">
+							<div class="r-header"></div>
+							<category-nar></category-nar>
+							<recommend-prods></recommend-prods>
+						</div>
+		    	</div>
+		    </div>
+		  </div>
+	 	</div>
+	 	<script type="text/javascript" src="../../js/plugin/mui.min.js"></script>
+    	<script type="text/javascript" src="../../js/common/common.js"></script>
+    	<script type="text/javascript" src="../../js/plugin/fastclick.js"></script>
+    	<script type="text/javascript" src="../../components/loading.js"></script>
+	    <script type="text/javascript" src="../../components/category-nar.js"></script>
+	    <script type="text/javascript" src="../../components/recommend-prods.js"></script>
+		<script type="text/javascript" src="../../components/add-cart.js"></script>
+	 	<script type="text/javascript" >
+		 	function setStatus() {
+				mcm.setStatusBack("#0A0B0C");
+				plus.navigator.setStatusBarStyle('light');
+			}
+		 	mui.init({
+				pullRefresh: {
+					container: '#refreshContainer',
+					down: {
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
+			function pulldownRefresh() {
+				setTimeout(function() {
+					mui('#refreshContainer').pullRefresh().endPulldownToRefresh(); //refresh completed
+				}, 1500);
+			}
+			var count = 0;
+			/**
+			 * 上拉加载具体业务实现
+			 */
+			function pullupRefresh() {
+				setTimeout(function() {
+					
+				}, 1500);
+			}
+	 		mui.plusReady(function() {
+				var gallery = mui('.mui-slider');
+				gallery.slider({
+				  interval: 5000
+				});
+				plus.geolocation.getCurrentPosition(function(a){
+					var info = a.address;
+					vm.positionAddr = info.street + info.streetNum + (info.poiName ? info.poiName : "");
+				}, function(e){
+					alert('Geolocation error: ' + e.message);
+				}); 
+				mcm.closeAPP();
+				setStatus();
+			});
+	 		var vm = new Vue({
+				el: "#homeIndexPage",
+				data: function() {
+					return{
+						positionAddr: "",
+						narios: false,
+						categorys: [
+							{
+								id: 1,
+								name: "生鲜蔬果",
+								img: "../../img/home/home_classify1.png"
+							},
+							{
+								id: 2,
+								name: "水产类",
+								img: "../../img/home/home_classify2.png"
+							},
+							{
+								id: 3,
+								name: "鲜肉类",
+								img: "../../img/home/home_classify3.png"
+							},
+							{
+								id: 4,
+								name: "豆制品",
+								img: "../../img/home/home_classify4.png"
+							},
+							{
+								id: 5,
+								name: "禽蛋类",
+								img: "../../img/home/home_classify5.png"
+							},
+							{
+								id: 6,
+								name: "水果类",
+								img: "../../img/home/home_classify6.png"
+							},
+							{
+								id: 7,
+								name: "调味品",
+								img: "../../img/home/home_classify7.png"
+							},{
+								id: 8,
+								name: "粮油米面",
+								img: "../../img/home/home_classify8.png"
+							},{
+								id: 9,
+								name: "南北干货",
+								img: "../../img/home/home_classify9.png"
+							},{
+								id: 10,
+								name: "休闲酒饮",
+								img: "../../img/home/home_classify10.png"
+							},
+						]
+					}
+				},
+				mounted: function() {
+					
+				},
+				methods: {
+					jumpSearch: function() {
+						mui.openWindow({
+							url: "index/search.html",
+							id: "search"
+						});
+					},
+					jumpCategory: function() {
+						mcm.singleJumpPage("category", "index/category.html", "商城");
+					},
+					switchLocation: function() {
+						mcm.singleJumpPage("locationShop", "index/location.html", "选择城市");
+					}
+				}
+			})
+	 		
+	 	</script>
+	</body>
+</html>

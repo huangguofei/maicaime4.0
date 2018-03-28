@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>买菜么-购物车</title>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="css/success.css"/>
+    <script type="text/javascript" src="../../js/plugin/vue.js"></script>
+	</head>
+	<body>
+		<div class="cart-success-page" id="cartSuccessPage">
+			<section>
+				<div class="conent">
+					<i class="s-icon"></i>
+					<p class="title">
+						<i></i><span>下单成功!</span><i></i>
+					</p>
+					<p class="reamk">老板请放心，保证按时送到！</p>
+				</div>
+				<footer>
+					<a href="javascript:void(0)" @click="lookOrders()">
+						<button class="look-orders">查看订单</button>
+					</a>
+					<a href="javascript:void(0)"  @click="againOrders()">
+						<button class="go-orders">继续下单</button>
+					</a>
+				</footer>
+			</section>
+		</div>
+		<script type="text/javascript" src="../../js/plugin/mui.min.js"></script>
+    	<script type="text/javascript" src="../../js/common/common.js"></script>
+    	<script type="text/javascript" src="../../js/plugin/fastclick.js"></script>
+  
+	 	<script type="text/javascript" >
+			mui.plusReady(function() {
+				//vm.initData();
+				mcm.closeWebView(["foodsDetailed", "cartOrders"])
+			})
+			mcm.closeAPP();
+	 		var vm = new Vue({
+				el: "#cartSuccessPage",
+				data: function() {
+					return{
+					
+					}
+				},
+				mounted: function() {
+
+				},
+				methods: {
+					lookOrders: function() {
+						mcm.singleJumpPage("user-order", "../order/index.html", "订单",{active:0});
+					}, 
+					againOrders: function() {
+						var shop = plus.webview.getWebviewById("shop");
+						var home = plus.webview.getLaunchWebview();
+						mui.fire(home, "switchMenu", {
+							index: 2
+						});
+						setTimeout(function() {
+							home.show()
+							shop.show("none");
+						}, 100);
+
+					}
+				}
+			})
+	 	</script>
+	</body>
+</html>

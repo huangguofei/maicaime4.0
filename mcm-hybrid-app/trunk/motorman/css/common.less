@@ -1,0 +1,1231 @@
+@import "./config.less";
+html,
+body,
+button,
+dd,
+dl,
+dt,
+fieldset,
+form,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+input,
+legend,
+li,
+ol,
+p,
+pre,
+td,
+textarea,
+th,
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    font-family: "微软雅黑", "PingFangSC-Regular", "SimHei", "黑体", "SimSun", "宋体", Arial, sans-serif, sans-serif;
+    width: 100%;
+    height: 100%;
+    color: @mcm-color-text-primary;
+}
+
+span,
+p,
+div,
+a,
+i,
+button,
+input,
+textarea,
+select {
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    list-style: none;
+}
+
+
+/*清除表单默认样式ios ipad*/
+
+button,
+input[type=button],
+textarea,
+select {
+    -webkit-appearance: none;
+}
+
+button,
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+}
+
+ul,
+li {
+    list-style: none;
+}
+
+body {
+    .pxrem(font-size, 28);
+    background: @mcm-background-color-base;
+}
+
+a {
+    text-decoration: none;
+}
+
+li {
+    list-style: none;
+}
+
+.fixed-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    .pxrem(height, 98);
+    .pxrem(line-height, 98);
+    background: #FCFCFC;
+}
+
+//公共样式----------------------------------------------
+.pull-left {
+    float: left;
+}
+
+.pull-right {
+    float: right;
+}
+
+.clearfix() {
+    &:after {
+        content: "";
+        display: block;
+        clear: both
+    }
+    zoom:1
+}
+
+.padding {
+    .pxrem(padding, 24);
+}
+
+
+/*单行省略号-默认宽度100%*/
+
+.ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+//公共样式END-------------------------------------------
+//图片轮播----------------------------------------------
+.mui-slider {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    width: 100%;
+    .mui-slider-group {
+        font-size: 0;
+        position: relative;
+        -webkit-transition: all 0s linear;
+        transition: all 0s linear;
+        white-space: nowrap;
+        .mui-slider-item {
+            font-size: 14px;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+            height: 100%;
+            vertical-align: top;
+            white-space: normal;
+            text-align: center;
+            a:not(.mui-control-item) {
+                line-height: 0;
+                position: relative;
+                display: block;
+            }
+            img {
+                max-width: 100%;
+            }
+        }
+    }
+}
+
+//图片轮播END----------------------------------------------
+//区域滚动-------------------------------------------------------
+.mui-scroll-wrapper {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    width: 100%;
+}
+
+.mui-scroll {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+}
+
+.mui-scrollbar {
+    position: absolute;
+    z-index: 9998;
+    overflow: hidden;
+    -webkit-transition: 500ms;
+    transition: 500ms;
+    transform: translateZ(0px);
+    pointer-events: none;
+    opacity: 0;
+}
+
+.mui-scrollbar-vertical {
+    top: 0;
+    right: 1px;
+    bottom: 2px;
+    width: 4px;
+}
+
+.mui-slider-indicator.mui-segmented-control {}
+
+.mui-segmented-control.mui-scroll-wrapper .mui-scroll {
+    width: auto;
+    white-space: nowrap;
+}
+
+
+
+//按钮-----------------------------------------------------------------------------
+.btn {
+    background: #FFF;
+    border: 1px solid @mcm-color-disable;
+    color: @mcm-color-text-secondary;
+    .pxrem(font-size, 28);
+    .prem(7, 15);
+    padding: @prem;
+    .pxrem(border-radius, 6);
+}
+
+.btn-del {
+    color: @mcm-color-secondary;
+    border-color: @mcm-color-secondary;
+}
+
+.btn-default {
+    display: block;
+    border: 0;
+    border-radius: 5px;
+    .pxrem(height, 90);
+    background: url(../img/buttom.png) no-repeat;
+    background-size: cover;
+    color: #282828;
+    text-align: center;
+    .pxrem(font-size, 36);
+    width: 100%;
+}
+
+//按钮END-----------------------------------------------------------------------------
+.mui-backdrop {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0px;
+    left: 0;
+    z-index: 998;
+    background-color: rgba(0, 0, 0, .4);
+}
+
+//头部返回上一页--------------------------------------------------
+.back-page {
+    position: relative;
+    .pxrem(height, 50);
+    .pxrem(line-height, 50);
+    background: #fff;
+    a {
+        img {
+            .pxrem(width, 20);
+            vertical-align: middle;
+        }
+    }
+    h1 {
+        .pxrem(font-size, 36);
+        color: #0A0B0C;
+        text-align: center;
+        font-weight: normal;
+    }
+    span {
+        position: absolute;
+        .pxrem(top, 30);
+        .pxrem(right, 26);
+        color: #8F8F8F;
+        .pxrem(font-size, 28);
+    }
+}
+
+//头部返回上一页END--------------------------------------------------
+//订单选项卡切换-----------------------------------------------------
+.mui-segmented-control {
+    font-size: 15px;
+    font-weight: 400;
+    position: relative;
+    display: table;
+    overflow: hidden;
+    width: 100%;
+    table-layout: fixed;
+    border: 1px solid #007aff;
+    border-radius: 3px;
+    background-color: transparent;
+    -webkit-touch-callout: none;
+}
+
+.mui-segmented-control.mui-segmented-control-vertical {
+    border-collapse: collapse;
+    border-width: 0;
+    border-radius: 0;
+}
+
+.mui-segmented-control.mui-segmented-control-vertical .mui-control-item {
+    display: block;
+    border-bottom: 1px solid #c8c7cc;
+    border-left-width: 0;
+}
+
+.mui-segmented-control.mui-scroll-wrapper {
+    height: 38px;
+}
+
+.mui-segmented-control.mui-scroll-wrapper .mui-scroll {
+    width: auto;
+    height: 40px;
+    white-space: nowrap;
+}
+
+.mui-segmented-control.mui-scroll-wrapper .mui-control-item {
+    display: inline-block;
+    width: auto;
+    padding: 0 20px;
+    border: 0;
+}
+
+.mui-segmented-control .mui-control-item {
+    line-height: 38px;
+    display: table-cell;
+    overflow: hidden;
+    width: 1%;
+    -webkit-transition: background-color .1s linear;
+    transition: background-color .1s linear;
+    text-align: center;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: #007aff;
+    border-color: #007aff;
+    border-left: 1px solid #007aff;
+}
+
+.mui-segmented-control .mui-control-item:first-child {
+    border-left-width: 0;
+}
+
+.mui-segmented-control .mui-control-item.mui-active {
+    color: #fff;
+    background-color: #007aff;
+}
+
+.mui-segmented-control.mui-segmented-control-inverted {
+    width: 100%;
+    border: 0;
+    border-radius: 0;
+}
+
+.mui-segmented-control.mui-segmented-control-inverted.mui-segmented-control-vertical .mui-control-item {
+    border-bottom: 1px solid #c8c7cc;
+}
+
+.mui-segmented-control.mui-segmented-control-inverted.mui-segmented-control-vertical .mui-control-item.mui-active {
+    border-bottom: 1px solid #c8c7cc;
+}
+
+.mui-segmented-control.mui-segmented-control-inverted .mui-control-item {
+    color: #9C9C9E;
+    .pxrem(font-size, 32);
+    border: 0;
+}
+
+.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+    color: #007aff;
+    border-bottom: 2px solid #007aff;
+    background: none;
+}
+
+.mui-segmented-control.mui-segmented-control-inverted~.mui-slider-progress-bar {
+    background-color: #007aff;
+}
+
+.mui-segmented-control-positive {
+    border: 1px solid @mcm-color-primary;
+}
+
+.mui-segmented-control-positive .mui-control-item {
+    color: @mcm-color-primary;
+    border-color: inherit;
+}
+
+.mui-segmented-control-positive .mui-control-item.mui-active {
+    color: #fff;
+    background-color: @mcm-color-primary;
+}
+
+.mui-segmented-control-positive.mui-segmented-control-inverted .mui-control-item.mui-active {
+    color: #282828;
+    border-bottom: 2px solid @mcm-color-primary;
+    background: none;
+}
+
+.mui-segmented-control-positive.mui-segmented-control-inverted~.mui-slider-progress-bar {
+    background-color: @mcm-color-primary;
+}
+
+.mui-segmented-control-negative {
+    border: 1px solid #dd524d;
+}
+
+.mui-segmented-control-negative .mui-control-item {
+    color: #dd524d;
+    border-color: inherit;
+}
+
+.mui-segmented-control-negative .mui-control-item.mui-active {
+    color: #fff;
+    background-color: #dd524d;
+}
+
+.mui-segmented-control-negative.mui-segmented-control-inverted .mui-control-item.mui-active {
+    color: #dd524d;
+    border-bottom: 2px solid #dd524d;
+    background: none;
+}
+
+.mui-segmented-control-negative.mui-segmented-control-inverted~.mui-slider-progress-bar {
+    background-color: #dd524d;
+}
+
+.mui-slider {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    width: 100%;
+}
+
+.mui-slider .mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+    border-bottom: 0;
+}
+
+//.mui-slider .mui-segmented-control.mui-segmented-control-inverted~.mui-slider-group .mui-slider-item {
+//  border-top: 1px solid #c8c7cc;
+//  border-bottom: 1px solid #c8c7cc;
+//}
+.mui-slider .mui-slider-group {
+    font-size: 0;
+    position: relative;
+    -webkit-transition: all 0s linear;
+    transition: all 0s linear;
+    white-space: nowrap;
+}
+
+.mui-slider .mui-slider-group .mui-slider-item>a:not(.mui-control-item) {
+    line-height: 0;
+    position: relative;
+    display: block;
+}
+
+.mui-slider .mui-slider-group.mui-slider-loop {
+    -webkit-transform: translate(-100%, 0px);
+    transform: translate(-100%, 0px);
+}
+
+.mui-slider-indicator {
+    position: absolute;
+    bottom: 8px;
+    width: 100%;
+    text-align: center;
+    background: none;
+}
+
+.mui-slider-indicator.mui-segmented-control {
+    position: relative;
+    bottom: auto;
+}
+
+.mui-slider-progress-bar {
+    z-index: 1;
+    height: 2px;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+}
+
+.mui-fullscreen {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.mui-fullscreen.mui-slider .mui-slider-group {
+    height: 100%;
+}
+
+.mui-fullscreen .mui-segmented-control~.mui-slider-group {
+    position: absolute;
+    top: 40px;
+    bottom: 0;
+    width: 100%;
+    height: auto;
+}
+
+.mui-fullscreen.mui-slider .mui-slider-item>a {
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.mui-fullscreen .mui-off-canvas-wrap .mui-slider-item>a {
+    top: auto;
+    -webkit-transform: none;
+    transform: none;
+}
+
+.mui-control-content {
+    position: relative;
+    display: none;
+}
+
+.mui-control-content.mui-active {
+    display: block;
+}
+
+.mui-col-xs-5 {
+    width: 20%;
+}
+
+//订单选项卡切换End-----------------------------------------------------
+//上拉加载下拉刷新-------------------------------------------------------
+.mui-pull-loading {
+    margin-right: 10px;
+    -webkit-transition: -webkit-transform .4s;
+    transition: transform .4s;
+    -webkit-transition-duration: 400ms;
+    transition-duration: 400ms;
+    vertical-align: middle;
+}
+
+.mui-pull-loading.mui-reverse {
+    -webkit-transform: rotate(180deg) translateZ(0);
+    transform: rotate(180deg) translateZ(0);
+}
+
+
+//支付方式END----------------------------------------------------------
+//加载----------------------------------------------------------------
+.loading {
+    text-align: center;
+    .load-con {
+        display: inline-block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        .pxrem(width, 160);
+        .pxrem(height, 160);
+        .pxrem(margin-top, -80);
+        .pxrem(margin-left, -80);
+        img {
+            width: 100%;
+        }
+    }
+}
+
+//加载END-------------------------------------------------------------
+//侧滑栏--------------------------------------------------------------
+.mui-off-canvas-wrap .mui-bar {
+    position: absolute !important;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.mui-off-canvas-wrap {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+}
+
+.mui-off-canvas-wrap .mui-inner-wrap {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+}
+
+.mui-off-canvas-wrap .mui-inner-wrap.mui-transitioning {
+    -webkit-transition: -webkit-transform 350ms;
+    transition: transform 350ms cubic-bezier(.165, .84, .44, 1);
+}
+
+.mui-off-canvas-wrap .mui-inner-wrap .mui-off-canvas-left {
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
+}
+
+.mui-off-canvas-wrap .mui-inner-wrap .mui-off-canvas-right {
+    -webkit-transform: translate3d(100%, 0, 0);
+    transform: translate3d(100%, 0, 0);
+}
+
+.mui-off-canvas-wrap.mui-active {
+    overflow: hidden;
+    height: 100%;
+}
+
+.mui-off-canvas-wrap.mui-active .mui-off-canvas-backdrop {
+    position: absolute;
+    z-index: 998;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: block;
+    transition: background 350ms cubic-bezier(.165, .84, .44, 1);
+    background: rgba(0, 0, 0, .4);
+    box-shadow: -4px 0 4px rgba(0, 0, 0, .5), 4px 0 4px rgba(0, 0, 0, .5);
+    -webkit-tap-highlight-color: transparent;
+}
+
+.mui-off-canvas-wrap.mui-slide-in .mui-off-canvas-right {
+    z-index: 10000 !important;
+    -webkit-transform: translate3d(100%, 0px, 0px);
+}
+
+.mui-off-canvas-wrap.mui-slide-in .mui-off-canvas-left {
+    z-index: 10000 !important;
+    -webkit-transform: translate3d(-100%, 0px, 0px);
+}
+
+.mui-off-canvas-left,
+.mui-off-canvas-right {
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    bottom: 0;
+    visibility: hidden;
+    box-sizing: content-box;
+    width: 70%;
+    min-height: 100%;
+    background: #333;
+    -webkit-overflow-scrolling: touch;
+}
+
+.mui-off-canvas-left.mui-transitioning,
+.mui-off-canvas-right.mui-transitioning {
+    -webkit-transition: -webkit-transform 350ms cubic-bezier(.165, .84, .44, 1);
+    transition: transform 350ms cubic-bezier(.165, .84, .44, 1);
+}
+
+.mui-off-canvas-left {
+    left: 0;
+}
+
+.mui-off-canvas-right {
+    right: 0;
+}
+
+.mui-off-canvas-wrap:not(.mui-slide-in).mui-scalable {
+    background-color: #333;
+}
+
+.mui-off-canvas-wrap:not(.mui-slide-in).mui-scalable>.mui-off-canvas-left,
+.mui-off-canvas-wrap:not(.mui-slide-in).mui-scalable>.mui-off-canvas-right {
+    width: 80%;
+    -webkit-transform: scale(.8);
+    transform: scale(.8);
+    opacity: .1;
+}
+
+.mui-off-canvas-wrap:not(.mui-slide-in).mui-scalable>.mui-off-canvas-left.mui-transitioning,
+.mui-off-canvas-wrap:not(.mui-slide-in).mui-scalable>.mui-off-canvas-right.mui-transitioning {
+    -webkit-transition: -webkit-transform 350ms cubic-bezier(.165, .84, .44, 1), opacity 350ms cubic-bezier(.165, .84, .44, 1);
+    transition: transform 350ms cubic-bezier(.165, .84, .44, 1), opacity 350ms cubic-bezier(.165, .84, .44, 1);
+}
+
+.mui-off-canvas-wrap:not(.mui-slide-in).mui-scalable>.mui-off-canvas-left {
+    -webkit-transform-origin: -100%;
+    transform-origin: -100%;
+}
+
+.mui-off-canvas-wrap:not(.mui-slide-in).mui-scalable>.mui-off-canvas-right {
+    -webkit-transform-origin: 200%;
+    transform-origin: 200%;
+}
+
+.mui-off-canvas-wrap:not(.mui-slide-in).mui-scalable.mui-active>.mui-inner-wrap {
+    -webkit-transform: scale(.8);
+    transform: scale(.8);
+}
+
+.mui-off-canvas-wrap:not(.mui-slide-in).mui-scalable.mui-active>.mui-off-canvas-left,
+.mui-off-canvas-wrap:not(.mui-slide-in).mui-scalable.mui-active>.mui-off-canvas-right {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    opacity: 1;
+}
+
+.mui-bar-nav~.mui-content {
+    padding-top: 44px;
+}
+
+.mui-bar {
+    position: fixed;
+    z-index: 10;
+    right: 0;
+    left: 0;
+    height: 44px;
+    padding-right: 10px;
+    padding-left: 10px;
+    border-bottom: 0;
+    background-color: #f7f7f7;
+    -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, .85);
+    box-shadow: 0 0 1px rgba(0, 0, 0, .85);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.mui-bar .mui-title {
+    right: 40px;
+    left: 40px;
+    display: inline-block;
+    overflow: hidden;
+    width: auto;
+    margin: 0;
+    text-overflow: ellipsis;
+}
+
+.mui-title {
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 44px;
+    position: absolute;
+    display: block;
+    width: 100%;
+    margin: 0 -10px;
+    padding: 0;
+    text-align: center;
+    white-space: nowrap;
+    color: #000;
+}
+
+.mui-bar .mui-icon {
+    font-size: 24px;
+    position: relative;
+    z-index: 20;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+//侧滑栏END----------------------------------------------------------------------------------------------------------------------------
+//地图------------------------------------------
+.mui-sliders {
+    height: 100%;
+    .map {
+        position: relative;
+        height: calc(100% - 40px);
+        .map-box {
+            height: 100%;
+        }
+        .order-list {
+            position: absolute;
+            left: 2%;
+            right: 2%;
+            bottom: 0;
+            width: 96%;
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 20px #ccc;
+            .hide-icon {
+                display: block;
+                text-align: center;
+                img {
+                    width: 50px;
+                    height: 20px;
+                }
+            }
+            .map-list {
+                padding-top: 0;
+                border-bottom: 1px solid #EFEFEF;
+                margin-bottom: 10px;
+                .map-head {
+                    .clearfix();
+                    img {
+                        .pxrem(width, 46);
+                        .pxrem(height, 46);
+                        border-radius: 50%;
+                        margin: 10px 5px 0 0;
+                    }
+                    a {
+                        img {
+                            .pxrem(width, 52);
+                        }
+                    }
+                    .order-info {
+                        h3 {
+                            .pxrem(font-size, 32);
+                            color: #282828;
+                            .distance {
+                                .pxrem(font-size, 20);
+                                color: #CECFD2;
+                                margin-left: 5px;
+                            }
+                        }
+                        .order-address {
+                            .pxrem(font-size, 24);
+                            color: #9C9C9E;
+                        }
+                    }
+                }
+                .map-footer {
+                    text-align: center;
+                    margin-top: 10px;
+                    a {
+                        display: inline-block;
+                        width: 40%;
+                        color: #282828;
+                        .pxrem(font-size, 28);
+                        .pxrem(height, 70);
+                        .pxrem(line-height, 70);
+                    }
+                    .view-btn {
+                        border: 1px solid #CECFD2;
+                        border-radius: 5px;
+                    }
+                }
+            }
+            .map-list:last-child {
+                border: 0;
+                margin: 0;
+            }
+        }
+    }
+}
+
+//弹窗--------------------------------------------------
+.dialog {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: 999999;
+    .dialog_bg {
+        width: 100%;
+        height: 100%;
+        background: #000;
+        opacity: .7;
+    }
+    .dialog_main {
+        position: absolute;
+        top: 20%;
+        left: 10%;
+        width: 80%;
+        margin: 0 auto;
+        border-radius: 10px;
+        background: #fff;
+        text-align: center;
+        img {
+            position: absolute;
+            .pxrem(top, -125);
+            left: 30%;
+            .pxrem(width, 250);
+            height: auto;
+        }
+        h2 {
+            .pxrem(font-size, 40);
+            color: #0A0B0C;
+            margin-top: 90px;
+        }
+        p {
+            .pxrem(font-size, 28);
+            color: #3E3E3E;
+            width: 80%;
+            margin: 10px auto;
+            margin-bottom: 30px;
+        }
+        .dialog_btn {
+            display: block;
+            margin: 0 auto;
+            .pxrem(font-size, 32);
+            background: #fff;
+            color: @mcm-color-primary;
+            border: 1px solid @mcm-color-primary;
+            width: 70%;
+            .pxrem(height, 80);
+            .pxrem(border-radius, 40);
+        }
+        .dialog_nobtn {
+            .pxrem(font-size, 28);
+            color: #3E3E3E;
+            margin: 10px 0 30px;
+            display: block;
+        }
+        .dialog_off {
+            position: absolute;
+            bottom: -100px;
+            left: 45%;
+            img {
+                .pxrem(width, 60);
+                height: auto;
+            }
+        }
+    }
+}
+
+//弹窗END--------------------------------------------------
+//按钮-----------------------------------------------------
+.mui-btn {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42;
+    position: relative;
+    display: inline-block;
+    margin-bottom: 0;
+    padding: 6px 12px;
+    cursor: pointer;
+    -webkit-transition: all;
+    transition: all;
+    -webkit-transition-timing-function: linear;
+    transition-timing-function: linear;
+    -webkit-transition-duration: .2s;
+    transition-duration: .2s;
+    text-align: center;
+    vertical-align: top;
+    white-space: nowrap;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    background-color: #fff;
+    background-clip: padding-box;
+}
+
+.mui-btn-blue {
+    color: #fff;
+    border: 1px solid #007aff;
+    background-color: #007aff;
+}
+
+//按钮END--------------------------------------------------
+//空页面--------------------------------------------
+.empty-page {
+    background: #F0F0F0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    .pxrem(font-size, 32);
+    img {
+        .pxrem(width, 160);
+        height: auto;
+        margin-top: 30%;
+    }
+    p {
+        color: #8F8F8F;
+        margin: 20px 0 30px;
+    }
+    a {
+        .pxrem(width, 260);
+        color: #fff;
+        display: inline-block!important;
+        .pxrem(height, 70);
+        .pxrem(line-height, 70)!important;
+        .pxrem(border-radius, 35);
+        background: @mcm-color-primary;
+    }
+}
+
+//空页面end-----------------------------------------
+//弹出框------------------------------------------
+.mui-popup-backdrop {
+    position: fixed;
+    z-index: 998;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    -webkit-transition-duration: 400ms;
+    transition-duration: 400ms;
+    opacity: 0;
+    background: rgba(0, 0, 0, .4);
+}
+
+.mui-popup-backdrop.mui-active {
+    opacity: 1;
+}
+
+.mui-popup {
+    position: fixed;
+    z-index: 10000;
+    top: 50%;
+    left: 50%;
+    display: none;
+    overflow: hidden;
+    width: 270px;
+    -webkit-transition-property: -webkit-transform, opacity;
+    transition-property: transform, opacity;
+    -webkit-transform: translate3d(-50%, -50%, 0) scale(1.185);
+    transform: translate3d(-50%, -50%, 0) scale(1.185);
+    text-align: center;
+    opacity: 0;
+    color: #000;
+    border-radius: 13px;
+}
+
+.mui-popup.mui-popup-in {
+    display: block;
+    -webkit-transition-duration: 400ms;
+    transition-duration: 400ms;
+    -webkit-transform: translate3d(-50%, -50%, 0) scale(1);
+    transform: translate3d(-50%, -50%, 0) scale(1);
+    opacity: 1;
+}
+
+.mui-popup.mui-popup-out {
+    -webkit-transition-duration: 400ms;
+    transition-duration: 400ms;
+    -webkit-transform: translate3d(-50%, -50%, 0) scale(1);
+    transform: translate3d(-50%, -50%, 0) scale(1);
+    opacity: 0;
+}
+
+.mui-popup-inner {
+    position: relative;
+    padding: 15px;
+    border-radius: 13px 13px 0 0;
+    background: rgba(255, 255, 255, .95);
+}
+
+.mui-popup-inner:after {
+    position: absolute;
+    z-index: 15;
+    top: auto;
+    right: auto;
+    bottom: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 1px;
+    content: '';
+    -webkit-transform: scaleY(.5);
+    transform: scaleY(.5);
+    -webkit-transform-origin: 50% 100%;
+    transform-origin: 50% 100%;
+    background-color: rgba(0, 0, 0, .2);
+}
+
+.mui-popup-title {
+    font-size: 18px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.mui-popup-title+.mui-popup-text {
+    font-family: inherit;
+    font-size: 14px;
+    margin: 5px 0 0;
+}
+
+.mui-popup-buttons {
+    position: relative;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    height: 44px;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+}
+
+.mui-popup-button {
+    font-size: 17px;
+    line-height: 44px;
+    position: relative;
+    display: block;
+    overflow: hidden;
+    box-sizing: border-box;
+    width: 100%;
+    height: 44px;
+    padding: 0 5px;
+    cursor: pointer;
+    text-align: center;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: #007aff;
+    background: rgba(255, 255, 255, .95);
+    -webkit-box-flex: 1;
+}
+
+.mui-popup-button:after {
+    position: absolute;
+    z-index: 15;
+    top: 0;
+    right: 0;
+    bottom: auto;
+    left: auto;
+    display: block;
+    width: 1px;
+    height: 100%;
+    content: '';
+    -webkit-transform: scaleX(.5);
+    transform: scaleX(.5);
+    -webkit-transform-origin: 100% 50%;
+    transform-origin: 100% 50%;
+    background-color: rgba(0, 0, 0, .2);
+}
+
+.mui-popup-button:first-child {
+    border-radius: 0 0 0 13px;
+}
+
+.mui-popup-button:first-child:last-child {
+    border-radius: 0 0 13px 13px;
+}
+
+.mui-popup-button:last-child {
+    border-radius: 0 0 13px 0;
+}
+
+.mui-popup-button:last-child:after {
+    display: none;
+}
+
+.mui-popup-button.mui-popup-button-bold {
+    font-weight: 600;
+}
+
+.mui-popup-input input {
+    font-size: 14px;
+    width: 100%;
+    height: 26px;
+    margin: 15px 0 0;
+    padding: 0 5px;
+    border: 1px solid rgba(0, 0, 0, .3);
+    border-radius: 0;
+    background: #fff;
+}
+
+.mui-plus.mui-android .mui-popup-backdrop {
+    -webkit-transition-duration: 1ms;
+    transition-duration: 1ms;
+}
+
+.mui-plus.mui-android .mui-popup {
+    -webkit-transition-duration: 1ms;
+    transition-duration: 1ms;
+    -webkit-transform: translate3d(-50%, -50%, 0) scale(1);
+    transform: translate3d(-50%, -50%, 0) scale(1);
+}
+
+//弹出框END----------------------------------------------------
+//升级安装包
+.upgrade-package{
+    position: fixed;
+    z-index: 9999999;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.6);
+    .content{
+        position: absolute;
+        .pxrem(left, 50);
+        .pxrem(right, 50);
+        .pxrem(top, 320);
+        .pxrem(bottom, 300);
+        background: #FFF;
+        .pxrem(border-radius, 20);
+        img.icon{
+            position: absolute;
+            .pxrem(top, -125);
+            width: 100%;
+        }
+        .close{
+            position: absolute;
+            .pxrem(width, 60);
+            .pxrem(height, 85);
+            right: 0;
+            z-index:99;
+            overflow: hidden;
+            .pxrem(top, -98);
+            img{
+                .pxrem(width, 60);
+            }
+        }
+        .info{
+            position: absolute;
+            .pxrem(top, 240);
+            left: 0;
+            right: 0;
+            bottom: 0;
+            .prem(20);
+            padding: @prem;
+            .h-head{
+                .pxrem(font-size, 32);
+                .v{
+                    float: right;
+                    color: red;
+                    .pxrem(font-size, 26);
+                }
+            }
+            .desc{
+                position: absolute;
+                .pxrem(top, 80);
+                .pxrem(bottom, 128);
+                line-height: 24px;
+                .pxrem(font-size, 26);
+                .pxrem(color, @mcm-color-text-placeholder);
+                overflow: auto;
+            }
+            .event{
+                 position: absolute;
+                .pxrem(height, 88);
+                right: 0;
+                left: 0;
+                bottom: 0;
+                .prem(20);
+                padding: @prem;
+                .pxrem(line-height, 88);
+                .btn-upgrade{
+                    height: 100%;
+                    width: 100%;
+                    background: @mcm-color-primary;
+                    color:#FFF;
+                    border:1px solid  @mcm-color-primary;
+                    .pxrem(border-radius, 8);
+                    .pxrem(font-size, 32);
+                }
+            }
+            
+        }
+    }
+}

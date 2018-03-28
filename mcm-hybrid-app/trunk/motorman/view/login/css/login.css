@@ -1,0 +1,131 @@
+/**
+ * author pzh
+ * 商户系统主题配置
+ */
+/*主色调*/
+/*辅助色*/
+/*禁用*/
+/*主要字体色*/
+/*常规文字颜色*/
+/*次要文字颜色*/
+/*不可输入*/
+/*背景色*/
+/*主要边框*/
+/*分割线*/
+.clearFloat {
+  content: "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  *zoom: 1;
+  clear: both;
+  visibility: hidden;
+}
+.login .login-head {
+  background: url(../../../img/login_bg.png) no-repeat;
+  background-size: 100% 100%;
+  height: 3.78125rem;
+  color: #282828;
+}
+.login .login-head h1 {
+  font-size: 0.5rem;
+  font-weight: normal;
+  margin-top: 20px;
+}
+.login .login-head p {
+  font-size: 0.28125rem;
+}
+.login .main {
+  background: #fff;
+  position: absolute;
+  top: 1.984375rem;
+  left: 0.234375rem;
+  right: 0.234375rem;
+  border-radius: 5px;
+  box-shadow: 0 0 20px #ccc;
+}
+.login .main .head {
+  position: relative;
+  text-align: center;
+  margin: 20px 0;
+}
+.login .main .head img {
+  width: 1.203125rem;
+  height: auto;
+}
+.login .main .head .forget-psw {
+  position: absolute;
+  top: 0px;
+  right: 0;
+  font-size: 0.25rem;
+  color: #6e6e6e;
+}
+.login .main form {
+  height: 5.109375rem;
+}
+.login .main form .form-item {
+  border: 1px solid #CECFD2;
+  border-radius: 3px;
+  height: 0.734375rem;
+  line-height: 0.734375rem;
+  padding: 0 10px;
+  color: #282828;
+  margin-bottom: 10px;
+}
+.login .main form .form-item img {
+  width: 0.3046875rem;
+  height: auto;
+  margin-right: 5px;
+  vertical-align: middle;
+}
+.login .main form .form-item input {
+  height: 0.421875rem;
+  border: 0;
+  font-size: 0.296875rem;
+  width: 80%;
+}
+.login .main form .form-item a {
+  font-size: 0.25rem;
+  color: #282828;
+}
+.login .main form .address {
+  font-size: 0.296875rem;
+}
+.login .main form .address input {
+  width: 30%;
+  text-align: right;
+}
+.login .main form .address .gps {
+  margin-left: 10px;
+}
+.login .main form .form-item:first-child input {
+  width: 60%;
+}
+.login .main form .sub_btn {
+  display: block;
+  text-align: center;
+  height: 0.734375rem;
+  border-radius: 3px;
+  font-size: 0.3125rem;
+  color: #282828;
+  width: 100%;
+  border: 0;
+  background: url(../../../img/buttom.png) no-repeat;
+  background-size: cover;
+  margin: 30px 0 10px;
+}
+.login .main form .change-login {
+  display: block;
+  text-align: center;
+  font-size: 0.3125rem;
+  color: #282828;
+  padding-top: 0.1875rem;
+}
+.login .go_register {
+  position: absolute;
+  bottom: -60px;
+  width: 100%;
+  text-align: center;
+  font-size: 0.3125rem;
+  color: #282828;
+}

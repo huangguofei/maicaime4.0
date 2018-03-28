@@ -1,0 +1,205 @@
+/**
+ * author pzh
+ * 商户系统主题配置
+ */
+/*主色调*/
+/*辅助色*/
+/*禁用*/
+/*主要字体色*/
+/*常规文字颜色*/
+/*次要文字颜色*/
+/*不可输入*/
+/*背景色*/
+/*主要边框*/
+/*分割线*/
+.clearFloat {
+  content: "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  *zoom: 1;
+  clear: both;
+  visibility: hidden;
+}
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.me-page .me-header {
+  background: url(../../../img/mine_bg.png) no-repeat;
+  background-size: 100%;
+  height: 300px;
+}
+.me-page .me-header .me-head {
+  zoom: 1;
+}
+.me-page .me-header .me-head:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.me-page .me-header .me-head a {
+  position: relative;
+  z-index: 10;
+}
+.me-page .me-header .me-head a img {
+  width: 0.421875rem;
+  height: 20px;
+  margin-top: 0.265625rem;
+}
+.me-page .user-main {
+  position: fixed;
+  top: 0.421875rem;
+  left: 0;
+  right: 0;
+  padding-top: 0;
+  bottom: 0;
+  overflow: auto;
+}
+.me-page .user-main .new {
+  position: relative;
+}
+.me-page .user-main .new i {
+  position: absolute;
+  width: 0.109375rem;
+  height: 0.109375rem;
+  border-radius: 50%;
+  background: #F74C31;
+  right: 0;
+}
+.me-page .user-main .title {
+  font-size: 0.28125rem;
+  color: #000;
+}
+.me-page .user-main .item {
+  background: #fff;
+  margin-bottom: 0.1875rem;
+}
+.me-page .user-main .item .header {
+  border-bottom: 1px solid #E5E5E5;
+}
+.me-page .user-main ul {
+  zoom: 1;
+  padding-top: 0.1875rem;
+  background: #fff;
+}
+.me-page .user-main ul:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.me-page .user-main ul li {
+  float: left;
+  width: 20%;
+  text-align: center;
+}
+.me-page .user-main ul li p {
+  font-size: 0.21875rem;
+}
+.me-page .user-main ul li a {
+  display: inline-block;
+  font-size: 0.296875rem;
+}
+.me-page .user-main ul .h-item {
+  width: 33.3%;
+}
+.me-page .user-main .user-header {
+  position: relative;
+  background: none;
+  padding-bottom: 0.1875rem;
+  text-align: center;
+}
+.me-page .user-main .user-header .title {
+  line-height: 0.578125rem;
+  font-size: 0.3125rem;
+}
+.me-page .user-main .user-header img {
+  width: 0.96875rem;
+  height: 0.96875rem;
+  border-radius: 50%;
+}
+.me-page .user-main .info-nav {
+  border-radius: 5px;
+  height: 1.28125rem;
+  padding-top: 20px;
+  box-sizing: border-box;
+  box-shadow: 0px 0px 10px #ccc;
+}
+.me-page .user-main .info-nav p {
+  color: #3E3E3E;
+  font-size: 0.21875rem;
+}
+.me-page .user-main .info-nav b {
+  color: #1EC551;
+  font-size: 0.3125rem;
+  height: 0.421875rem;
+  line-height: 0.421875rem;
+  font-weight: normal;
+}
+.me-page .user-main .user-order {
+  padding-bottom: 0.1875rem;
+}
+.me-page .user-main .user-order ul li a {
+  display: inline-block;
+  width: 100%;
+  color: #4a4a4a;
+}
+.me-page .user-main .user-order ul li a img {
+  width: 0.421875rem;
+  height: auto;
+}
+.me-page .user-main .user-order ul li a span {
+  display: inline-block;
+  min-height: 0.5rem;
+}
+.me-page .user-main .user-order ul li:nth-child(4) {
+  border-right: 1px solid #E5E5E5;
+  box-sizing: border-box;
+}
+.me-page .user-main .user-nav {
+  zoom: 1;
+  padding-left: 0.2265625rem;
+  padding-right: 0.2265625rem;
+}
+.me-page .user-main .user-nav:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.me-page .user-main .user-nav a {
+  display: block;
+  padding-top: 0.2265625rem;
+  padding-bottom: 0.2265625rem;
+  border-bottom: 1px solid #E5E5E5;
+}
+.me-page .user-main .user-nav a img {
+  width: 0.34375rem;
+  height: auto;
+  margin-right: 0.109375rem;
+  vertical-align: text-bottom;
+}
+.me-page .user-main .user-nav a img:last-child {
+  width: 0.1484375rem;
+  height: auto;
+}
+.me-page .user-main .user-nav a:last-child {
+  border: 0;
+}
+.me-page .user-main .user-nav a:last-child section {
+  border: 0;
+}
+.me-page .logout {
+  display: block;
+  width: 80%;
+  color: #fff;
+  background: #1EC551;
+  border-color: #1EC551;
+  height: 0.5rem;
+  line-height: 0.5rem;
+  border-radius: 0.0703125rem;
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 0.1875rem;
+  font-size: 0.28125rem;
+}

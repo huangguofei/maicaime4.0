@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../../css/common.css" />
+		<link rel="stylesheet" type="text/css" href="css/user-amendPsw.css" />
+		<script type="text/javascript" src="../../../js/plugin/vue.js"></script>
+		<title></title>
+	</head>
+
+	<body>
+		<div id="vueBox" class="find-psw">
+			<article class="content">
+				<p>修改登录密码？</p>
+				<h3>输入买菜么账号原密码</h3>
+				<article class="form">
+					<section class="item">
+						<img src="../../../img/login/login_secret.png" />
+						<input type="password" class="phone" maxlength="11" v-model="options.oldUserPassword" placeholder="原密码" />
+					</section>
+					<section class="item">
+						<img src="../../../img/login/login_secret.png" />
+						<input type="password" class="code" maxlength="6" v-model="options.newUserPassword" placeholder="输入新密码" />
+					</section>
+					<section class="item">
+						<img src="../../../img/login/login_secret.png" />
+						<input type="password" class="phone" id="" v-model="options.newUserPasswordRP" placeholder="确认新密码" />
+					</section>
+				</article>
+				<button type="button" class="btn-default sub_btn" @click="editPsw" :class="{disabled:!isDisabled}">确定</button>
+			</article>
+		</div>
+		<script type="text/javascript" src="../../../js/plugin/mui.min.js"></script>
+		<script type="text/javascript" src="../../../js/common/common.js"></script>
+		<script type="text/javascript" src="../../../js/api/me.js"></script>
+	</body>
+	<script type="text/javascript">
+		var vm = new Vue({
+			el: "#vueBox",
+			data: function() {
+				return {
+					isDisabled: true,
+					options: {
+						newUserPassword: "",
+						oldUserPassword: "",
+						newUserPasswordRP: ""
+					}
+				}
+			},
+			created: function() {
+				this.options = {
+					newUserPassword: "",
+					oldUserPassword: "",
+					newUserPasswordRP: ""
+				}
+			},
+			methods: {
+				editPsw: function() {
+					if(!vm.options.oldUserPassword) {
+						mui.alert("请输入旧密码！");
+						return false;
+					}
+					if(!vm.options.newUserPassword) {
+						mui.alert("请输入新密码！");
+						return false;
+					}
+					if(vm.options.newUserPassword != vm.options.newUserPasswordRP) {
+						mui.alert("两次密码输入不一致！");
+						return false;
+					}
+					api.userEditPsw.userEditPswAPI({
+						data: this.options,
+						success: function(data) {
+							mui.alert("修改成功！");
+							var home = plus.webview.getLaunchWebview();
+							if(home) {
+								mui.fire(home, "switchMenu", {
+									index: 1
+								});
+								setTimeout(function() {
+									home.show("none");
+								}, 100);
+							} else {
+								mui.openWindow({
+									url: "../../index.html",
+									id: "home"
+								});
+
+							}
+						}
+					})
+				}
+			}
+		})
+	</script>
+
+</html>

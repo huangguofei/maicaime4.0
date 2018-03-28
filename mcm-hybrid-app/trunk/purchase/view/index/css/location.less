@@ -1,0 +1,85 @@
+@import "../../../css/config.less";
+.location-page{
+    .header{
+        .con{
+            .prem(0, 20);
+            padding: @prem;
+            position: relative;
+            .city{
+                position: absolute;
+                .icon{
+                    display: inline-block;
+                    .pxrem(width, 45);
+                    .pxrem(height, 45);
+                    position: relative;
+                    .pxrem(top, 6);
+                    img{
+                        width:100%;
+                        
+                    }
+                }
+                .name{
+                    .pxrem(font-size, 32);
+                    .pxrem(width, 120);
+                    overflow: hidden;
+                    color: @mcm-color-text-secondary;
+                    text-overflow:ellipsis;
+                    white-space:nowrap;
+                }
+            }
+            .search{
+                .pxrem(padding-left, 220);
+                input{
+                    width: 100%;
+                    .pxrem(height, 56);
+                    border:1px solid @mcm-background-color-base;
+                    background: @mcm-background-color-base url(../../../img/market_search.png) no-repeat 5px 3px;
+                    background-size: auto 70%;
+                    .pxrem(border-radius, 30);
+                    .pxrem(margin-top, 12);
+                    .pxrem(text-indent, 50);
+                    .pxrem(font-size, 28);
+                }
+            }
+        }
+    }
+    .content{
+        .pxrem(padding-top, 98);
+        .l-item{
+            .pxrem(margin-top, 20);
+            h4{
+                font-weight: normal;
+                .prem(0, 20);
+                padding: @prem;
+                color: @mcm-color-text-placeholder;
+            }
+            .items{
+                .prem(0, 20);
+                padding: @prem;
+                .pxrem(margin-top, 20);
+                background: @mcm-color-white;
+                .item{
+                    .prem(20, 0);
+                    padding: @prem;
+                    color: @mcm-color-text-primary;
+                    .pxrem(font-size, 30);
+                    border-bottom: 1px solid @mcm-border-color-base;
+                    &:last-child{
+                        border-bottom: 0;
+                    }
+                    &:after{
+                        .clearFloat;
+                    }
+                }
+                .right{
+                    display: inline-block;
+                    float: right;
+                    color: @mcm-color-primary;
+                    background: url(../../../img/login/home_info_address_location.png) no-repeat 0 0px;
+                    background-size: auto 90%;
+                    .pxrem(text-indent, 35);
+                }
+            }
+        }
+    }
+}

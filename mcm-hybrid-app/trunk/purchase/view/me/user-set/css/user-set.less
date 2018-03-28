@@ -1,0 +1,42 @@
+    @import "../../../../css/config.less";
+    .user-set {
+        padding-top: 10px;
+        .list {
+            .pxrem(margin-bottom, 20);
+            .item {
+                .switch {
+                    .pxrem(width, 90);
+                    .pxrem(margin-top, -10);
+                }
+                img {
+                    .pxrem(margin-top, 10);
+                }
+            }
+            .item:first-child {
+                border-bottom: 1px solid #E5E5E5;
+            }
+        }
+        .item {
+            .clearfix();
+            background: #fff;
+            box-sizing: border-box;
+            .pxrem(height, 110);
+            span {
+                .pxrem(line-height, 78);
+            }
+        }
+        .logout {
+            display: block;
+            width: 80%;
+            color: #fff;
+            background: @mcm-color-primary;
+            border-color:@mcm-color-primary;
+            .pxrem(height, 60);
+            .pxrem(line-height, 60);
+            .pxrem(border-radius, 5);
+            margin: 0 auto;
+            text-align: center;
+            .pxrem(margin-top, 20);
+            .pxrem(font-size, 32);
+        }
+    }

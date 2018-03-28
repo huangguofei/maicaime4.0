@@ -1,0 +1,95 @@
+    @import "../../../../css/config.less";
+    .user-money {
+        .bg {
+            background: #fff;
+            height: 50px;
+        }
+        .main {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            .item {
+                position: relative;
+                border-radius: 10px;
+                background: #fff;
+                margin-top: 10px;
+                .item-head {
+                    .pxrem(font-size, 28);
+                    color: #3E3E3E;
+                    img {
+                        .pxrem(width, 40);
+                        height: auto;
+                        vertical-align: sub;
+                        margin-right: 5px;
+                    }
+                }
+                h2{
+                    .pxrem(font-size, 72);
+                    color: @mcm-color-primary;
+                    text-indent: .5rem;
+                }
+                p{
+                    display: inline-block;
+                   color: #3E3E3E;
+                   .pxrem(font-size, 24);
+                   padding: 0 10px;
+                   text-align: center;
+                   height: 26px;
+                   line-height: 26px;
+                   border-radius: 18px;
+                   border:1px solid #F0F0F0;
+                   margin-left: 20px;
+                   margin-top: 10px;
+                   
+                }
+                .view-details{
+                    position: absolute;
+                    top: 50px;
+                    right: 0;
+                    height: 30px;
+                    line-height: 30px;
+                    border-radius: 15px 0 0 15px;
+                    background: #FFF1D4;
+                    text-align: center;
+                    padding: 0 10px;
+                    color: #F77E44;
+                    img{
+                        width: 10px;
+                        margin-left: 10px;
+                        vertical-align: middle;
+                    }
+                }
+                
+            }
+            .item:first-child {
+                box-shadow: 0 0 20px #ccc;
+            }
+            .item:last-child{
+                .item-head{
+                    text-align: center;
+                    .pxrem(font-size, 36);
+                    color: #0A0B0C;
+                    img{
+                        .pxrem(width,50);
+                        height: auto;
+                    }
+                }
+                input{
+                    display: block;
+                    width: 100%;
+                    .pxrem(font-size, 48);
+                    color: #000;
+                    border: 1px solid #F0F0F0;
+                    text-align: center;
+                    border-radius: 5px;
+                    height: 40px;
+                    line-height: 40px;
+                    font-weight: normal;
+                    margin: 20px 0;
+                }
+            }
+        }
+    }

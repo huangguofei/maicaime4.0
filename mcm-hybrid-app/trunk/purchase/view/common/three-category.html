@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>买菜么-商城</title>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="css/three-category.css"/>
+    <script type="text/javascript" src="../../js/plugin/vue.js"></script>
+	</head>
+	<body class="three-category-body">
+		<div class="three-category-page" id="threeCategory" v-show="loading">
+			<div class="bank" @click="closePage" v-show="bank"></div>
+			<div class="con-area">
+				<div class="header">
+					选择规格
+					<span class="all" @click="showAll">全部<i class="icon"></i></span>
+				</div>
+				<div class="content">
+					<span 
+						v-for="(c, index) in threeCategorys" 
+						:class="{active:c.active}" 
+						class="item" 
+						@click="selectCategory(c)"
+						v-if="index < count">{{c.categoryName}}</span>
+				</div>
+				<div class="footer">
+					<button class="btn-f btn-reset" @click="resetActive">重置</button>
+					<button class="btn-f btn-confim" @click="confimActive">确定</button>
+				</div>
+			</div>
+			
+		</div>
+		<script type="text/javascript" src="../../js/plugin/mui.min.js"></script>
+    	<script type="text/javascript" src="../../js/common/common.js"></script>
+    	<script type="text/javascript" src="../../js/plugin/fastclick.js"></script>
+	 	<script type="text/javascript" >
+			document.addEventListener('setThreeCategoryData', function(event) {
+				if(vm.productCategoryId !== event.detail.productCategoryId) {
+					vm.threeCategorys = event.detail.threeCategorys;
+					vm.productCategoryId = event.detail.productCategoryId
+				} 
+				setTimeout(function() {
+					vm.bank = true;					
+				}, 200)
+			});	
+			document.addEventListener('clearThreeCategory', function() {
+				vm.threeCategorys = '';
+				vm.productCategoryId = '';
+			})
+			mui.plusReady(function() {
+				var ws = plus.webview.currentWebview();
+				vm.threeCategorys = ws.threeCategorys;
+				vm.productCategoryId = ws.productCategoryId
+				vm.call = ws.call;
+			})
+			mui.back = function (){
+				vm.bank = false;
+				var ws = plus.webview.currentWebview();
+				ws.hide("auto");
+			}
+	 		var vm = new Vue({
+				el: "#threeCategory",
+				data: function() {
+					return{
+						threeCategorys: [],
+						count: 9,
+						bank: true,
+						loading: false,
+						call: '',
+						productCategoryId: ""
+					}
+				},
+				mounted: function() {
+					var that = this;
+					setTimeout(function() {
+						that.loading = true;
+						that.bank = true;
+					}, 100)
+				},
+				methods: {
+					showAll: function() {
+						this.count = this.threeCategorys.length;
+					},
+					selectCategory: function(item) {
+						item.active = !item.active;
+					},
+					closePage: function() {
+						mui.back();
+					},
+					resetActive: function() {
+						var threeCategorys = this.threeCategorys;
+						mui.each(threeCategorys, function(i, item) {
+							item.active = false;
+						})
+					},
+					confimActive: function() {
+						var id = vm.call === 'category' ? 'categoryGoods' : 'shopGoods';
+						var ws = plus.webview.getWebviewById(id);
+						mui.fire(ws, 'selectThreeCategory', {
+							threeCategorys: this.threeCategorys
+						})
+						setTimeout(function() {
+							mui.back();
+						}, 100)
+					}
+				}
+			})
+	 		
+	 	</script>
+	</body>
+</html>

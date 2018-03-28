@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>买菜么-商户端</title>
+		<link rel="stylesheet" type="text/css" href="css/common.css" />
+		<link rel="stylesheet" type="text/css" href="view/index/css/index.css" />
+		<script type="text/javascript" src="js/plugin/vue.js"></script>
+	</head>
+
+	<body>
+		<div class="home-page" id="HomePage">
+			<div class="header fixed-header" :style="{background: headerBack}">
+				<div class="con">
+					<div class="position" @click="switchLocation">
+						<i class="icon">
+	    					<img src="img/mine_address.png" alt="" />
+	    				</i>
+						<span class="addr">{{addrInfo.city}}<i class="icon"></i></span>
+					</div>
+					<div class="search">
+						<p class="con" @click="jumpSearch">搜索食材</p>
+					</div>
+				</div>
+			</div>
+			<scroller :on-refresh="refresh" ref="scroller" :on-scrollmove="scrollMove" class="mcm-scroller">
+				<div class="content">
+					<!--轮播-->
+					<div class="mui-slider">
+						<div class="mui-slider-group " v-if="advertisingList&&advertisingList.length>0" :class="advertisingList.length > 1 ? 'mui-slider-loop':''">
+							<div class="mui-slider-item mui-slider-item-duplicate" v-if="advertisingList.length > 1">
+								<a :href="advertisingList[0].href?advertisingList[0].href:'#'"><img :src="advertisingList[0].src" /></a>
+							</div>
+							<div class="mui-slider-item " v-for="(v,k) in advertisingList" >
+								<a :href="v.href?v.href:'#'"><img :src="v.src" /></a>
+							</div>
+							<div class="mui-slider-item mui-slider-item-duplicate" v-if="advertisingList.length > 1">
+								<a :href="advertisingList[0].href?advertisingList[0].href:'#'"><img :src="advertisingList[0].src" /></a>
+							</div>
+						</div>
+					</div>
+					<div class="food-category" v-if="categorys.length">
+						<ul>
+							<li class="item " v-for="(c, index) in categorys" @click="jumpCategory(c)" v-if="index < 8">
+								<i class="icon"><img :src="c.image" alt="" /></i>
+								<p class="name">{{c.categoryName}}</p>
+							</li>
+						</ul>
+					</div>
+					<!--推荐-->
+					<div class="not-dredge" v-if="!isCommpanyOpen">
+						<img src="img/login/home_vacant.png" alt="" />
+						<p class="mes">当前区域暂未开通服务, 您可以</p>
+						<button class="btn btn-look" @click="switchLocation">切换区域查看</button>
+					</div>
+					<div class="recommend" v-if="isCommpanyOpen && recommCategorys.length">
+						<div class="r-header"></div>
+						<category-nar :categorys="recommCategorys" @selectcategory="selectCategory" ref="categoryNar"></category-nar>
+						<recommend-prods :recommprodlist="recommProdList" type="jump"></recommend-prods>
+					</div>
+					
+				</div>
+			</scroller>
+			<!--底部-->
+			<div class="home-footer-area" id="footerWrap" :class="narios ? 'home-footer-ios':''">
+				<ul>
+					<li class="item " :class="active == 1 ? 'active' : ''" @click="switchMenu(1)">
+						<i class="icon index"></i>
+						<p class="name">首页</p>
+					</li>
+					<li class="item " :class="active == 2 ? 'active' : ''" @click="switchMenu(2)">
+						<i class="icon shop"></i>
+						<p class="name">商城</p>
+					</li>
+					<li class="item" :class="active == 3 ? 'active' : ''" @click="switchMenu(3)">
+						<i class="icon cart"></i>
+						<p class="name">购物车</p>
+					</li>
+					<li class="item " :class="active == 4 ? 'active' : ''" @click="switchMenu(4)">
+						<i class="icon often"></i>
+						<p class="name">常用</p>
+					</li>
+					<li class="item " :class="active == 5 ? 'active' : ''" @click="switchMenu(5)">
+						<i class="icon me"></i>
+						<p class="name">我的</p>
+					</li>
+				</ul>
+			</div>
+			<span class="parabola-area">
+				<cart-parabola  ref="parabold" >
+					 <div class="inner inner-hook">
+			         </div>
+				</cart-parabola>
+			</span>
+			<upgrade-package></upgrade-package>
+		</div>
+		<script type="text/javascript" src="js/plugin/mui.min.js"></script>
+		<script type="text/javascript" src="js/plugin/fastclick.js"></script>
+		<script type="text/javascript" src="js/common/common.js"></script>
+		<script type="text/javascript" src="components/category-nar.js"></script>
+		<script type="text/javascript" src="components/area-scroll.js"></script>
+		<script type="text/javascript" src="components/recommend-prods.js"></script>
+		<script type="text/javascript" src="components/add-cart.js"></script>
+		<script type="text/javascript" src="js/plugin/vue-scroller.min.js"></script>
+		<script type="text/javascript" src="js/api/index.js"></script>
+		<script type="text/javascript" src="components/cart-parabola.js"></script>
+		<script type="text/javascript" src="components/upgrade-package.js"></script>
+		<script type="text/javascript">
+			var pages = ["shop", "cart", "often", "me", "login"],
+				height = 0;
+			mui.plusReady(function() {
+				vm.firstOpenAPP();
+				var loadPages = [];
+				mui.each(pages, function(k, val) {
+					var url = "view/" + val + "/index.html";
+					if(val === 'login') {
+						loadPages.push({id: val,url: "view/" + val + "/login.html",
+							styles: {"render": "always"},
+							show: {
+								aniShow: 'slide-in-bottom',
+								duration: 300
+							}
+						})
+					} else {
+						loadPages.push({id: val,url: url,
+							styles: {
+								"render": "always",
+								"top": "0px",
+								"bottom": "48.5px"
+							},
+							show: {
+								"aniShow": "none"
+							}
+						})
+					}
+					
+				});
+				mui.init({
+					preloadPages: loadPages
+				});
+				try {
+					var addrInfo = plus.storage.getItem(mcm.config.LOCATIONINFO);
+					if(addrInfo) {
+						vm.addrInfo = JSON.parse(addrInfo);
+						vm.initHomeData();
+					} else {
+						getCurrentPosition();
+					}
+				} catch(e) {
+					getCurrentPosition();
+				}
+				mcm.closeAPP();
+				vm.narios = mui.os.ios;
+			});
+			//预加载数字键盘
+			mcm.preloadKeyNumber("view/common/number-key.html");
+			//存储没有位置信息读取定位
+			function getCurrentPosition() {
+				plus.geolocation.getCurrentPosition(function(a) {
+					var info = a.address,
+						coords = a.coords;
+					var addrInfo = {
+						province: info.province,
+						city: info.city,
+						district: info.district,
+						latitude: coords.latitude,
+						longitude: coords.longitude
+					}
+					vm.addrInfo = addrInfo;
+					plus.storage.setItem(mcm.config.LOCATIONINFO, JSON.stringify(addrInfo));
+					vm.initHomeData();
+				}, function(e) {
+					vm.addrInfo = {
+						province: '江西省',
+						city: '赣州市',
+						district: '',
+						latitude: 114.980461,
+						longitude: 25.83213
+					}
+					plus.storage.setItem(mcm.config.LOCATIONINFO, JSON.stringify(vm.addrInfo));
+					vm.initHomeData();
+				});
+			}
+			document.addEventListener('switchMenu', function(event) {
+				if(event.detail.index) {
+					vm.active = event.detail.index;
+					if(vm.active === 1) {
+						mcm.closeWebView(["login", "register", "completeInfo"]);
+					}
+				}
+			});
+			document.addEventListener('switchCommpany', function(event) {
+				if(event.detail.info) {
+					var info = event.detail.info;
+					vm.addrInfo = {
+						province: info.province,
+						city: info.city,
+						district: info.area,
+						latitude: info.latitude,
+						longitude: info.longitude
+					}
+					plus.storage.setItem(mcm.config.LOCATIONINFO, JSON.stringify(vm.addrInfo));
+					var ws = plus.webview.getWebviewById('shopGoods');
+					mui.fire(ws, 'anewLoadData', {
+						type: "commpany"
+					});
+					vm.initHomeData()
+				}
+			});
+			//详情回退更新商品数据
+			document.addEventListener('detailBackAnewLoadProdData', function(){
+				vm.getRecommendProds();
+			})
+			var vm = new Vue({
+				el: "#HomePage",
+				data: function() {
+					return {
+						active: 1,
+						narios: false,
+						categorys: [],
+						addrInfo: {
+							province: "",
+							city: "",
+							district: "",
+							latitude: "",
+							longitude: ""
+						},
+						recommCategorys: [],
+						recommProdList: [],
+						recommCActive: 0,
+						isCommpanyOpen: true,
+						advertisingList: [{
+							src: "img/home/home_banner.png"
+						}],
+						headerBack: 'rgba(0, 0, 0, 0)'
+					}
+				},
+				mounted: function() {
+					window.$ref_parabold = this.$refs.parabold;
+				},
+				methods: {
+					firstOpenAPP: function() {
+						var showGuide = plus.storage.getItem("lauchFlag");
+						if(!showGuide) {
+							mui.openWindow({
+								id: 'guide',
+								url: 'view/index/guide.html',
+								styles: {
+									popGesture: "none"
+								},
+								show: {
+									aniShow: 'none'
+								},
+								waiting: {
+									autoShow: false
+								}
+							});
+						}
+					},
+					scrollMove: function(position) {
+						var top = position.top;
+						if(top > 10) {
+							var opacity = top / 120;
+							if(opacity >= 1) {
+								opacity = 1
+							} 
+							vm.headerBack = 'rgba(0, 0, 0, '+ opacity +')'
+						} else {
+							vm.headerBack = 'rgba(0, 0, 0, 0)'
+						}
+					},
+					switchMenu: function(index) {
+						var active = index;
+						if(index === 1) {
+							vm.active = index;
+							var we = plus.webview.getLaunchWebview();
+							we.show();
+							vm.initHomeData();
+						} else {
+							plus.navigator.setStatusBarStyle('dark');
+							index = index - 2;
+							var page = pages[index];
+							var wn = plus.webview.getWebviewById(page),
+								url = "view/" + page + "/index.html";
+							page === "shop" ? openPage() : mcm.isLogin(true) ? openPage() : null;
+
+							function openPage() {
+								vm.active = active;
+								if(wn) {
+									mui.fire(wn, "openThatPage");
+									setTimeout(function() {
+										wn.show("none");
+									}, 100);
+								} else {
+									mui.openWindow({
+										url: url,
+										id: page,
+										styles: {
+											"top": "0px",
+											"bottom": height + "px"
+										},
+										show: {
+											"aniShow": "none"
+										}
+									});
+								}
+							}
+						}
+					},
+					jumpSearch: function() {
+						mui.openWindow({
+							url: "view/index/search.html",
+							id: "search",
+							styles: {
+								"render": "always",
+								"popGesture": "hide"
+							}
+						});
+					},
+					jumpCategory: function(item) {
+						var url = 'view/index/category.html?categoryId=' + item.productCategoryId;
+						mcm.singleJumpPage("category", url, "商城", {
+							categoryId: item.productCategoryId
+						});
+					},
+					switchLocation: function() {
+						mcm.singleJumpPage("locationShop", "view/index/location.html", "选择城市");
+					},
+					refresh: function() {
+						setTimeout(function() {
+							vm.$refs.scroller.finishPullToRefresh();
+							vm.initHomeData();
+						}, 1500);
+					},
+					initHomeData: function() {
+						var loginStatus = mcm.isLogin(false) ? true : false;
+						vm.isCommpanyCheckOpen(loginStatus);
+						this.getHomeInfo(loginStatus);
+					},
+					isCommpanyCheckOpen: function(status) {
+						var commpanyAPI = status ? "companyOpenAPI" : "guestCompanyOpenAPI";
+						var addr = vm.addrInfo;
+						var data = {
+							province: addr.province,
+							city: addr.city
+						}
+						api.index[commpanyAPI]({
+							data: data,
+							success: function(result) {
+								vm.isCommpanyOpen = result;
+								if(result) {
+									vm.getRecommendProds();
+								}
+							}
+						})
+					},
+					getHomeInfo: function(status) {
+						var addr = vm.addrInfo;
+						var data = {
+							province: addr.province,
+							city: addr.city
+						}
+						var advAPI = status ? "advAPI" : "guestAdvAPI";
+						var _that = this;
+						api.index[advAPI]({
+							data: data,
+							success: function(result) {
+								if(result) {
+									try {
+										_that.advertisingList = JSON.parse(result);
+									} catch(e) {}
+								}
+								var gallery = mui('.mui-slider');
+								gallery.slider({
+									interval: 1000
+								});
+							}
+						});
+						var categoryAPI = status ? "categoryAPI" : "guestCategoryAPI";
+						api.index[categoryAPI]({
+							success: function(result) {
+								vm.categorys = result;
+							}
+						});
+					},
+					getRecommendProds: function() {
+						var addr = vm.addrInfo;
+						var data = {
+							province: addr.province,
+							city: addr.city
+						}
+						mcm.getRecommendProd({
+							type: 'all',
+							data: data,
+							callback: function(result) {
+								vm.recommCategorys = [];
+								vm.recommProdList = [];
+								if(result && result[0]) {
+									Vue.nextTick().then(function () {
+									   vm.recommCategorys = result;
+									   vm.recommProdList = result[vm.recommCActive].items;
+								    })
+								}
+							}
+						})
+					},
+					selectCategory: function(params) {
+						vm.recommProdList = []
+						setTimeout(function() {
+							vm.recommCActive = params.active;
+							vm.recommProdList = vm.recommCategorys[params.active].items;
+						}, 10)
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

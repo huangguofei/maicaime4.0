@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>数字键盘</title>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="css/number-key.css"/>
+    <script type="text/javascript" src="../../js/plugin/vue.js"></script>
+	</head>
+	<body class="number-key-body">
+		<div class="number-key" id="numberKey" >
+			<div class="bank" @click="closePage" ></div>
+			<div class="number-input" id="numberInputKey">
+					<div class="back" @click="closePage" v-if="back"></div>
+					<div class="num-con">
+						<div class="show-num" v-if="!count">输入购买数量</div>
+						<div class="show-num count" v-else>{{count}}<span class="clear" @click="clear"></span></div>
+						<div class="keyboard" >
+							<div class="num-item" v-for="m in 3">
+								<span v-for="n in 3" class="num">
+									<span v-if="m == 1" @click="keyDownNum(n)">{{n}}</span>
+									<span v-else-if="m == 2" @click="keyDownNum(n + 3)">{{n + 3}}</span>'+
+									<span v-else @click="keyDownNum(n + 6)">{{n + 6}}</span>
+								</span>
+							</div>
+							<div class="num-item">
+								<span class="num canel"><span @click="closePage">取消</span></span>
+								<span class="num"><span @click="keyDownNum(0)">0</span></span>
+								<span class="num confim"><span @click="confim">确定</span></span>
+							</div>
+						</div>
+					</div>
+			</div>	
+		</div>
+		<script type="text/javascript" src="../../js/plugin/mui.min.js"></script>
+    	<script type="text/javascript" src="../../js/common/common.js"></script>
+    	<script type="text/javascript" src="../../js/plugin/fastclick.js"></script>
+	 	<script type="text/javascript" >
+	 		var pageId = null;
+			mui.plusReady(function() {
+				var wx = plus.webview.currentWebview()
+				pageId = wx.pageId;
+			})
+			document.addEventListener("openNumberKey", function(event) {
+				vm.count = '';
+				pageId = event.detail.pageId;
+				setTimeout(function() {
+					vm.back = true;
+				}, 200)
+			})
+			mui.back = function (){
+				vm.back = false;
+				var page = plus.webview.getWebviewById(pageId);
+				page && mui.fire(page, 'clearEvent');
+				setTimeout(function() {
+					var ws = plus.webview.currentWebview();
+					ws.hide("auto", 300);
+				}, 10)
+				
+			}
+	 		var vm = new Vue({
+				el: "#numberKey",
+				data: function() {
+					return{
+						count: '',
+						back: false
+					}
+				},
+				mounted: function() {
+					setTimeout(function() {
+						vm.back = true;
+					}, 100)
+				},
+				methods: {
+					closePage: function() {
+						mui.back();
+					},
+					keyDownNum : function(num) {
+						this.count += '' + num;
+					},
+					confim: function() {
+						if(this.count === '') return;
+						if(pageId) {
+							var page = plus.webview.getWebviewById(pageId);
+							page && mui.fire(page, 'keyUpdateNum', {
+								num: vm.count
+							});
+							setTimeout(function() {
+								mui.back();
+							}, 100)
+						}
+						/*pageId && (function() {
+							var page = plus.webview.getWebviewById(pageId);
+							page && mui.fire(page, 'keyUpdateNum', {
+								num: vm.count
+							});
+							setTimeout(function() {
+								mui.back();
+							}, 100)
+							
+						})()*/
+					},
+					clear: function() {
+						this.count = '';
+					}
+				}
+			})
+	 		
+	 	</script>
+	</body>
+</html>

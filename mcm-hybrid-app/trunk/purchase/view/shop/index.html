@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>买菜么-商城</title>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="css/index.css"/>
+    <script type="text/javascript" src="../../js/plugin/vue.js"></script>
+	</head>
+	<body>
+		<div class="shop-index-page" id="shopIndexPage">
+			<header class="header" ref="header" id="header">
+				<i class="logo">
+					<img src="../../img/login/login_logo.png" alt="" />
+				</i>
+				<div class="search" @click="jumpSearch"><p>搜索食材</p></div>
+			</header>
+		</div>
+		<script type="text/javascript" src="../../js/plugin/mui.min.js"></script>
+    	<script type="text/javascript" src="../../js/common/common.js"></script>
+    	<script type="text/javascript" src="../../js/plugin/fastclick.js"></script>
+	 	<script type="text/javascript" >
+	 		function openThatPage() {
+	 			var ws = plus.webview.getWebviewById('shopGoods');
+				if(!ws) {
+					vm.initSubPage();
+				} else {
+					mui.fire(ws, 'anewLoadData');
+				}
+	 		}
+			document.addEventListener('openThatPage', function(event) {
+				if(plus) {
+					openThatPage();
+				} else {
+					mui.plusReady(function() {
+						openThatPage();
+					});
+				}
+			});	
+			mcm.closeAPP();
+	 		var vm = new Vue({
+				el: "#shopIndexPage",
+				data: function() {
+					return{
+					}
+				},
+				mounted: function() {
+					
+				},
+				methods: {
+					initSubPage: function() {
+						mui.init({
+						    subpages:[{
+						      url: '../common/shop-goods.html',
+						      id: 'shopGoods',
+						      styles:{
+						      	 top: '69px',
+						      	 bottom: '0px'
+						      },
+						      extras:{
+						      	call: 'shop'
+						      }
+						    }]
+					   });
+					},
+					jumpSearch: function() {
+						mui.openWindow({
+							url: "../index/search.html",
+							id: "search"
+						});
+					}
+				}
+			})
+	 		
+	 	</script>
+	</body>
+</html>

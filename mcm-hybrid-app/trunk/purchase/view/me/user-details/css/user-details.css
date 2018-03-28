@@ -1,0 +1,87 @@
+/**
+ * author pzh
+ * 商户系统主题配置
+ */
+/*主色调*/
+/*辅助色*/
+/*禁用*/
+/*主要字体色*/
+/*常规文字颜色*/
+/*次要文字颜色*/
+/*不可输入*/
+/*背景色*/
+/*主要边框*/
+/*分割线*/
+.clearFloat {
+  content: "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  *zoom: 1;
+  clear: both;
+  visibility: hidden;
+}
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.user-info {
+  padding-top: 10px;
+}
+.user-info .group {
+  background: #fff;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.user-info .item {
+  height: 0.9296875rem;
+  border-bottom: 1px solid #eee;
+  zoom: 1;
+}
+.user-info .item:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.user-info .item b {
+  font-size: 0.28125rem;
+}
+.user-info .item aside {
+  height: 100%;
+}
+.user-info .item aside span {
+  font-size: 0.25rem;
+  color: #666;
+}
+.user-info .item b {
+  line-height: 0.9296875rem;
+}
+.user-info .item span {
+  display: inline-block;
+  line-height: 0.9296875rem;
+}
+.user-info .item .headimg {
+  width: 0.65625rem;
+  height: 0.65625rem;
+  border-radius: 0.34375rem;
+  margin-right: 0.421875rem;
+  margin-top: 0.109375rem;
+}
+.user-info .item aside {
+  position: relative;
+  /*.pxrem(width, 300);*/
+  text-align: right;
+}
+.user-info .item aside span {
+  margin-right: 0.421875rem;
+}
+.user-info .item aside .icon {
+  vertical-align: middle;
+  position: absolute;
+  top: 0.3046875rem;
+  right: 0.0703125rem;
+}
+.user-info .item:last-child {
+  border: 0;
+}

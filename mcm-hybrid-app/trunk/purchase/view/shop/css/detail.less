@@ -1,0 +1,161 @@
+@import "../../../css/config.less";
+.shop-detail-page{
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom: 49px;
+    .header{
+        position: fixed;
+        left: 0;
+        right: 0;
+        z-index: 999;
+        height: 59px;
+        text-align: center;
+        p{
+           display: none;
+           margin-top:20px;
+           height: 39px;
+           line-height: 39px; 
+           .pxrem(font-size, 30);
+        }
+        .back{
+            position: absolute;
+            .pxrem(top, 60);
+            .pxrem(left, 20);
+            display: inline-block;
+            .pxrem(width, 45);
+            .pxrem(height, 45);
+            z-index: 99;
+            img{
+                max-height:100%;
+            }
+        }
+    }
+    .back-header{
+        background: #FFF;
+        p{
+            display: block;
+        }
+    }
+    
+    .img-slider{
+        padding-top: 25px;
+        
+        background: @mcm-color-white;
+        .mui-slider-item{
+            .pxrem(height, 480);
+            a{
+                height: 100%;
+            }
+            img{
+                max-height: 100%;
+            }
+        }
+        .info{
+            border-top:1px solid @mcm-border-color-base;
+            .prem(20);
+            padding: @prem;
+            .pxrem(font-size, 36);
+            position: relative;
+            .name{
+                .pxrem(padding-right, 80);
+            }
+            .add-often{
+                .pxrem(top, 10);
+                .pxrem(right, 20);
+            }
+            
+        }
+    }
+    .skus-info{
+        .pxrem(margin-top, 20);
+        .prem(20);
+        padding: @prem;
+        background: @mcm-color-white;
+        .sku-select{
+            .pxrem(font-size, 28);
+            border-bottom: 1px solid @mcm-border-color-base;
+            .title{
+                .pxrem(margin-bottom, 20);
+            }
+            .items{
+                .item{
+                    display: inline-block;
+                    .prem(-4, 40);
+                    padding: @prem;
+                    .pxrem(height, 50);
+                    .pxrem(line-height, 50);
+                    vertical-align: middle;
+                    border: 1px solid @mcm-border-color-base;
+                    .pxrem(margin-right, 20);
+                    .pxrem(margin-bottom, 20);
+                    .pxrem(border-radius, 4);
+                    color: @mcm-color-text-secondary;
+                }
+                .active{
+                    color: @mcm-color-primary;
+                    border-color: @mcm-color-primary;
+                }
+            }
+        }
+        .info{
+            .pxrem(padding-top, 20);
+            position: relative;
+            .sku-price{
+                color: @mcm-color-secondary;
+                span{
+                    .pxrem(font-size, 42);
+                }
+            }
+            .unit-price{
+                color: @mcm-color-text-placeholder;
+            }
+            .cart{
+                position: absolute;
+                right: 0;
+               .pxrem(top, 35);
+            }
+            .desc{
+                background: @mcm-background-color-base;
+                color: @mcm-color-text-secondary;
+                .prem(8, 10);
+                padding: @prem;
+                .pxrem(font-size, 24);
+                .pxrem(margin-top, 20);
+                position: relative;
+                word-wrap:break-word;
+                &:before{
+                    content: "\25B2";
+                    position:absolute;
+                    .pxrem(top, -20);
+                    .pxrem(left, 50);
+                    color: @mcm-background-color-base;
+                }
+            }
+        }
+    }
+    .recommend{
+        h4{
+            .pxrem(margin-top, 20);
+            text-align:center;
+            text-align: center;
+            color: @mcm-color-text-primary;
+            .left-icon,.right-icon{
+                display: inline-block;
+                position:relative;
+                .pxrem(width, 38);
+                .pxrem(height, 28);
+                .pxrem(top, 2);
+            }
+            .left-icon{
+                background: url(../../../img/left.png) no-repeat center center;
+                background-size:auto 100%;
+            }
+            .right-icon{
+                background: url(../../../img/right.png) no-repeat center center;
+                background-size:auto 100%;
+            }
+        }
+    }
+}

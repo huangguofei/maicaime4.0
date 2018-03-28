@@ -1,0 +1,90 @@
+/**
+ * author pzh
+ * 商户系统主题配置
+ */
+/*主色调*/
+/*辅助色*/
+/*禁用*/
+/*主要字体色*/
+/*常规文字颜色*/
+/*次要文字颜色*/
+/*不可输入*/
+/*背景色*/
+/*主要边框*/
+/*分割线*/
+.clearFloat {
+  content: "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  *zoom: 1;
+  clear: both;
+  visibility: hidden;
+}
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.search-result-page .header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 49px;
+  padding-top: 25px;
+  background: #FCFCFC;
+}
+.search-result-page .header .return {
+  position: absolute;
+  top: 41px;
+  left: 0.1875rem;
+  display: inline-block;
+  width: 0.3046875rem;
+  height: 0.3046875rem;
+}
+.search-result-page .header .return img {
+  height: 100%;
+}
+.search-result-page .s-con {
+  height: 0.796875rem;
+  padding: 0.03125rem 0.96875rem 0.03125rem 0.65625rem;
+}
+.search-result-page .s-con input {
+  width: 100%;
+  height: 0.46875rem;
+  border: 1px solid #F2F2F2;
+  background: #F2F2F2 url(../../../img/market_search.png) no-repeat 5px 3px;
+  background-size: auto 70%;
+  border-radius: 0.265625rem;
+  margin-top: 0.15625rem;
+  text-indent: 0.421875rem;
+  font-size: 0.25rem;
+}
+.search-result-page .btn-search {
+  position: absolute;
+  top: 45px;
+  right: 0.265625rem;
+  color: #1EC551;
+  font-size: 0.28125rem;
+}
+.search-result-page .content {
+  padding-top: 74px;
+}
+.search-result-page .content .items {
+  margin-top: 0.109375rem;
+  background: #FFF;
+}
+.search-result-page .content .key-down-area {
+  position: fixed;
+  top: 74px;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  background: #FFF;
+}
+.search-result-page .content .key-down-area .item {
+  padding: 0.1875rem;
+  border-bottom: 1px solid #F0F0F0;
+}

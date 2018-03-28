@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../../css/common.css" />
+		<link rel="stylesheet" type="text/css" href="css/user-money.css" />
+		<script type="text/javascript" src="../../../js/plugin/vue.js"></script>
+		<title></title>
+	</head>
+
+	<body>
+		<div id="vueBox" class="user-money">
+			<div class="bg"></div>
+			<div class="main padding">
+				<div class="item padding">
+					<div class="item-head">
+						<img src="../../../img/mine_yue_icon.png" />我的余额
+					</div>
+					<h2>{{amount|PRICE}}</h2>
+					<p>欠款金额：¥{{debtAmount|PRICE}}</p>
+					<div class="view-details" @click="goMoneyDetails">
+						余额明细<img src="../../../img/login/home_info_arrow.png" />
+					</div>
+				</div>
+				<div class="item padding">
+					<div class="item-head">
+						<img src="../../../img/mine_yue_chongzhi .png" />充值金额
+					</div>
+					<input type="number" name="" id="" v-model="recharge" />
+					<button type="button" class="recharge_btn btn-default" @click="rechargeEven">立即充值</button>
+				</div>
+			</div>
+			<dialog-page :datas="dialogData"></dialog-page>
+		</div>
+		<script type="text/javascript" src="../../../js/plugin/mui.min.js"></script>
+		<script type="text/javascript" src="../../../js/common/common.js"></script>
+		<script type="text/javascript" src="../../../components/dialog.js"></script>
+		<script type="text/javascript" src="../../../js/api/me.js"></script>
+	</body>
+	<script type="text/javascript">
+		mui.plusReady(function() {
+			var self = plus.webview.currentWebview();
+			vm.initPage();
+		});
+		window.addEventListener('refresh', function(event) {
+			vm.loadMoney();
+		});
+		//预加载支付
+		mcm.preloadPayPage("../../common/payment-type.html");
+		var vm = new Vue({
+			el: "#vueBox",
+			data: function() {
+				return {
+					amount: '0.00',
+					debtAmount: '0.00',
+					recharge: '0',
+					dialogData: {
+						isShow: false,
+						title: '充值提醒',
+						info: '',
+						logoSrc: '../../../img/shopcar_details_pay_remind.png',
+						yBtn: {
+							str: '确定充值',
+							callback: this.goRecharge
+						},
+						nBtn: {
+							str: '查看详情',
+							callback: function() {
+								vm.dialogData.isShow = false;
+							}
+						}
+					}
+				}
+			},
+			filters: {
+				PRICE: function(v) {
+					if(v == "" || v == 0)
+						return "0.00";
+					v = Math.abs(v);
+					if(v < 0.01) {
+						return 0.01;
+					}
+					return(v * 100 / 100).toFixed(2);
+				}
+			},
+			methods: {
+				rechargeEven: function() {
+					if(this.recharge <= 0) {
+						mui.toast("充值金额不正确！");
+						return false;
+					}
+					var realityAmount = (this.recharge - this.debtAmount).toFixed(2);
+					this.dialogData.info = '您的欠款余额为¥' + this.debtAmount + '，本次充值将 扣除' + this.debtAmount + '元，' + (realityAmount < 0 ? '剩余欠款' : '实际到账') + Math.abs(realityAmount);
+					if(this.debtAmount > 0)
+						this.dialogData.isShow = true;
+					else
+						this.goRecharge();
+				},
+				goMoneyDetails: function() {
+					mui.toast('暂未开发');
+					return false;
+					mcm.singleJumpPage("user-moneyDetails", "../user-moneyDetails/user-moneyDetails.html", "余额明细");
+				},
+				initPage: function() {
+					this.loadMoney();
+				},
+				loadMoney: function() {
+					var _that = this;
+					api.userMoney.userMoneyAPI({
+						success: function(result) {
+							_that.amount = result.amount;
+							_that.debtAmount = result.adjustableAmount;
+						}
+					})
+				},
+				goRecharge: function() {
+					vm.dialogData.isShow = false;
+					var result = {
+						type: "recharge",
+						totalAmount: this.recharge
+					}
+					var pay = plus.webview.getWebviewById('paymentType')
+					if(pay) {
+						mui.fire(pay, 'noOrderChange', {
+							payOrderInfo: result
+						})
+						setTimeout(function() {
+							pay.show('slide-in-bottom');
+						}, 100)
+					} else {
+						mui.openWindow({
+							url: '../../common/payment-type.html',
+							id: "paymentType",
+							styles: {
+								"render": "always",
+								"popGesture": "hide",
+								background: "transparent"
+							},
+							show: {
+								aniShow: 'slide-in-bottom',
+								duration: 500
+							},
+							extras: {
+								payOrderInfo: result
+							}
+						});
+					}
+
+				}
+			}
+		})
+	</script>
+
+</html>

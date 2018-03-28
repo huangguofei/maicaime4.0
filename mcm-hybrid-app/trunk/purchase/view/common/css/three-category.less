@@ -1,0 +1,97 @@
+@import "../../../css/config.less";
+.three-category-body{
+    background: none;
+}
+.three-category-page{
+    height:100%;
+    .bank{
+        position:absolute;
+        top: 0;
+        bottom:0;
+        right:0;
+        left:0;
+        background: rgba(0,0,0,0.5);
+    }
+    .con-area{
+        position:absolute;
+        top: 0;
+        bottom:0;
+        right:0;
+        left:80px;
+        background: #FFF;
+        z-index:99;
+    }
+    .header{
+        margin-top:20px;
+        .pxrem(height, 90);
+        .pxrem(line-height, 90);
+        .prem(0, 20);
+        padding:@prem;
+        .all{
+            float:right;
+            display: inline-block;
+            color: @mcm-color-text-secondary;
+            .icon{
+                display: inline-block;
+                position:relative;
+                .pxrem(left, 5);
+                .pxrem(top, 2);
+                .pxrem(width, 20);
+                .pxrem(height, 20);
+                background: url(../../../img/login/home_info_address_arrow1.png) no-repeat;
+                background-size: 100% auto;
+                opacity: 0.5;
+            }
+        }
+    }
+    .content{
+        position: absolute;
+        .pxrem(top, 120);
+        .pxrem(bottom, 98);
+        left:0px;
+        right:0px;
+        .prem(20);
+        padding: @prem;
+        overflow: auto;
+        .item{
+            display: inline-block;
+            .pxrem(width, 140);
+            .prem(8, 5);
+            padding: @prem;
+            border:1px solid @mcm-border-color-base;
+            text-align:center;
+            overflow: hidden;
+            .pxrem(font-size, 26);
+            .pxrem(border-radius, 30);
+            .pxrem(margin-right, 20);
+            .pxrem(margin-bottom, 20);
+             overflow:hidden;
+            text-overflow:ellipsis;
+            white-space:nowrap
+        }
+        .active{
+            color: @mcm-color-primary;
+            border-color:@mcm-color-primary;
+        }
+    }
+    .footer{
+        position: fixed;
+        .pxrem(height, 98);
+        left:80px;
+        bottom:0;
+        right: 0px;
+        border-top:1px solid @mcm-border-color-base;
+        .btn-f{
+            width:50%;
+            height:100%;
+            float:left;
+            background: #FFF;
+            border:0;
+            .pxrem(font-size, 32);
+        }
+        .btn-confim{
+            background: @mcm-color-primary;
+            color: #FFF;
+        }
+    }
+}

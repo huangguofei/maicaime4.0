@@ -1,0 +1,76 @@
+/**
+ * author pzh
+ * 商户系统主题配置
+ */
+/*主色调*/
+/*辅助色*/
+/*禁用*/
+/*主要字体色*/
+/*常规文字颜色*/
+/*次要文字颜色*/
+/*不可输入*/
+/*背景色*/
+/*主要边框*/
+/*分割线*/
+.clearFloat {
+  content: "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  *zoom: 1;
+  clear: both;
+  visibility: hidden;
+}
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.shop-index-page {
+  height: 100%;
+  overflow: hidden;
+}
+.shop-index-page .header {
+  position: absolute;
+  width: 100%;
+  z-index: 99;
+  height: 49px;
+  padding-top: 20px;
+  background: #FCFCFC;
+}
+.shop-index-page .header i.logo {
+  position: absolute;
+  display: inline-block;
+  width: 0.875rem;
+  height: 0.34375rem;
+  top: 0.65625rem;
+  left: 0.1875rem;
+}
+.shop-index-page .header i.logo img {
+  max-width: 100%;
+}
+.shop-index-page .header .search {
+  padding: 0.03125rem 0.265625rem;
+  padding-left: 1.1953125rem;
+}
+.shop-index-page .header .search p {
+  background: #F2F2F2 url(../../../img/market_search.png) no-repeat 5px 3px;
+  background-size: auto 70%;
+  height: 0.484375rem;
+  line-height: 0.484375rem;
+  border-radius: 0.25rem;
+  text-indent: 0.4609375rem;
+  font-size: 0.25rem;
+  color: #8F8F8F;
+  margin-top: 0.1875rem;
+}
+.shop-index-page .category-nar {
+  position: absolute;
+  top: 0.796875rem;
+  left: 0;
+  right: 0 ;
+  bottom: 0;
+  z-index: 99;
+  background: #FCFCFC;
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.1);
+}

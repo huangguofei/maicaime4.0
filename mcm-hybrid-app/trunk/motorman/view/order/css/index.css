@@ -1,0 +1,269 @@
+/**
+ * author pzh
+ * 商户系统主题配置
+ */
+/*主色调*/
+/*辅助色*/
+/*禁用*/
+/*主要字体色*/
+/*常规文字颜色*/
+/*次要文字颜色*/
+/*不可输入*/
+/*背景色*/
+/*主要边框*/
+/*分割线*/
+.clearFloat {
+  content: "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  *zoom: 1;
+  clear: both;
+  visibility: hidden;
+}
+.order .head {
+  text-align: center;
+  background: #fff;
+  height: 42px;
+  zoom: 1;
+  font-size: 0.3125rem;
+  color: #282828;
+}
+.order .head:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.order .head .user-icon img {
+  width: 0.578125rem;
+  height: auto;
+  margin-top: -0.125rem;
+}
+.order .head .change-icon {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.order .head .change-icon img {
+  width: 0.34375rem;
+  height: auto;
+}
+.order .mui-fullscreen {
+  position: absolute;
+  z-index: 99;
+  top: 42px;
+}
+.order .mui-fullscreen .mui-slider-indicator {
+  background: #FFF;
+}
+.order .mui-fullscreen .mui-col-xs-5 {
+  width: 33.33%;
+  background: none;
+}
+.order .mui-fullscreen .mui-col-xs-5 .line {
+  width: 60px;
+  height: 2px;
+  background: #F4C922;
+  margin: auto;
+  box-shadow: 0px 2px 6px 0px #f4c922;
+  border-radius: 4px;
+  position: relative;
+  top: -2px;
+}
+.order .mui-sliders .menu {
+  background: #fff;
+  box-shadow: 0 7px 10px #ccc;
+}
+.order .mui-sliders .mui-content-padded {
+  margin-top: 10px;
+}
+.order .order-list .item {
+  background: #fff;
+  margin-bottom: 10px;
+}
+.order .order-list .item .item-head {
+  position: relative;
+}
+.order .order-list .item .item-head img {
+  width: 0.578125rem;
+  height: 0.578125rem;
+  border-radius: 0.3046875rem;
+  margin-right: 5px;
+}
+.order .order-list .item .item-head .shop-info {
+  text-align: left;
+  padding-left: 0.265625rem;
+}
+.order .order-list .item .item-head .shop-info h2 {
+  font-size: 0.28125rem;
+  color: #282828;
+}
+.order .order-list .item .item-head .shop-info p {
+  width: 80%;
+  font-size: 0.21875rem;
+  color: #9C9C9E;
+}
+.order .order-list .item .item-head .distance {
+  position: absolute;
+  top: 13px;
+  right: 10px;
+  font-size: 0.1875rem;
+  color: #CECFD2;
+  margin-top: 10px;
+}
+.order .order-list .item .item-main {
+  position: relative;
+  padding: 10px 0;
+  zoom: 1;
+}
+.order .order-list .item .item-main:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.order .order-list .item .item-main .o-info {
+  text-align: left;
+  font-size: 0.25rem;
+  color: #282828;
+  padding-left: 20px;
+}
+.order .order-list .item .item-main .o-info p {
+  margin-bottom: 5px;
+}
+.order .order-list .item .item-main .o-info p i {
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  border: 2px solid #EA4335;
+  margin-right: 2px;
+}
+.order .order-list .item .item-main .gps {
+  margin-right: 5px;
+}
+.order .order-list .item .item-main .call,
+.order .order-list .item .item-main .gps {
+  margin-top: 10px;
+}
+.order .order-list .item .item-main .call img,
+.order .order-list .item .item-main .gps img {
+  width: 0.5rem;
+  height: auto;
+}
+.order .order-list .item .item-footer {
+  padding: 0 20px;
+}
+.order .order-list .item .item-footer .sub_btn {
+  height: 0.578125rem;
+  font-size: 0.25rem;
+  color: #282828;
+}
+.order .side-main {
+  background: #fff;
+}
+.order .side-main .side-bg {
+  position: absolute;
+  top: 0;
+  z-index: -1;
+  width: 100%;
+  height: 3rem;
+  background: url(../../../img/login_bg.png) no-repeat;
+  background-size: cover;
+}
+.order .side-main .side-body .side-head {
+  margin: 30px 0 50px;
+}
+.order .side-main .side-body .side-head a {
+  font-size: 0.328125rem;
+  color: #282828;
+}
+.order .side-main .side-body .side-head a img {
+  width: 0.1875rem;
+  height: auto;
+  vertical-align: middle;
+}
+.order .side-main .side-body .side-head p {
+  font-size: 0.25rem;
+  color: #282828;
+  padding: 5px 10px 0;
+}
+.order .side-main .side-body .side-user {
+  position: relative;
+  zoom: 1;
+  border-bottom: 1px solid #efefef;
+  padding-bottom: 30px;
+}
+.order .side-main .side-body .side-user:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.order .side-main .side-body .side-user .user-head {
+  width: 1.203125rem;
+  height: 1.203125rem;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.order .side-main .side-body .side-user .user-info {
+  margin-top: 20px;
+}
+.order .side-main .side-body .side-user .user-info h2 {
+  font-size: 0.3125rem;
+  color: #282828;
+}
+.order .side-main .side-body .side-user .user-info p {
+  font-size: 0.21875rem;
+  color: #6e6e6e;
+}
+.order .side-main .side-body .side-user .go-user {
+  position: absolute;
+  top: 5px;
+  right: 0;
+  margin-top: 20px;
+}
+.order .side-main .side-body .side-user .go-user img {
+  width: 0.421875rem;
+  height: auto;
+}
+.order .side-main .side-body .side-menu {
+  padding-top: 20px;
+  font-size: 0.28125rem;
+  color: #282828;
+}
+.order .side-main .side-body .side-menu .menu-list {
+  position: relative;
+  padding: 5px 0;
+}
+.order .side-main .side-body .side-menu .menu-list .new {
+  float: right;
+  min-width: 0.34375rem;
+  height: 0.34375rem;
+  line-height: 0.34375rem;
+  border-radius: 0.1875rem;
+  background: #F4C922;
+  text-align: center;
+  color: #fff;
+  font-size: 0.1875rem;
+}
+.order .side-main .side-body .side-menu .menu-list img {
+  float: right;
+  width: 0.15625rem;
+  height: auto;
+  margin: 3px 5px 0;
+}
+.order .side-main .side-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 0.890625rem;
+  box-sizing: border-box;
+  border-top: 1px solid #efefef;
+  font-size: 0.28125rem;
+  color: #282828;
+}
+.order .side-main .side-footer img {
+  width: 0.3125rem;
+  height: auto;
+  margin-right: 5px;
+  vertical-align: middle;
+}

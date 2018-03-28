@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>买菜么-下单</title>
+		<link rel="stylesheet" type="text/css" href="../../css/common.css" />
+		<link rel="stylesheet" type="text/css" href="css/orders.css" />
+		<script type="text/javascript" src="../../js/plugin/vue.js"></script>
+	</head>
+
+	<body>
+		<div class="cart-orders-page" id="cartOrdersPage">
+			<div class="con" v-if='loading'>
+				<div class="layer-item">
+					<div class="head hot-head">
+						配送信息
+					</div>
+					<div class="content addr-info" v-if="addrInfo">
+						<p class="info"><span class="name">{{addrInfo.userName}}</span><span class="mobile">{{addrInfo.mobile}}</span></p>
+						<p class="addr">地址：{{addrInfo.address}}</p>
+						<i class="event-icon"></i>
+					</div>
+				</div>
+				<div class="layer-item order-prod" v-for="c in cartList" v-if="cartList">
+					<div class="head">
+						<span class="s-name">{{c.shop.shopName}}</span>
+						<i class="r mobile-icon" @click="callMobile()"></i>
+					</div>
+					<div class="content">
+						<div class="prods">
+							<ul>
+								<li class="item" v-for="(p, index) in c.list" v-if="index < 4">
+									<div class="p-con">
+										<div class="pro-img">
+											<img :src="p.mainImage" alt="" />
+										</div>
+										<p class="price">¥{{p.sellPrice.toFixed(2)}}</p>
+									</div>
+
+								</li>
+								<li class="item more" @click="foodsMore(c.list)" v-if="c.list.length > 4"><span>共{{c.list.length}}件</span><i class="event-icon"></i></li>
+							</ul>
+						</div>
+						<div class="sub">
+							<span>共{{c.list.length}}种食材，小计：<span class="amount">¥{{c.shop.total.toFixed(2)}}</span></span>
+						</div>
+					</div>
+					<div class="bo remark">
+						<span>备注：</span>
+						<p class="val" @click="ordersRemark(c.shop)">{{c.shop.message ? c.shop.message : '给商家留言（40字以内）'}}</p>
+					</div>
+				</div>
+				<div class="layer-item pay">
+					<div class="head">
+						支付类型<span class="r" @click="payType.show=true">
+							{{payType.type === 100 ? "在线支付":"货到付款"}}
+						</span><i class="event-icon"></i>
+					</div>
+				</div>
+				<div class="layer-item sale">
+					<div class="head hot-head" @click="selectCoupon">
+						优惠券<span class="r">{{couponData.title?couponData.title:(couponNum>0?couponNum+'张可用':'无可用')}}</span><i class="event-icon"></i>
+					</div>
+					<div class="content o-info">
+						<div class="item">
+							<span>食材金额：</span>
+							<span class="r">¥{{totalAmount.toFixed(2)}}</span>
+						</div>
+						<div class="item">
+							<span>配送费：</span>
+							<span class="r">¥0.00</span>
+						</div>
+						<div class="item">
+							<span>优惠金额：</span>
+							<span class="r">¥{{couponData.amount}}</span>
+						</div>
+					</div>
+					<div class="bo">
+						<span>应付：¥{{totalAmount.toFixed(2)}}</span>
+						<span class="r">实付：¥{{totalAmount.toFixed(2)}}</span>
+					</div>
+				</div>
+			</div>
+			<div class="f-desc" v-if="loading">
+				<div class="con">
+					<span>实际金额以收货金额为准，以多退少补形式进入余额</span>
+				</div>
+			</div>
+			<footer class="footer" v-if="loading">
+				<div class="con">
+					<span>需付款：<span class="amount">¥{{totalAmount.toFixed(2)}}</span></span>
+					<button class="btn btn-pay" @click="confimPay">{{payType.type == 300 ? '确认下单' : '确定支付'}}</button>
+				</div>
+			</footer>
+			<loading v-if="!loading"></loading>
+			<div class="pay-type-layer" v-show="payType.show">
+				<div class="content">
+					<h2>选择支付方式</h2>
+					<button class="btn btn-pay" :class="payType.type === 100 ? 'active':''" @click="switchPayType(100)">在线支付</button><br />
+					<button class="btn btn-pay" :class="payType.type === 300 ? 'active':''" @click="switchPayType(300)">货到付款</button>
+				</div>
+			</div>
+			<dialog-page :datas="dialogData"></dialog-page>
+		</div>
+
+		<script type="text/javascript" src="../../js/plugin/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/common/common.js"></script>
+		<script type="text/javascript" src="../../js/plugin/fastclick.js"></script>
+		<script type="text/javascript" src="../../components/loading.js"></script>
+		<script type="text/javascript" src="../../js/api/cart.js"></script>
+		<script type="text/javascript" src="../../js/api/me.js"></script>
+		<script type="text/javascript" src="../../components/dialog.js"></script>
+		<script type="text/javascript">
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				vm.cartIds = self.cartIds;
+				vm.initData();
+			})
+			document.addEventListener('upadteOrdersData', function(event) {
+				vm.cartIds = event.detail.cartIds;
+				vm.initData();
+			})
+			//预加载支付
+			mcm.preloadPayPage();
+			var vm = new Vue({
+				el: "#cartOrdersPage",
+				data: function() {
+					return {
+						loading: false,
+						addrInfo: null,
+						cartList: null,
+						cartIds: '',
+						payType: {
+							show: false,
+							type: 100
+						},
+						totalAmount: 0,
+						originalAmount: 0,
+						addrInfo: null,
+						amountInArear: 0,
+						couponNum: 0,
+						couponData: {
+							id: '',
+							amount: '0',
+							title: ''
+						},
+						dialogData: {
+							isShow: false,
+							title: '欠款提示',
+							info: "上次下单，您还有" + this.amountInArear + "元欠款未支付，</br>需支付后才能下单",
+							logoSrc: '../../img/shopcar_details_pay_remind.png',
+							yBtn: {
+								str: "立即支付",
+								callback: this.dialogY
+							}
+						}
+					}
+				},
+				mounted: function() {
+					var that = this;
+					setTimeout(function() {
+						that.loading = true;
+					}, 200);
+				},
+				methods: {
+					foodsMore: function(prods) {
+						mcm.singleJumpPageNew({
+							title: '食材清单',
+							url: 'detailed.html',
+							id: 'foodsDetailed',
+							autoBackButton: true,
+							params: {
+								prods: prods
+							}
+						})
+					},
+					confimPay: function() {
+						this.submitOrder();
+					},
+					initData: function() {
+						this.getOrdersInfo();
+						this.getCouponList();
+					},
+					getOrdersInfo: function() {
+						if(vm.cartIds) {
+							api.orders.getOrderInfoAPI({
+								data: {
+									cartIds: vm.cartIds
+								},
+								success: function(result) {
+									vm.addrInfo = result.buyerAddress;
+									var cartList = result.shoppingCartInfos;
+									vm.amountInArear = result.amountInArear;
+									if(vm.amountInArear > 0) {
+										vm.dialogData.info = "上次下单，您还有" + result.amountInArear + "元欠款未支付，需支付后才能下单";
+										vm.dialogData.isShow = true;
+									}
+									var sub = 0;
+									mui.each(cartList, function(key, items) {
+										var list = items.list,
+											total = 0
+										mui.each(list, function(k, item) {
+											total += item.sellPrice * item.productQuantity
+										})
+										items.shop.total = total;
+										items.shop.message = "";
+										sub += total;
+									})
+									vm.totalAmount = sub;
+									vm.originalAmount = sub;
+									vm.cartList = cartList;
+								}
+							})
+						} else {
+							mui.toast(mcm.message.notOrders)
+						}
+					},
+					switchPayType: function(type) {
+						this.payType.type = type;
+						this.payType.show = false;
+					},
+					submitOrder: function() {
+						if(this.amountInArear>0){
+							mui.toast('您当前欠款还未还清，无法下单！');
+							return false;
+						}
+						var params = {};
+						var remarks = {};
+						mui.each(this.cartList, function(k, v) {
+							remarks[v.shop.shopId] = v.shop.message;
+						})
+						params.device = plus.os.ios ? 2 : 1;
+						params.deliveryWay = this.payType.type;
+						params.realName = this.addrInfo.userName;
+						params.addressId = this.addrInfo.addressId;
+						params.cartIds = this.cartIds;
+						params.remarks = JSON.stringify(remarks);
+						params.deliveryStartTime = "";
+						params.deliveryEndTime = "";
+						params.userCouponId = this.couponData.id;
+						var wt = plus.nativeUI.showWaiting()
+						api.orders.submitOrderAPI({
+							data: params,
+							success: function(result) {
+								wt.close();
+								vm.couponData = {
+									id: '',
+									amount: '0',
+									title: ''
+								}
+								vm.payType.type === 100 ? vm.payLayer(result) : mcm.singleJumpPageNew({
+									id: "ordersSuccess",
+									url: "success.html",
+									title: "下单成功"
+								})
+							},
+							error: function(result) {
+								wt.close();
+							}
+						})
+					},
+					payLayer: function(result) {
+						if(result.totalAmount == 0) {
+							api.common.balancePayAPI({
+								data: {
+									sellOrderIds: new String(result.sellOrderIds)
+								},
+								success: function(result) {
+									vm.payResultJumpPage(true)
+								},
+								error: function() {
+									vm.payResultJumpPage(false)
+								}
+							});
+							return false;
+						}
+						var paywx = plus.webview.getWebviewById('paymentType');
+						if(paywx) {
+							mui.fire(paywx, 'ordersPayResult', {
+								payOrderInfo: result
+							})
+							setTimeout(function() {
+								paywx.show("slide-in-bottom", 500);
+							}, 100)
+						} else {
+							mui.openWindow({
+								url: '../common/payment-type.html',
+								id: "paymentType",
+								styles: {
+									"render": "always",
+									"popGesture": "hide",
+									background: "transparent"
+								},
+								show: {
+									aniShow: 'slide-in-bottom',
+									duration: 500
+								},
+								extras: {
+									payOrderInfo: result
+								}
+							});
+						}
+					},
+					getCouponList: function() {
+						var _that = this;
+						api.userCoupon.couponUsableListAPI({
+							success: function(result) {
+								result.forEach(function(v, k) {
+									if(v.coupon.preconditionAmount < _that.totalAmount) {
+										_that.couponNum++;
+									}
+								});
+							}
+						})
+					},
+					selectCoupon: function() {
+						if(this.couponNum <= 0) {
+							mui.toast("没有可使用的券！");
+							return false;
+						}
+						mcm.singleJumpPage("user-coupon", "../me/user-coupon/user-coupon.html", "优惠券", {
+							amount: vm.originalAmount,
+							couponId: ''
+						});
+					},
+					callMobile: function() {
+						var phone = '400-8082-836';
+						var btnArray = ['拨打', '取消'];
+						mui.confirm('是否拨打' + phone + '?', '提示', btnArray, function(e) {
+							if(e.index == 0) {
+								plus.device.dial(phone, false);
+							}
+						});
+					},
+					ordersRemark: function(shop) {
+						plus.nativeUI.prompt("填写备注信息：", function(e) {
+							if(e.index === 0) {
+								shop.message = e.value;
+							}
+						}, "", "", ["确定", "取消"]);
+					},
+					payResultJumpPage: function(status) {
+						status ? mcm.singleJumpPageNew({
+							id: "ordersSuccess",
+							url: "../cart/success.html",
+							title: "下单成功"
+						}) : mcm.singleJumpPageNew({
+							id: "ordersError",
+							url: "../cart/error.html",
+							title: "下单成功，未完成支付"
+						});
+					},
+					dialogY: function() {
+						mcm.singleJumpPage("user-money", "../me/user-money/user-money.html", "我的余额");
+					}
+				}
+			})
+			window.addEventListener("selectCallback", function(event) {
+				vm.couponData.id = event.detail.couponId;
+				vm.couponData.amount = event.detail.amount;
+				vm.couponData.title = event.detail.title;
+				vm.totalAmount = vm.originalAmount - vm.couponData.amount;
+				vm.totalAmount = vm.totalAmount < 0 ? 0 : vm.totalAmount;
+			});
+		</script>
+	</body>
+
+</html>

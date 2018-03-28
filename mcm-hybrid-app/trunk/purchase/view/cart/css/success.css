@@ -1,0 +1,123 @@
+/**
+ * author pzh
+ * 商户系统主题配置
+ */
+/*主色调*/
+/*辅助色*/
+/*禁用*/
+/*主要字体色*/
+/*常规文字颜色*/
+/*次要文字颜色*/
+/*不可输入*/
+/*背景色*/
+/*主要边框*/
+/*分割线*/
+.clearFloat {
+  content: "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  *zoom: 1;
+  clear: both;
+  visibility: hidden;
+}
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cart-success-page section {
+  margin: auto;
+  width: 5.03125rem;
+  position: relative;
+  top: 2.375rem;
+  background: #FFF;
+}
+.cart-success-page section .conent {
+  padding: 1.28125rem 0.1875rem 0.8125rem 0.1875rem;
+  text-align: center;
+}
+.cart-success-page section .conent .s-icon {
+  position: absolute;
+  top: -0.75rem;
+  margin-left: -0.984375rem;
+  left: 50%;
+  display: inline-block;
+  width: 2.0625rem;
+  height: 1.59375rem;
+  background: url(../../../img/shopcar_details_pay_success.png) no-repeat;
+  background-size: cover;
+}
+.cart-success-page section .title {
+  font-size: 0.34375rem;
+}
+.cart-success-page section .title i {
+  position: relative;
+  top: -0.078125rem;
+  display: inline-block;
+  width: 0.671875rem;
+  border: 1px solid #000;
+}
+.cart-success-page section .title span {
+  display: inline-block;
+  padding: 0.03125rem 0.09375rem;
+}
+.cart-success-page section .reamk {
+  font-size: 0.265625rem;
+  color: #666666;
+}
+.cart-success-page section footer {
+  text-align: center;
+  padding: 0.1875rem;
+  border-top: 1px dashed #E9E9E9;
+  position: relative;
+}
+.cart-success-page section footer button {
+  width: 1.59375rem;
+  height: 0.5625rem;
+  line-height: 0.5625rem;
+  background: #FFF;
+  font-size: 0.28125rem;
+  border-radius: 0.09375rem;
+  margin: 0rem 0.1875rem;
+}
+.cart-success-page section footer .look-orders {
+  border: 1px solid #F0F0F0;
+  color: #4A4A4A;
+}
+.cart-success-page section footer .go-orders {
+  border: 1px solid #1EC551;
+  color: #1EC551;
+}
+.cart-success-page section .footer-circle {
+  content: "";
+  position: absolute;
+  top: -0.140625rem;
+  width: 0.265625rem;
+  height: 0.265625rem;
+  background: #f3f3f3;
+  display: inline-block;
+  border-radius: 50%;
+}
+.cart-success-page section footer:after {
+  content: "";
+  position: absolute;
+  top: -0.140625rem;
+  width: 0.265625rem;
+  height: 0.265625rem;
+  background: #f3f3f3;
+  display: inline-block;
+  border-radius: 50%;
+  left: -0.125rem;
+}
+.cart-success-page section footer:before {
+  content: "";
+  position: absolute;
+  top: -0.140625rem;
+  width: 0.265625rem;
+  height: 0.265625rem;
+  background: #f3f3f3;
+  display: inline-block;
+  border-radius: 50%;
+  right: -0.125rem;
+}

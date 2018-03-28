@@ -1,0 +1,231 @@
+@import "./config.less";
+html,
+body,
+button,
+dd,
+dl,
+dt,
+fieldset,
+form,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+input,
+legend,
+li,
+ol,
+p,
+pre,
+td,
+textarea,
+th,
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: '黑体', "Microsoft YaHei", STXihei, MingLiu, "Helvetica Neue", Helvetica, Arial, "Microsoft Yahei", "Hiragino Sans GB", "Heiti SC", "WenQuanYi Micro Hei", sans-serif;
+}
+
+html,
+body,
+#app {
+    width: 100%;
+    height: 100%;
+    min-width: 1280px;
+    font-size: 14px;
+}
+
+a {
+    text-decoration: none;
+}
+
+li {
+    list-style: none;
+}
+
+span,
+p,
+div,
+a,
+i,
+button,
+input,
+textarea {
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0)
+}
+
+.main-area {
+    padding: 0;
+}
+
+.el-table td,
+.el-table th {
+    padding: 10px 0;
+}
+
+.el-table th {
+    padding: 8px 0;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+.pull-left {
+    float: left;
+}
+
+.pull-right {
+    float: right;
+}
+
+.clear-float {
+    .clearfix();
+}
+
+.clearfix() {
+    &:after {
+        content: "";
+        display: block;
+        clear: both
+    }
+    zoom:1
+}
+
+.padding {
+    padding: 16px;
+}
+
+.hr {
+    position: relative;
+    border-bottom: 1px dashed #D7D7D7;
+    .common() {
+        content: "";
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border-radius: 10px;
+        position: absolute;
+        background: #F2F6FC;
+        bottom: -10px;
+    }
+    &:before {
+        .common();
+        left: -10px;
+    }
+    &:after {
+        .common();
+        right: -10px;
+    }
+}
+
+//头部个人中心
+.user {
+    position: absolute;
+    right: 30px;
+    top: 20px;
+    p {
+        font-size: 16px;
+        line-height: initial;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        i {
+            display: inline-block;
+            width: 20px;
+            height: 10px;
+            background: url(../../images/zoom-icon.png) no-repeat;
+            background-size: 100%;
+            background-position: 0px -10px;
+        }
+        i.show {
+            background-position: 0px -1px;
+        }
+    }
+    .nav {
+        position: absolute;
+        top: 25px;
+        width: 100px;
+        background: #fff;
+        box-shadow: 0 0 10px #000;
+        z-index: 10;
+        a {
+            color: #000;
+            display: block;
+            text-align: center;
+            height: 30px;
+            line-height: 30px;
+            border-bottom: 1px solid #ccc;
+        }
+        a:hover {
+            color: #3084F2;
+        }
+    }
+}
+/*单行省略号-默认宽度100%*/
+.ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+//上传图片---------------------
+.avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+}
+
+.avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 145px;
+    height: 145px;
+    line-height: 145px;
+    text-align: center;
+}
+
+.avatar {
+    width: 145px;
+    height: 145px;
+    display: block;
+}
+
+//表格展示图片-----------------
+.table-content,
+.el-table {
+    img {
+        max-width: 62px;
+        max-height:62px;
+    }
+}
+
+//详情
+.detail-area {
+    .h-header {
+        padding: 20px 0;
+    }
+    .row-item {
+        padding: 10px 0;
+        font-size: 14px;
+        .tit {
+            display: inline-block;
+            min-width: 140px;
+        }
+    }
+}
+//控制禁用内容看不清（有些浏览器）
+.el-input.is-disabled .el-input__inner{
+    background-color: #F2F6FC !important;
+    color:#000;
+}

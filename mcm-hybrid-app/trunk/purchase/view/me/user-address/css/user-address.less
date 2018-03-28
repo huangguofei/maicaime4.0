@@ -1,0 +1,74 @@
+    @import "../../../../css/config.less";
+    .user-address {
+        padding-top: 10px;
+        .address-add {
+            background: #fff;
+            .pxrem(font-size, 32);
+            color: #0A0B0C;
+            border-bottom: 1px solid #F0F0F0;
+            img {
+                .pxrem(width, 50);
+                //              margin-right: 5px;
+                vertical-align: middle;
+            }
+        }
+        .address-list {
+            .address-item {
+                background: #fff;
+                margin-bottom: 10px;
+                .item-main {
+                    position: relative;
+                    padding-bottom: 20px;
+                    .address-info {
+                        .pxrem(font-size, 32);
+                        color: #0A0B0C;
+                        margin-bottom: 10px;
+                        span {
+                            display: inline-block;
+                            color: #fff;
+                            background: @mcm-color-primary;
+                            .pxrem(font-size, 20);
+                            padding: 2px 4px;
+                            border-radius: 5px;
+                            margin-left: 5px;
+                        }
+                    }
+                    .address-details {
+                        .pxrem(font-size, 28);
+                        color: #8f8f8f;
+                        span{
+                            display: inline-block;
+                            width: 70%;
+                            vertical-align: text-top;
+                        }
+                    }
+                    .edit-icon{
+                        position: absolute;
+                        top:20px;
+                        right: 10px;
+                        .pxrem(width,60);
+                        height: auto;
+                    }
+                }
+                .item-fol {
+                    .pxrem(font-size, 28);
+                    color: #3E3E3E;
+                    border-top: 1px solid #F0F0F0;
+                    padding-top: 10px;
+                    .select-icon {
+                        .pxrem(width, 40);
+                        height: auto;
+                        margin-right: 5px;
+                        vertical-align: middle;
+                    }
+                    .delete-icon{
+                        .pxrem(width, 30);
+                        height: auto;
+                    }
+                    .address-state{
+                        color: #F77E44;
+                    }
+                }
+            }
+        }
+    }

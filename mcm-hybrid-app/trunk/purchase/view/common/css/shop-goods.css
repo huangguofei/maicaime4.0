@@ -1,0 +1,151 @@
+/**
+ * author pzh
+ * 商户系统主题配置
+ */
+/*主色调*/
+/*辅助色*/
+/*禁用*/
+/*主要字体色*/
+/*常规文字颜色*/
+/*次要文字颜色*/
+/*不可输入*/
+/*背景色*/
+/*主要边框*/
+/*分割线*/
+.clearFloat {
+  content: "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  *zoom: 1;
+  clear: both;
+  visibility: hidden;
+}
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.shop-goods-page {
+  height: 100%;
+}
+.shop-goods {
+  position: absolute;
+  bottom: 0px;
+  top: 0.7421875rem;
+  left: 0;
+  right: 0;
+}
+.shop-goods .prod-area {
+  height: 100%;
+}
+.shop-goods .prod-area .left {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 1.4296875rem;
+  overflow-y: auto;
+  background: #F2F2F2;
+  border-right: 1px solid #DCDFE6;
+  z-index: 9;
+}
+.shop-goods .prod-area .left .mui-scroll {
+  border-bottom: 1px solid #F2F2F2;
+  min-height: 100%;
+}
+.shop-goods .prod-area .left .item {
+  text-align: center;
+  padding: 0.2265625rem 0.03125rem;
+  font-size: 0.28125rem;
+  color: #606266;
+  border-bottom: 1px solid #DCDFE6;
+}
+.shop-goods .prod-area .left .active {
+  color: #1EC551;
+}
+.shop-goods .prod-area .right {
+  background: #fff;
+  padding-left: 1.4453125rem;
+  position: relative;
+  height: 100%;
+}
+.shop-goods .prod-area .right .r-con {
+  position: relative;
+  height: 100%;
+}
+.shop-goods .prod-area .right .condition {
+  position: absolute;
+  width: 100%;
+  z-index: 99;
+  height: 0.65625rem;
+  line-height: 0.65625rem;
+}
+.shop-goods .prod-area .right .condition .wrap {
+  height: 100%;
+  border-bottom: 1px solid #F0F0F0;
+}
+.shop-goods .prod-area .right .condition .c-l,
+.shop-goods .prod-area .right .condition .c-r {
+  position: relative;
+  width: 50%;
+  float: left;
+  text-align: center;
+  font-size: 0.25rem;
+  color: #3E3E3E;
+}
+.shop-goods .prod-area .right .condition .c-l .icon,
+.shop-goods .prod-area .right .condition .c-r .icon {
+  display: inline-block;
+  position: relative;
+  left: 0.046875rem;
+  top: 0.046875rem;
+  width: 0.1875rem;
+  height: 0.265625rem;
+}
+.shop-goods .prod-area .right .condition .c-l {
+  position: relative;
+}
+.shop-goods .prod-area .right .condition .c-l .icon {
+  background: url(../../../img/login/home_info_address_arrow1.png) no-repeat center center;
+  background-size: 100% auto;
+  opacity: 0.5;
+}
+.shop-goods .prod-area .right .condition .c-l:after {
+  content: "";
+  position: absolute;
+  width: 0.03515625rem;
+  height: 0.421875rem;
+  right: 0;
+  top: 0.109375rem;
+  background: #F0F0F0;
+}
+.shop-goods .prod-area .right .condition .c-l .prod-sort {
+  position: absolute;
+  left: 0.421875rem;
+  background: #FFF;
+  color: #0A0B0C;
+  padding: 0.09375rem 0.15625rem;
+  line-height: 0.5rem;
+  box-shadow: 0px 2px 2px 3px rgba(0, 0, 0, 0.08);
+  border-radius: 0.09375rem;
+  font-size: 0.25rem;
+}
+.shop-goods .prod-area .right .condition .c-l .prod-sort .name {
+  padding: 0;
+}
+.shop-goods .prod-area .right .condition .c-r .icon {
+  background: url(../../../img/login/home_classify_shaixuan.png) no-repeat center center;
+  background-size: 100% auto;
+  opacity: 0.5;
+}
+.shop-goods .prod-area .right .condition .active {
+  color: #1EC551;
+}
+.shop-goods .prod-area .right .items {
+  position: absolute;
+  top: 0.6953125rem;
+  left: 0;
+  bottom: 0px;
+  right: 0;
+}

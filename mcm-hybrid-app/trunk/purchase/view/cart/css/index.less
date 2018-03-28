@@ -1,0 +1,231 @@
+@import "../../../css/config.less";
+.cart-index-page{
+    .header{
+        position: fixed;
+        width: 100%;
+        left: 0;
+        top: 0;
+        .pxrem(padding-top, 35);
+        .pxrem(height, 88);
+        .pxrem(line-height, 100);
+        background: #FCFCFC;
+        text-align:center;
+        .pxrem(font-size, 36);
+        z-index: 99;
+        .title{
+            color: @mcm-color-text-primary;
+        }
+        .edit{
+            position: absolute;
+            .pxrem(right, 20);
+            color: @mcm-color-text-secondary;
+            .confim{
+                color: @mcm-color-primary;
+            }
+        }
+    }
+    .content{
+        position: absolute;
+        bottom: 0;
+        .pxrem(top, 135);
+        left: 0;
+        right:0;
+    }
+    .check{
+        position:absolute;
+        top: 50%;
+        .pxrem(margin-top, -30);
+        .pxrem(left, 10);
+        display:inline-block;
+        .pxrem(width, 60);
+        .pxrem(height, 60);
+        background: url(../../../img/shopcar_unchoose.png) no-repeat 0 -2px;
+        background-size: cover;
+    }
+    
+    .items{
+        .shop-in-business{
+            .pxrem(font-size, 24);
+            background: #FFF;
+            text-align:center;
+            .prem(16, -4);
+            padding:@prem;
+            .pxrem(margin-bottom, 10);
+        }
+        .shop-item{
+            .pxrem(margin-bottom, 20);
+            background: @mcm-color-white;
+            .active{
+                 background: url(../../../img/login/home_info_address_choice.png) no-repeat;
+                background-size: cover;
+            }
+            .shop-header{
+                position: relative;
+                .pxrem(height, 100);
+                .pxrem(line-height, 105);
+                .prem(0, 20);
+                padding: @prem;
+                .store-close{
+                    position: absolute;
+                    .pxrem(width, 288);
+                    z-index:99;
+                    right: 0;
+                }
+                .shop-name{
+                    .pxrem(margin-left, 60);
+                    color: @mcm-color-text-placeholder;
+                    .pxrem(font-size, 32);
+                    background: url(../../../img/shopcar_storeLogo.png) no-repeat 0 center;
+                    background-size: auto 38%;
+                    display: inline-block;
+                    .pxrem(text-indent, 46);
+                    .pxrem(width, 330);
+                    overflow:hidden;
+                    text-overflow:ellipsis;
+                    white-space:nowrap;
+                }
+                .r{
+                    float:right;
+                    .pxrem(font-size, 26);
+                    color:@mcm-color-text-secondary;
+                    button{
+                        position: relative;
+                        .pxrem(top, -10);
+                        background: #FFF;
+                        border:1px solid @mcm-color-text-primary;
+                        color:@mcm-color-text-primary;
+                        .pxrem(border-radius, 6);
+                        .prem(0, 5);
+                        padding: @prem;
+                        .pxrem(font-size, 24);
+                    }
+                }
+            }
+            .prod-item{
+                .prem(20, 0);
+                padding: @prem;
+                .pxrem(padding-left, 60);
+                border-top: 1px solid @mcm-border-color-base;
+                position:relative;
+                .check{
+                    position:absolute;
+                    .pxrem(left, 8);
+                    top: 50%;
+                    .pxrem(margin-top, -30);
+                }
+            }
+        }
+        
+    }
+    .footer{
+        position: fixed;
+        bottom: 0;
+        left:0;
+        width: 100%;
+        .pxrem(height, 98);
+        background: @mcm-color-white;
+        box-shadow: 0px -6px 8px 0px rgba(0,0,0,0.06);
+        z-index:99;
+        .active{
+             background: url(../../../img/login/home_info_address_choice.png) no-repeat;
+            background-size: cover;
+        }
+        .con{
+            height:100%;
+            .check{
+                .pxrem(left, 14);
+            }
+            .check-tit{
+                display: inline-block;
+               .pxrem(margin-left, 80);
+               .pxrem(margin-top, 35);
+            }
+            .right{
+                display: inline-block;
+                float: right;
+            }
+            .go-cart{
+                .pxrem(width, 200);
+                .pxrem(line-height, 98);
+                height: 100%;
+                background: @mcm-color-primary;
+                text-align: center;
+                color: @mcm-color-white;
+                .pxrem(font-size, 32);
+            }
+            .disabled{
+                background: @mcm-color-disable;
+            }
+            .btn{
+                .pxrem(margin-right, 20);
+                .pxrem(margin-top, 15);
+            }
+            .price{
+                color: @mcm-color-text-placeholder;
+                text-align: right;
+                .pxrem(padding-top, 10);
+                .pxrem(margin-right, 20);
+                .total{
+                    .pxrem(font-size, 24);
+                    span{
+                        .pxrem(font-size, 32);
+                        color: @mcm-color-secondary;
+                    }
+                }
+                .adv{
+                    .pxrem(font-size, 20);
+                }
+            }
+        }
+    }
+    .fixed-layer{
+        position: fixed;
+        left:0;
+        bottom:0;
+        width: 100%;
+        background: #FFF;
+        z-index:999;
+        .con{
+            .prem(20);
+            padding: @prem;
+            h4{
+                text-align: center;
+                color: @mcm-color-text-primary;
+                .pxrem(font-size, 36);
+            }
+            .desc{
+                background: #F7F7F7;
+                .prem(15, 0);
+                padding: @prem;
+                text-align: center;
+                .pxrem(margin-top, 20);
+                color: @mcm-color-text-secondary;
+                .pxrem(font-size, 24);
+            }
+            .items{
+                .item{
+                    border-bottom:1px solid @mcm-border-color-base;
+                    .prem(20, 0);
+                    padding: @prem;
+                    color: @mcm-color-text-primary;
+                    .r{
+                        float: right;
+                        color: @mcm-color-text-placeholder;
+                        .count{
+                            color: @mcm-color-secondary;
+                        }
+                    }
+                }
+            }
+            .event{
+                text-align: center;
+                .pxrem(padding-top, 20);
+                .btn-return{
+                   .pxrem(border-radius, 41);
+                   .pxrem(width, 270);
+                   border-color:@mcm-border-color-base;
+                }
+            }
+        }
+    }
+}

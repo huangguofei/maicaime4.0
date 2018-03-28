@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>买菜么-商城</title>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="css/category.css"/>
+    <script type="text/javascript" src="../../js/plugin/vue.js"></script>
+</head>
+	<body>
+		<div class="category-page" id="categoryPage">
+			<div class="content" v-show="loading">
+				<category-nar
+					:categorys="categorys" 
+					@selectcategory="selectCategory"
+					ref="categoryNar"
+				></category-nar>
+				<shop-goods 
+					ref="shopGoods"
+					:subcategory="subCategory" 
+					:prodlist="prodList"
+					quotepage="category"
+					:threecategorys="threeCategorys"
+					:threeactive="threeActive"
+					@addcartsuccess="addCartSuccess"
+					@selectsubcategory="selectSubCategory">
+				</shop-goods>
+			</div>
+		 	<footer class="footer" ref="footer" id="footer"  v-show="loading">
+				<span class="cart"><span class="num">{{cartNum}}</span></span>
+				<div class="con">
+					<div class="right go-cart" @click="jumpCart">去购物车</div>
+					<div class="right price">
+						<p class="total">合计：<span>¥{{totalAmount.toFixed(2)}}</span></p>
+						<p class="adv">包含配送费：<span>¥0.00</span></p>
+					</div>
+				</div>
+		 	</footer>
+		 	<number-key></number-key>
+		 	<loading v-show="!loading"></loading>
+	 	</div>
+	 	<script type="text/javascript" src="../../js/plugin/mui.min.js"></script>
+    	<script type="text/javascript" src="../../js/common/common.js"></script>
+    	<script type="text/javascript" src="../../js/plugin/fastclick.js"></script>
+    	<script type="text/javascript" src="../../components/loading.js"></script>
+		<script type="text/javascript" src="../../components/category-nar.js"></script>
+    	<script type="text/javascript" src="../../components/shop-goods.js"></script>
+    	<script type="text/javascript" src="../../components/add-cart.js"></script>
+    	<script type="text/javascript" src="../../js/plugin/vue-scroller.min.js"></script>
+    	<script type="text/javascript" src="../../js/api/shop.js"></script>
+    	<script type="text/javascript" src="../../js/api/often.js"></script>
+    	<script type="text/javascript" src="../../components/number-key.js"></script>
+	 	<script type="text/javascript" >
+	 		//筛选
+			document.addEventListener('selectThreeCategory', function(event) {
+				var detail = event.detail;
+				vm.threeCategorys = detail.threeCategorys;
+				vm.threeActive = detail.threeActive;
+
+			})
+	 		mui.plusReady(function() {
+	 			var self = plus.webview.currentWebview();
+    			vm.selectCategoryId = self.categoryId;
+    			var addrStr = plus.storage.getItem(mcm.config.LOCATIONINFO);
+				try{
+					var addr = JSON.parse(addrStr);
+					if(addr) {
+						var params = vm.params;
+						params.province = addr.province;
+						params.city = addr.city;
+						vm.getCategory();
+					} else {
+						getLocation();
+					}
+				}catch(e) {
+					getLocation();
+				}
+				vm.getCartNum();
+	 		})
+	 		function getLocation() {
+				plus.geolocation.getCurrentPosition(function(a){
+					var info = a.address, coords = a.coords;
+					var params = vm.params;
+					params.province = info.province;
+					params.city = info.city;
+					vm.getCategory();
+				}, function(e){
+					alert('Geolocation error: ' + e.message);
+				}); 
+			}
+	 		var vm = new Vue({
+				el: "#categoryPage",
+				data: function() {
+					return{
+						loading: false,
+						selectCategoryId: '',
+						categorys: null,
+						subCategory: null,
+						prodList: null,
+						params: {
+							pageNum: 1,
+							pageSize: 20,
+							productSecondCategoryId: "",
+							province: '',
+							city: ''
+						},
+						cartNum: 0,
+						totalAmount: 0,
+						threeCategorys: [],
+						threeActive: false
+					}
+				},
+				methods: {
+					selectCategory: function(item) {
+						try{
+							var cas = vm.categorys[item.active];
+							vm.subCategory = cas.childrenList;
+							if(vm.subCategory.length > 0) {
+								this.$refs.shopGoods.initSubCategoryActive();
+								var childrenList = vm.subCategory[0].childrenList;
+								if(childrenList && childrenList.length && childrenList[0].childrenList) {
+									var threeCategorys = childrenList[0].childrenList;
+									mui.each(threeCategorys, function(k, item) {
+										item.active = false;
+									})
+									vm.threeCategorys = threeCategorys;
+								}
+								vm.getProdList(vm.subCategory[0].productCategoryId);
+							}
+						}catch(e) {}
+					},
+					selectSubCategory: function(params) {
+						if(params.productCategoryId) {
+							vm.getProdList(params.productCategoryId);
+						}
+					},
+					getProdList: function(subCategoryId) {
+						var data = vm.params, loginStatus = mcm.isLogin(false);
+						var apiUrl = loginStatus ? "prodListAPI" : "guestProdListAPI";
+						data.productSecondCategoryId = subCategoryId;
+						api.shop[apiUrl]({
+							data: data,
+							success: function(result) {
+								var pList = result.resultList;
+								vm.loading = true;
+								mui.each(pList, function(k, item) {
+									item.often = false;
+									if(item.sellProductTypeId === 1) {
+										item.productQuantity = 0
+									} else {
+										//多规格
+									}
+								})
+								vm.prodList = pList;
+								loginStatus && mcm.initProdOftenOrCartNum({
+									prodList: vm.prodList
+								})
+							}
+						});
+					},
+					getCategory: function() {
+						var apiUrl = mcm.isLogin(false) ? "categoryAPI" : "guestCategoryAPI";
+						api.shop[apiUrl]({
+							success: function(result) {
+								vm.categorys = result;
+								mui.each(result, function(k, item) {
+									if(item.productCategoryId === vm.selectCategoryId) {
+										vm.$refs.categoryNar.defaultCategoryActive(k);
+										vm.subCategory = item.childrenList;
+									}
+								})
+								var childrenList = vm.subCategory[0].childrenList;
+								if(childrenList && childrenList.length && childrenList[0].childrenList) {
+									var threeCategorys = childrenList[0].childrenList;
+									mui.each(threeCategorys, function(k, item) {
+										item.active = false;
+									})
+									vm.threeCategorys = threeCategorys;
+								}
+								vm.getProdList(vm.subCategory[0].productCategoryId);
+							},
+							error: function() {
+								vm.loading = true;
+							}
+						});
+					},
+					getCartNum: function() {
+						mcm.isLogin(false) && mcm.getCartNumAndTotal(function(result) {
+							vm.cartNum = result.totalQuantity;
+							vm.totalAmount = result.totalAmount;
+						});
+					},
+					addCartSuccess: function() {
+						vm.getCartNum()
+					},
+					jumpCart: function() {
+						if(mcm.isLogin(true, '../login/login.html')) {
+							var wn = plus.webview.getWebviewById("cart"),
+							url = "view/cart/index.html";
+							if(wn) {
+								mui.fire(wn, "openThatPage");
+								setTimeout(function() {
+									plus.webview.currentWebview().hide();
+									wn.show("auto");
+								}, 100);
+							} else {
+								plus.webview.currentWebview().hide();
+								mui.openWindow({
+									url: url,
+									id: page,
+									styles: {
+										"top" : "0px",
+										"bottom" : height + "px"
+									},
+									show: {
+										"aniShow" : "none"
+									}
+								});
+							}
+						} 
+					}
+				}
+			})
+	 		
+	 	</script>
+	</body>
+</html>

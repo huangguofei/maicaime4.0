@@ -1,0 +1,277 @@
+@import "../../../css/config.less";
+.cart-orders-page{
+    .con{
+       .prem(0, 20, 198, 20); 
+       padding: @prem;
+    }
+    .event-icon{
+        display: inline-block;
+        position:absolute;
+        .pxrem(width, 10);
+        .pxrem(height, 20);
+        right:0;
+        top: 50%;
+        .pxrem(margin-top, -18);
+        background: url(../../../img/login/home_info_arrow.png) no-repeat;
+        background-size: auto 100%;
+    }
+    .dot{
+        content: "";
+        position: absolute;
+        .pxrem(bottom, -20);
+        .pxrem(width, 20);
+        .pxrem(height, 20);
+        background: @mcm-background-color-base;
+        border-radius: 50%;
+    }
+    .r{
+        float:right;
+    }
+    .hot-head{
+       &:before{
+             .dot;
+             .pxrem(left, -40);
+        }
+        &:after{
+             .dot;
+             .pxrem(right, -40);
+        } 
+       
+    }
+    .head{
+        .pxrem(height, 88);
+        .pxrem(line-height, 88);
+        .pxrem(font-size, 32);
+        color: #222;
+        border-bottom: 1px solid @mcm-border-color-base;
+        position: relative;
+        .r{
+            .pxrem(margin-right, 25);
+        }
+    }
+    .layer-item{
+        background: #FFF;
+        .prem(0, 20); 
+        padding: @prem;
+        .pxrem(margin-top, 20);
+        
+        .addr-info{
+            .prem(20, 0);
+            padding: @prem;
+            .pxrem(padding-left, 40);
+            background: url(../../../img/shopcar_details_address.png) no-repeat 0 20px;
+            background-size:auto 20px;
+            position: relative;
+            .info{
+                .pxrem(font-size, 32);
+            }
+            .addr{
+                .pxrem(font-size, 26);
+                color: @mcm-color-text-secondary;
+                .pxrem(margin-top, 5);
+            }
+        }
+        .o-info{
+            .prem(10, 0);
+            padding: @prem;
+            .item{
+                .prem(6, 0);
+                padding: @prem;
+            }
+        }
+        .bo{
+            border-top:1px dashed @mcm-border-color-base;
+            .prem(30, 0);
+            padding: @prem;
+        }
+    }
+    .order-prod{
+        .prem(-4, -4);
+        padding:@prem;
+       .head{
+           border-bottom:0;
+           .prem(-4, 20);
+           padding:@prem;
+           .s-name{
+               display: inline-block;
+               background: url(../../../img/shopcar_details_storeLogo.png) no-repeat 0 center;
+               background-size: auto 43%;
+               .pxrem(text-indent, 48);
+           }
+           .mobile-icon{
+               .pxrem(width, 48);
+               .pxrem(height, 48);
+               .pxrem(margin-top, 15);
+               .pxrem(margin-right, -10);
+               background: url(../../../img/shopcar_details_tele.png) no-repeat;
+               background-size: cover;
+           }
+       } 
+       .prods{
+           background: #F4F4F4;
+           .pxrem(height, 190);
+           .prem(-4, 20);
+           padding:@prem;
+           .item{
+               display:inline-block;
+               float:left;
+               .pxrem(margin-top, 10);
+               .p-con{
+                   text-align: center;
+                   .pxrem(margin-right, 15);
+                   .pro-img{
+                       .pxrem(width, 120);
+                       .pxrem(height, 120);
+                       background: #FFF;
+                       border:1px solid #EBEBEB;
+                       display: table-cell;
+                       vertical-align: middle;
+                       img{
+                           max-height:100%;
+                           max-width:100%;
+                           vertical-align: middle;
+                       }
+                   }
+                   .price{
+                       .pxrem(margin-top, 1);
+                   }
+               }
+           }
+           .more{
+               .pxrem(height, 120);
+               display: table-cell;
+               position: relative;
+               span{
+                    display: inline-block;
+                    position: relative;
+                    margin-top: 50%;
+                    .pxrem(top, 0);
+               }
+               .event-icon{
+                   .pxrem(right, -30);
+               }
+           }
+           
+       }
+       .sub{
+           text-align: right;
+           .prem(20);
+           padding: @prem;
+           color: @mcm-color-text-placeholder;
+           .pxrem(font-size, 24);
+           .amount{
+               .pxrem(font-size, 32);
+               color: @mcm-color-text-primary;
+           }
+       }
+       .remark{
+           .prem(30, 20);
+           padding: @prem;
+           position: relative;
+           border-top:1px solid @mcm-border-color-base;
+           span{
+                position: absolute;
+           }
+           .val{
+               overflow: hidden;
+               white-space: normal;
+               .pxrem(text-indent, 100);
+               color: @mcm-color-text-placeholder;
+           }
+       }
+    }
+    .pay{
+        .head{
+            border-bottom:0;
+            .r{
+                color:@mcm-color-text-secondary;
+            }
+        }
+    }
+    .sale{
+        .head .r{
+            color: #999999;
+        }
+    }
+    .f-desc{
+        position: fixed;
+        .pxrem(bottom, 98);
+        left:0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.4);
+        text-align: center;
+        .con{
+            .prem(20, 20);
+            padding: @prem;
+            color: #FFF;
+        }
+    }
+    .footer{
+        position: fixed;
+        bottom: 0;
+        left:0;
+        width: 100%;
+        .pxrem(height, 98);
+        background: @mcm-color-white;
+        box-shadow: 0px -6px 8px 0px rgba(0,0,0,0.06);
+        z-index:0;
+        .con{
+            height:100%;
+            .pxrem(line-height, 98);
+            .amount{
+                color: @mcm-color-secondary;
+                .pxrem(font-size, 32);
+            }
+            .btn-pay{
+                position: absolute;
+                right: 0;
+                bottom:0;
+                background: @mcm-color-primary;
+                .pxrem(height, 98);
+                border-color: @mcm-color-primary;
+                border-radius: 0;
+                color: #FFF;
+                .pxrem(font-size, 32);
+                .prem(-4, 50);
+                padding: @prem;
+            }
+        }
+    }
+    .pay-type-layer{
+        position: fixed;
+        top:0;
+        bottom:0;
+        left: 0;
+        right: 0;
+        background: rgba(0,0,0,0.5);
+        z-index:99999;
+        .content{
+            position: absolute;
+            z-index: 2;
+            background: #FFF;
+            .pxrem(width, 540);
+            top: 50%;
+            left: 50%;
+            .pxrem(border-radius, 12);
+            .pxrem(margin-top, -250);
+            .pxrem(margin-left, -270);
+            text-align: center;
+            .prem(60, -4);
+            padding: @prem;
+            h2{
+                .pxrem(font-size, 40);
+                .pxrem(margin-bottom, 50);
+            }
+            .btn-pay{
+                .pxrem(margin-top, 30);
+                .prem(10, 80);
+                padding: @prem;
+                .pxrem(border-radius, 33);
+            }
+            button.active{
+                color: @mcm-color-primary;
+                border-color: @mcm-color-primary;
+            }
+        }
+    }
+}

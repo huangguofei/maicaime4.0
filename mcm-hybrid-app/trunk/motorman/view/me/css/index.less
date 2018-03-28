@@ -1,0 +1,73 @@
+@import "../../../css/config.less";
+.me {
+    padding-bottom: 20px;
+    .remark {
+        color: #fff;
+        .pxrem(font-size, 30);
+        box-sizing: border-box;
+        background: #282828;
+        .pxrem(height, 88);
+    }
+    .item {
+        .item-head {
+            padding: 0 10px;
+            color: #9C9C9E;
+            .pxrem(font-size, 28);
+            .pxrem(height, 75);
+            .pxrem(line-height, 75);
+        }
+        .item-main {
+            background: #fff;
+            .pxrem(padding-left, 26);
+            .pxrem(padding-right, 26);
+            .pxrem(font-size, 28);
+            .list {
+                border-bottom: 1px solid #EFEFEF;
+                .pxrem(height, 88);
+                .pxrem(line-height, 88);
+                .list-title {
+                    color: #6E6E6E;
+                }
+                .val {
+                    color: #282828;
+                    float: right;
+                    img {
+                        .pxrem(width, 15);
+                        height: auto;
+                        margin-left: 5px;
+                        vertical-align: middle;
+                    }
+                    input{
+                        border: 0;
+                        .pxrem(height, 60);
+                    }
+                }
+            }
+        }
+    }
+    .user-info {
+        .list:first-child {
+            color: #9C9C9E;
+            padding: 10px 0;
+        }
+        .user-head {
+            .pxrem(width, 100);
+            .pxrem(height, 100);
+            border-radius: 50%;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        .val {
+            text-align: left;
+            width: 80%;
+        }
+    }
+    .emergency-info input{
+        text-align: right;
+    }
+    .sub_btn{
+        width: 70%;
+        margin: 20px auto 0;
+        .pxrem(height,70);
+    }
+}

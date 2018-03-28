@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>买菜么-商城</title>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="css/shop-goods.css"/>
+    <script type="text/javascript" src="../../js/plugin/vue.js"></script>
+	</head>
+	<body>
+		<div class="shop-goods-page" id="shopGoodsPage" v-cloak>
+			<category-nar
+				:categorys="categoryList" 
+				@selectcategory="selectCategory"
+				ref="categoryNar"
+			></category-nar>
+			<div class="shop-goods" v-if="loading" >
+				<div class="prod-area" id="prodArea">
+					<div class="left sub-category" id="subCategory" >
+						<div class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control-inverted  sub-category-scroll">
+							<div class="mui-scroll">
+								<ul v-if="subCategory.length">
+									<li class="item"
+										v-for="(s, index) in subCategory"
+										:class="index === subActive ? 'active' : ''" 
+										@click="subCategoryActive(index)"> 
+										<span>{{s.categoryName}}</span>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					
+					<div class="right prod-list">
+						<div class="r-con">
+							<div class="condition" id="condition">
+			 					<div class="wrap">
+			 						<div class="c-l active">
+			 							<span @click="sortsShow = !sortsShow">
+			 								<span v-if='params.orderBy === 1'>综合排序</span>
+			 								<span v-else-if='params.orderBy === 2'>按名称排序</span>
+			 								<span v-else>按销量排序</span>
+			 								<i class="icon"></i></span>
+			 							<div class="prod-sort" v-show="sortsShow">
+			 								<p class="name" v-for="s in sorts" @click="queryByOrderBy(s.index)">{{s.name}}</p>
+			 							</div>
+			 						</div>
+			 						<div class="c-r" :class="{active:threeActive}" @click="filtrateCategory"><span>筛选<i class="icon"></i></span></div>
+			 					</div>
+			 				</div>
+			 				<div class="items" id="items">
+			 					<scroller :on-refresh="refresh"  :on-infinite="infinite"  ref="scroller">
+										<div class="prod-item" v-for="p in prodList" >
+											<div class="p-con">
+												<div class="wrap">
+													<i class="p-img" @click="jumpDetail(p)">
+														<img :src="p.mainImage" alt="" />
+													</i>
+													<div class="p-info" >
+														<p class="name" @click="jumpDetail(p)">{{p.productName}}</p>
+														<p class="sku" v-if="p.sellProductTypeId == 1"><span>{{p.sellUnit}} </span><span>¥{{(p.sellPrice * 1).toFixed(2)}}</span></p>
+														<span class="price" v-if="p.sellProductTypeId != 1">
+															¥
+															<span v-if="p.minSellPrice && p.maxSellPrice">{{(p.minSellPrice * 1).toFixed(2)}}~{{(p.maxSellPrice * 1).toFixed(2)}}</span>
+															<span v-else-if="p.minSellPrice && !p.maxSellPrice">{{(p.minSellPrice * 1).toFixed(2)}}}}</span>
+															<span v-else-if="!p.minSellPrice && p.maxSellPrice">{{(p.maxSellPrice * 1).toFixed(2)}}}}</span>
+															<span v-else></span>
+															/{{p.settleUnit}}														
+														</span>
+														<span class="price" v-else>
+															¥{{(p.sellPrice/p.matrixingMultiple) < 0.01 ? 0.01 : (p.sellPrice/p.matrixingMultiple).toFixed(2)}}/{{p.settleUnit}}
+														</span>
+														<span class="select-sku" v-if="p.sellProductTypeId != 1" @click="skuSelect(p)">
+															<span>{{p.show ? "收起" : "选规格"}}</span>
+														</span>
+														<add-cart v-else :row="p" :num="p.productQuantity" class="cart" @changeprodnum="changeProdNum"></add-cart>
+														<i class="add-often" @click="oftenEvent(p)"><i :class="{active:p.often}"></i></i>
+													</div>
+												</div>
+											</div>
+											<div class="sku-area" v-if="p.sellProductTypeId == 2 && p.show">
+												<div class="s-item" v-for="s in p.products">
+													<p class="sku"><span>{{s.specName}} </span><span>¥{{(s.sellPrice * 1).toFixed(2)}}</span></p>
+													<span class="price">¥{{(s.sellPrice/s.matrixingMultiple) < 0.01 ? 0.01 : (s.sellPrice/s.matrixingMultiple).toFixed(2)}}/{{s.settleUnit}}</span>
+													<add-cart :row="s" :num="s.productQuantity" class="cart" ></add-cart>
+												</div>
+											</div>
+										</div>
+										
+								</scroller>
+								<span class="parabola-area">
+									<cart-parabola  ref="parabold" >
+										 <div class="inner inner-hook">
+								         </div>
+									</cart-parabola>
+								</span>
+		 					</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<empty-page :datas="notDatas" v-else></empty-page>
+			<loading v-show="!loading"></loading>
+		</div>
+		<script type="text/javascript" src="../../js/plugin/mui.min.js"></script>
+    	<script type="text/javascript" src="../../js/common/common.js"></script>
+    	<script type="text/javascript" src="../../js/plugin/fastclick.js"></script>
+    	<script type="text/javascript" src="../../components/loading.js"></script>
+    	<script type="text/javascript" src="../../components/category-nar.js"></script>
+    	<script type="text/javascript" src="../../components/shop-goods.js"></script>
+    	<script type="text/javascript" src="../../components/add-cart.js"></script>
+    	<script type="text/javascript" src="../../js/plugin/vue-scroller.min.js"></script>
+    	<script type="text/javascript" src="../../js/api/shop.js"></script>
+    	<script type="text/javascript" src="../../components/loading.js"></script>
+    	<script type="text/javascript" src="../../components/cart-parabola.js"></script>
+	 	<script type="text/javascript" >
+	 		//筛选
+			document.addEventListener('selectThreeCategory', function(event) {
+				var detail = event.detail;
+				var threeCategorys = detail.threeCategorys, selectThirds = [];
+				vm.params.productThirdCategoryIds = '';
+				mui.each(threeCategorys, function(i, item) {
+					if(item.active) {
+						selectThirds.push(item.productCategoryId)
+					}
+				})
+				if(selectThirds.length) {
+					vm.threeActive = true;
+					vm.params.productThirdCategoryIds = selectThirds.toString();
+				} else {
+					vm.threeActive = false;
+					vm.params.productThirdCategoryIds = '';
+				}
+				vm.getProdList();
+			})
+			//如果分类存在只加载商品，分类不存在 全部加载
+			document.addEventListener("anewLoadData", function(event) {
+				event.detail.type === "commpany" ? vm.initData() : (
+					vm.categoryList && vm.categoryList.length ? vm.getProdList() : vm.initData()
+				)
+			})
+			//详情回退更新商品数据
+			document.addEventListener('detailBackAnewLoadProdData', function(){
+				vm.getProdList()
+			})
+	 		mui.plusReady(function() {
+	 			var self = plus.webview.currentWebview();
+ 				vm.selectCategoryId = self.selectCategoryId ? self.selectCategoryId : null;
+ 				vm.initData();
+ 				//左边菜单滑动
+ 				var deceleration = mui.os.ios ? 0.003 : 0.0009;
+ 	 			mui('.mui-scroll-wrapper').scroll({
+					deceleration: deceleration
+				});
+	 		})
+	 		//预加载数字键盘
+			mcm.preloadKeyNumber();
+	 		var vm = new Vue({
+				el: "#shopGoodsPage",
+				data: function() {
+					return{
+						loading: true,
+						categoryList: null,
+						params: {
+							productSecondCategoryId: '',
+							productThirdCategoryIds: '',
+							province: '',
+							city: '',
+							orderBy: 1,
+							pageSize: 1000
+						},
+						subCategory: [],
+						threeCategory: [],
+						threeActive: false,
+						selectCategoryId: null,
+						subActive: 0,
+						prodList: [],
+						notDatas: {
+							src: '../../img/no_shoppingcar.png',
+							info: '商城空空如也',
+							isShow: true
+						},
+						sorts: [
+							{
+								index: 1,
+								name: '综合排序'
+							},{
+								index: 2,
+								name: '按名称排序'
+							},{
+								index: 3,
+								name: '按销量排序'
+							}
+						],
+						sortsShow: false
+					}
+				},
+				mounted: function() {
+					this.top = 1
+      				this.bottom = 20
+      				this.items = [];
+      				window.$ref_parabold = this.$refs.parabold;
+				},
+				methods: {
+					initData: function() {
+						var addrStr = plus.storage.getItem(mcm.config.LOCATIONINFO);
+						try{
+							var addr = JSON.parse(addrStr);
+							if(addr) {
+								var params = vm.params;
+								params.province = addr.province;
+								params.city = addr.city;
+							} 
+						}catch(e) {}
+						vm.getCategory();
+					},
+					leftFirstCategory: function() {
+						var categorys = vm.categoryList;
+						if(categorys.length) {
+							vm.subCategory = categorys[0].childrenList;
+							if(vm.subCategory.length) {
+								vm.threeCategory = vm.subCategory[0].childrenList;
+							}
+							vm.clearThreeData();
+							vm.getProdList()
+						}
+					},
+					leftCategoryById: function() {
+						var categorys = vm.categoryList;
+						mui.each(categorys, function(k, item) {
+							if(item.productCategoryId === vm.selectCategoryId) {
+								vm.$refs.categoryNar.defaultCategoryActive(k);
+								vm.subCategory = item.childrenList;
+								return false;
+							}
+						});
+						if(vm.subCategory.length) {
+							vm.threeCategory = vm.subCategory[0].childrenList;
+						}
+						vm.clearThreeData();
+						vm.getProdList()
+					},
+					getCategory: function() {
+						var apiUrl = mcm.isLogin(false) ? "categoryAPI" : "guestCategoryAPI";
+						api.shop[apiUrl]({
+							success: function(result) {
+								vm.categoryList = result;
+								vm.selectCategoryId ? vm.leftCategoryById() : vm.leftFirstCategory()
+							},
+							error: function() {
+								vm.loading = true;
+							}
+						});
+					},
+					getProdList: function(done) {
+						var data = {}, loginStatus = mcm.isLogin(false);
+						var apiUrl = loginStatus ? "prodListAPI" : "guestProdListAPI";
+						data = vm.params, 
+						data.productSecondCategoryId = vm.subCategory[vm.subActive].productCategoryId;
+						api.shop[apiUrl]({
+							data: data,
+							success: function(result) {
+								var pList = result ? result.resultList : [];
+								vm.loading = true;
+								mui.each(pList, function(k, item) {
+									item.often = false;
+									if(item.sellProductTypeId === 1) {
+										item.productQuantity = 0
+									} else {
+										//多规格
+										item.show = false;
+										var products = item.products;
+										mui.each(products, function(p, item) {
+											item.productQuantity = 0
+										})
+									}
+								})
+								vm.$refs.scroller && vm.$refs.scroller.finishPullToRefresh();
+								vm.prodList = [];
+								Vue.nextTick().then(function () {
+									vm.prodList = pList;
+									if(pList.length < 4) {
+										done && done(true)
+									} else {
+										done && done()
+									}
+									if(vm.selectCategoryId) {
+										window.$ref_parabold = null;
+									}
+									loginStatus && vm.initProdOftenOrCartNum()
+								})
+							}
+						});
+					},
+					initProdOftenOrCartNum: function() {
+						var haveAddOften = null, pList = vm.prodList;
+						mcm.getHaveAddOftenProd(function(result) {
+							haveAddOften = result;
+							api.common.getProdCartNumAPI({
+								success: function(result) {
+									var catrs = result
+									mui.each(pList, function(k, item) {
+										if(haveAddOften) {
+											 haveAddOften[item.sellProductId] ? item.often = true : item.often = false;
+										} 
+										if(catrs) {
+											if(item.sellProductTypeId === 1) {
+												var cart = catrs[item.sellProductId];
+												item.productQuantity = cart ? cart.productQuantity : 0;
+											} else {
+												//多规格//
+												var products = item.products;
+												mui.each(products, function(i, sku) {
+													var cart = catrs[sku.sellProductId];
+													sku.productQuantity = cart ? cart.productQuantity : 0;
+												})
+											}
+										}
+									});
+								}
+							})
+						})
+					},
+					selectCategory: function(item) {
+						var active = item.active;
+						vm.subActive = 0;
+						vm.threeActive = false;
+						vm.params.productThirdCategoryIds = '';
+						vm.subCategory = [];
+						try{
+							vm.subCategory = this.categoryList[active].childrenList;
+							if(vm.subCategory.length) {
+								vm.threeCategory = vm.subCategory[vm.subActive].childrenList;
+							}
+							vm.getProdList()
+						}catch(e){}
+					},
+					subCategoryActive: function(index, done) {
+						if(this.subActive != index) {
+							this.subActive = index;
+							vm.threeActive = false;
+							vm.params.productThirdCategoryIds = '';
+							this.threeCategory = this.subCategory[this.subActive].childrenList;
+							vm.getProdList(done)
+						}
+					},
+					filtrateCategory: function() {
+						var ws  = plus.webview.getWebviewById("threeCategory");
+						var threeCategory = vm.threeCategory;
+						mui.each(threeCategory, function(i, item) {
+							if(!item.active)  {
+								item.active = false;
+							}
+						})
+						if(ws) {
+							mui.fire(ws, 'setThreeCategoryData', {
+								threeCategorys: threeCategory,
+								productCategoryId: vm.subCategory[vm.subActive].productCategoryId
+							})
+							setTimeout(function() {
+								ws.show('slide-in-right', 300);
+							}, 100)
+						} else {
+							mui.openWindow({
+								url: "../common/three-category.html",
+								id: "threeCategory",
+								styles: {
+									"render": "always",
+									"popGesture": "hide",
+									background: "transparent"
+								},
+								show: {
+									 duration: 500
+								},
+								extras: {
+									threeCategorys: threeCategory,
+									productCategoryId: vm.subCategory[vm.subActive].productCategoryId,
+									call: vm.selectCategoryId ? 'category' : 'shopGoods'
+								}
+							});
+						}
+					},
+					jumpDetail: function(prod) {
+						var webview = plus.webview.getWebviewById("shopDetail");
+						if(!webview) {
+							webview = mui.openWindow({
+							    url:"../shop/detail.html",
+							    id:"shopDetail",
+							    styles:{
+						    		"render": "always",
+			            			"popGesture": "hide",
+							    },
+							    extras : {
+							    	"sellProductId": prod.sellProductId
+							    }
+							});
+							webview.addEventListener('close',function(){
+								webview=null;
+							},false);
+						} else {
+							mui.fire(webview, "loadProdDetail", {
+								"sellProductId": prod.sellProductId
+							})
+							setTimeout(function() {
+								webview.show("slide-in-right",300);
+							}, 100)
+						}
+					},
+					refresh: function() {
+						var that = this;
+						setTimeout(function() {
+							var active = vm.subActive;
+							if(active > 0) {
+								vm.subCategoryActive(active - 1)
+							} else {
+								vm.$refs.scroller.finishPullToRefresh();
+							}
+						}, 100);
+					},
+					infinite: function(done) {
+						var active = vm.subActive, len = vm.subCategory.length;
+						if(len === 0 || active === len) {
+							done(true)
+						} else if(vm.prodList.length < 4){
+							done(true)
+						} else {
+							setTimeout(function(){
+								vm.subCategoryActive(active + 1, done)
+					        }, 100)
+						}
+					},
+					changeProdNum: function() {
+						if(vm.selectCategoryId) {
+							var ws = plus.webview.getWebviewById('categoryFooter');
+							ws && (function() {
+								mui.fire(ws, 'anewLoadData')
+							})()
+						}
+					},
+					skuSelect: function(item) {
+						item.show = !item.show;
+					},
+					oftenEvent: function(item) {
+						var data = {sellProductId: item.sellProductId}
+						if(mcm.isLogin(true, '../login/login.html')) {
+							item.often ? api.common.delOftenAPI({
+								data: data, 
+								success: function(result) {
+									item.often = false;
+								}
+							}) : api.common.addOftenAPI({
+								data: data,
+								success: function(result) {
+									item.often = true;
+								}
+							});
+						}
+					},
+					queryByOrderBy: function(index) {
+						this.params.orderBy = index;
+						this.sortsShow = false;
+						this.getProdList();
+					},
+					//清除筛选层数据-第三级分类
+					clearThreeData: function() {
+						var ws  = plus.webview.getWebviewById("threeCategory");
+						if(ws) {
+							mui.fire(ws, 'clearThreeCategory')
+						}
+					}
+				}
+			})
+	 		
+	 	</script>
+	</body>
+</html>

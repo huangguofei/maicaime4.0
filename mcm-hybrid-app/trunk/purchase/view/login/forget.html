@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/common.css" />
+		<link rel="stylesheet" type="text/css" href="css/login.css" />
+		<script type="text/javascript" src="../../js/plugin/vue.js"></script>
+		<title>忘记密码</title>
+	</head>
+	<body>
+		<div id="forgetPage" class="forget-page mui-content login-page"  >
+			<article class="content">
+				<p class="title">修改登录密码？</p>
+				<h3>输入买菜么账号新密码</h3>
+				<article class="main" >
+					<form class="login-form">
+						<div class="list">
+							<img src="../../img/login/login_mobile.png" />
+							<input type="number" v-model="form.mobile" placeholder="输入买菜么手机号" />
+							
+						</div>
+						<div class="list">
+							<img src="../../img/login/login_yanzhengma.png" />
+							<input type="number"  v-model="form.authCode" placeholder="输入验证码" />
+							<a href="javascript:;" @click="sendcode" class="get_code">
+								{{codeStr}}
+							</a>
+						</div>
+						<div class="list" >
+							<img src="../../img/login/login_secret.png" />
+							<input type="password" v-model="form.newUserPassword" id="password" value="" placeholder="密码" />
+						</div>
+						<div class="from-btn">
+							<input type="button" id="sub_btn" @click="submitForm" value="确认" />
+						</div>
+					</form>
+				</article>
+			</article>
+		</div>
+		<script type="text/javascript" src="../../js/plugin/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/common/common.js"></script>
+		<script type="text/javascript" src="../../components/loading.js"></script>
+		<script type="text/javascript" src="../../js/api/login.js"></script>
+	</body>
+	<script type="text/javascript">
+		mui.plusReady(function() {
+
+		});
+		
+		var vm = new Vue({
+			el: "#forgetPage",
+			data: function() {
+				return {
+					codeStr:"获取验证码",
+					numTime: 0,
+					form: {
+						mobile: "",
+						newUserPassword: "",
+						authCode: ""
+					}
+				}
+			},
+			mounted: function() {
+				
+			},
+			methods: {
+				sendcode: function() {
+					var form = this.form, error = null;
+					if(!form.mobile) {
+						error = mcm.message.mobileNull;
+					} else if(!mcm.validation.checkMobile(form.mobile)) {
+						error = mcm.message.mobileError;
+					} 
+					if(error) {
+						mui.toast(error);
+						return;
+					} else {
+						if(vm.numTime === 0) {
+							var params = {
+								mobile: vm.form.mobile
+							}
+							mcm.sendCode(vm, params, "login");
+						}
+					}
+				},
+				submitForm: function() {
+					if(!this.form.mobile){
+						mui.toast(mcm.message.mobileNull);
+						return false;
+					}
+					if(!this.form.newUserPassword){
+						mui.toast(mcm.message.pwdNull);
+						return false;
+					}
+					if(!this.form.authCode){
+						mui.toast(mcm.message.codeNull);
+						return false;
+					}
+				}
+			}
+		})
+	</script>
+
+</html>

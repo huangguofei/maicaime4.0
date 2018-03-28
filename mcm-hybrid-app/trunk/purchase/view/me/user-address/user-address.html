@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../../css/common.css" />
+		<link rel="stylesheet" type="text/css" href="css/user-address.css" />
+		<script type="text/javascript" src="../../../js/plugin/vue.js"></script>
+		<title></title>
+	</head>
+
+	<body>
+		<div id="vueBox" class="user-address">
+			<!--<div class="address-add padding">
+				<img src="../../../img/home/home_add.png" /> 新增收货地址
+			</div>-->
+			<div class="address-list">
+				<div class="address-item padding" v-for="v in addressList">
+					<div class="item-main">
+						<div class="address-info">
+							<p>{{v.userName}} {{v.mobile}}<span class="active" v-show="v.isDefault">默认</span></p>
+						</div>
+						<p class="address-details">地址：<span>{{v.address}}</span></p>
+						<!--<img src="../../../img/mine_darress_write.png" class="edit-icon" />-->
+					</div>
+					<!--<div class="item-fol">
+						<img src="../../../img/shopcar_chosen.png" class="select-icon" v-if="v.isDefault" />
+						<img src="../../../img/shopcar_unchoose.png" class="select-icon" v-else/>设为默认
+						<img src="../../../img/list_delete.png" class="delete-icon pull-right" v-if="v.statusId==1" />
+						<span class="address-state pull-right" v-else>审核中</span>
+					</div>-->
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="../../../js/plugin/mui.min.js"></script>
+		<script type="text/javascript" src="../../../js/common/common.js"></script>
+		<script type="text/javascript" src="../../../js/api/me.js"></script>
+	</body>
+	<script type="text/javascript">
+		mui.plusReady(function(){
+			vm.initPage();
+		})
+		var vm = new Vue({
+			el: "#vueBox",
+			data: function() {
+				return {
+					addressList: [],
+					query: {
+						pageNum: 1,
+						PageSize: 10
+					}
+				}
+			},
+			methods: {
+				initPage: function() {
+					this.loadAddress();
+				},
+				loadAddress: function() {
+					api.userAddress.userAddressAPI({
+						data: this.query,
+						success: function(result) {
+							vm.addressList = result;
+						}
+					})
+				}
+			}
+		})
+	</script>
+
+</html>

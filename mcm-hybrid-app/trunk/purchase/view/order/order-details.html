@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/common.css" />
+		<link rel="stylesheet" type="text/css" href="css/order-details.css" />
+		<script type="text/javascript" src="../../js/plugin/vue.js"></script>
+		<title></title>
+	</head>
+
+	<body>
+		<div id="vueBox" class="order-details padding" v-if="orderData" :style="orderData.orderStatusId==20?'padding-bottom: 50px;':''">
+			<div class="o-head item padding">
+				<div class="head hr">
+					<div class="o-state">
+						订单{{orderData.log.logTitle}}
+						<img src="../../img/mine_arrow2.png" />
+						<span class="tiem">{{orderData.log.timeCreatedText}}</span>
+					</div>
+					<p class="remark">{{orderData.log.logContent}}</p>
+				</div>
+				<div class="main padding">
+					<a href="javascript:;" class="cancel_btn" :class="{disabled:orderData.orderStatusId==35||orderData.orderStatusId==100||orderData.orderStatusId==300}" @click="showCancelOrder">取消订单</a>
+					<!--<a href="javascript:;" class="print_btn">打印订单</a>-->
+					<a href="javascript:;" class="contact_btn">联系商家</a>
+				</div>
+				<div class="footer" v-show="orderData.orderStatusId==40||orderData.orderStatusId==100">
+					<img src="../../img/user-default.png" class="head-icon" />配送员：{{orderData.deliverymanName}}
+					<img src="../../img/mine_order-tele.png" class="call-icon pull-right" @click="call(orderData.deliverymanMobile)" />
+				</div>
+			</div>
+			<div class="o-goods item padding">
+				<div class="head">
+					<img src="../../img/shopcar_details_storeLogo.png" /> {{orderData.shop.shopName}}
+				</div>
+				<div class="main">
+					<ul>
+						<li v-for="(v,i) in orderData.products" v-if="orderData.isShowAllGoods||i<3">
+							<div class="goods-img pull-left">
+								<img :src="v.productImage" />
+							</div>
+							<div class="goods-info pull-left">
+								<h2>{{v.productName}}</h2>
+								<p class="goods-specs">{{v.productUnit}} ¥{{v.totalAmount|PRICE}}</p>
+								<span class="goods-price">¥{{(v.skuPrice/v.matrixingMultiple).toFixed(2)}}/{{v.settleUnit}}</span>
+							</div>
+							<div class="pull-right">
+								<p class="goods-num">×{{v.actualQuantity}}</p>
+								<span class="goods-count">实到：{{v.actualValue}}{{v.settleUnit}}</span>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<a href="javascript:;" class="footer" v-show="orderData.skuCount>3" @click="orderData.isShowAllGoods=!orderData.isShowAllGoods">{{orderData.isShowAllGoods?'收起':'查看更多'}}{{orderData.skuCount-3}}件食材</a>
+			</div>
+			<div class="o-delivery item padding">
+				<h2 class="head hr">配送信息</h2>
+				<div class="main">
+					<img src="../../img/mine_order_location.png" class="pull-left" />
+					<div class="address-info pull-left">
+						<h2>{{orderData.receiverName}} {{orderData.receiverMobile}}</h2>
+						<p>地址：{{orderData.receiverAddr}}</p>
+					</div>
+				</div>
+			</div>
+			<div class="o-info item padding">
+				<div class="main hr">
+					<p class="list">订单编号
+						<span>{{orderData.sellOrderId}}</span>
+					</p>
+					<p class="list">下单时间
+						<span>{{orderData.creationTime}}</span>
+					</p>
+					<p class="list" v-show="orderData.orderStatusId!=20">发货时间
+						<span>{{orderData.orderReceivedTime}}</span>
+					</p>
+					<!--<p class="list" v-show="orderData.orderStatusId==40||orderData.orderStatusId==100">配送时间
+						<span>{{orderData.deliveryStartTime}}</span>
+					</p>-->
+					<p class="list" v-show="orderData.orderStatusId==100">收货时间
+						<span>{{orderData.receivedTime}}</span>
+					</p>
+					<p class="list">订单备注
+						<span>{{orderData.buyerRemark}}</span>
+					</p>
+				</div>
+				<div class="footer">
+					<p class="list">支付方式
+						<span>{{orderData.payTypeText}}</span>
+					</p>
+				</div>
+			</div>
+			<div class="o-money item padding">
+				<div class="main hr">
+					<p class="list" v-show="orderData.orderStatusId==20||orderData.orderStatusId==35">食材总额
+						<span>¥{{orderData.payableAmount|PRICE}}</span>
+					</p>
+					<p class="list" v-show="orderData.orderStatusId==40||orderData.orderStatusId==100">下单总额
+						<span>¥{{orderData.payableAmount|PRICE}}</span>
+					</p>
+					<p class="list" v-show="orderData.orderStatusId==40||orderData.orderStatusId==100">实际总额
+						<span>¥{{orderData.totalAmount|PRICE}}</span>
+					</p>
+					<p class="list">配送费
+						<span>+0.00</span>
+					</p>
+					<p class="list">优惠金额
+						<span>-{{orderData.discountAmount|PRICE}}</span>
+					</p>
+				</div>
+				<div class="footer">
+					<p class="list">{{(orderData.orderStatusId==20||orderData.orderStatusId==35)?'实付款':'应补金额（计入欠款）'}}
+						<span>¥{{(orderData.orderStatusId==20||orderData.orderStatusId==35)?orderData.totalAmount:orderData.totalAmount-orderData.payedAmount|PRICE}}</span>
+					</p>
+				</div>
+			</div>
+			<div class="o-footer" v-show="orderData.orderStatusId==20">
+				<span class="price pull-left">需付款：<i>¥{{orderData.totalAmount|PRICE}}</i></span>
+				<span class="pay_btn pull-right" @click="goPay">确定支付</span>
+			</div>
+			<cancel-page :datas="cancelData" @cancelorder="cancelorder"></cancel-page>
+		</div>
+		<script type="text/javascript" src="../../js/plugin/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/common/common.js"></script>
+		<script type="text/javascript" src="../../components/cancel-order.js"></script>
+		<script type="text/javascript" src="../../js/api/order.js"></script>
+	</body>
+	<script type="text/javascript">
+		mui.plusReady(function() {
+			//禁止横屏
+			plus.screen.lockOrientation("portrait-primary");
+			var self = plus.webview.currentWebview();
+			vm.sellOrderId = self.orderId; //获得参数
+			vm.initPage();
+		});
+		var vm = new Vue({
+			el: "#vueBox",
+			data: function() {
+				return {
+					cancelData: {
+						isShow: false
+					},
+					sellOrderId: '',
+					orderData: ""
+				}
+			},
+			filters: {
+				PRICE: function(v) {
+					if(v == "" || v == 0)
+						return "0.00";
+					v = Math.abs(v);
+					if(v < 0.01) {
+						return 0.01;
+					}
+					return (v * 100 / 100).toFixed(2);
+				}
+			},
+			methods: {
+				showCancelOrder: function() {
+					if(this.orderData.orderStatusId != 35 && this.orderData.orderStatusId != 300&&this.orderData.orderStatusId != 100)
+						this.cancelData.isShow = true;
+				},
+				cancelorder: function(str) {
+					var _that = this;
+					api.cancelOrder.cancelOrderAPI({
+						data: {
+							sellOrderId: _that.sellOrderId,
+							cancelRemark: str
+						},
+						success: function(data) {
+							mui.toast("取消成功！");
+							_that.cancelData.isShow = false;
+							_that.initPage();
+							var wb = plus.webview.getWebviewById('user-order');
+							mui.fire(wb, 'refreshPage');
+							mui.back();
+						}
+					})
+				},
+				loadData: function() {
+					var _that = this;
+					api.orderDetails.orderDetailsAPI({
+						data: {
+							sellOrderId: _that.sellOrderId
+						},
+						success: function(data) {
+							if(data.products.length > 3) {
+								data.isShowAllGoods = false;
+							} else {
+								data.isShowAllGoods = true;
+							}
+							_that.orderData = data;
+							vm.isLoad = true;
+						},
+						error: function() {
+							vm.isLoad = true;
+						}
+					});
+				},
+				initPage: function() {
+					this.orderData = "";
+					this.loadData();
+				},
+				call: function(phone) {
+					var btnArray = ['拨打', '取消'];
+					mui.confirm('是否拨打' + phone + '?', '提示', btnArray, function(e) {
+						if(e.index == 0) {
+							plus.device.dial(phone, false);
+						}
+					});
+				},
+				goPay: function() {
+					var result = {
+						totalAmount: this.orderData.totalAmount,
+						sellOrderIds: [this.orderData.sellOrderId],
+						type: 'unpaid'
+					}
+					var pay = plus.webview.getWebviewById('paymentType')
+					if(pay) {
+						mui.fire(pay, 'noOrderChange', {
+							payOrderInfo: result
+						})
+						setTimeout(function() {
+							pay.show('slide-in-bottom');
+						}, 100)
+					} else {
+						mui.openWindow({
+							url: '../common/payment-type.html',
+							id: "paymentType",
+							styles: {
+								"render": "always",
+								"popGesture": "hide",
+								background: "transparent"
+							},
+							show: {
+								aniShow: 'slide-in-bottom',
+								duration: 500
+							},
+							extras: {
+								payOrderInfo: result
+							}
+						});
+					}
+				}
+			}
+		})
+	</script>
+
+</html>

@@ -1,0 +1,98 @@
+/**
+ * author pzh
+ * 商户系统主题配置
+ */
+/*主色调*/
+/*辅助色*/
+/*禁用*/
+/*主要字体色*/
+/*常规文字颜色*/
+/*次要文字颜色*/
+/*不可输入*/
+/*背景色*/
+/*主要边框*/
+/*分割线*/
+.clearFloat {
+  content: "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  *zoom: 1;
+  clear: both;
+  visibility: hidden;
+}
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.category-footer {
+  background: transparent;
+}
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 49px;
+  z-index: 9999;
+  background: #fff;
+  border-top: 1px solid #F0F0F0;
+}
+.footer .cart {
+  position: absolute;
+  width: 49px;
+  height: 49px;
+  border-radius: 50%;
+  z-index: 99;
+  background: url(../../../img/login/home_classify_shopcar.png) no-repeat;
+  background-size: cover;
+  left: 0.109375rem;
+  bottom: 9px;
+}
+.footer .cart .num {
+  position: absolute;
+  right: -0.046875rem;
+  top: 0.0703125rem;
+  display: inline-block;
+  height: 10px;
+  line-height: 10px;
+  padding: 0rem 0.078125rem;
+  color: #fff;
+  background: #F77E44;
+  border-radius: 0.8125rem;
+  font-size: 0.1875rem;
+  padding-top: 2px;
+}
+.footer .con {
+  height: 100%;
+}
+.footer .con .right {
+  display: inline-block;
+  float: right;
+}
+.footer .con .go-cart {
+  width: 1.59375rem;
+  line-height: 49px;
+  height: 100%;
+  background: #1EC551;
+  text-align: center;
+  color: #fff;
+  font-size: 0.28125rem;
+}
+.footer .con .price {
+  color: #8F8F8F;
+  text-align: right;
+  margin-top: 10px;
+  margin-right: 0.1875rem;
+}
+.footer .con .price .total {
+  font-size: 0.21875rem;
+}
+.footer .con .price .total span {
+  font-size: 0.28125rem;
+  color: #F77E44;
+}
+.footer .con .price .adv {
+  font-size: 0.1875rem;
+}

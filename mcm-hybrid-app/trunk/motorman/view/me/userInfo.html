@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/common.css" />
+		<link rel="stylesheet" type="text/css" href="css/userInfo.css" />
+		<script type="text/javascript" src="../../js/plugin/vue.js"></script>
+		<title></title>
+	</head>
+	<body class="user-info-body">
+		<div id="vueBox" class="user-info">
+			<div class="back-layer" @click="back"></div>
+			<div class="content">
+				<div class="header">
+					<a href="javascript:;" class="back" @click="back">
+						<img src="../../img/back.png" /> 个人中心
+					</a>
+					<p class="app-title">买菜么司机端</p>
+					<div class="info" @click="goUserPage">
+						<i class="h-img">
+							<img :src="userInfo.headImg || '../../img/user-default.png'" alt="" />
+						</i>
+						<div class="info-con">
+							<p class="name">{{userInfo.nickName}}</p>
+							<p class="date" v-if="userInfo.createionTime">加入时间：{{userInfo.createionTime.split(' ')[0]}}</p>
+						</div>
+						<i class="more-info">
+							<img src="../../img/mine_arrow.png" />
+						</i>
+					</div>
+				</div>
+				<div class="menu">
+					<div class="item" @click="jumpNew">
+						<span class="menu-name">我的消息</span>
+						<i class="more-icon"></i>
+					</div>
+					<div class="item" @click="jumpAbout">
+						<span class="menu-name">关于我们</span>
+						<i class="more-icon"></i>
+					</div>
+					<div class="item" @click="jumpSet">
+						<span class="menu-name">设置</span>
+						<i class="more-icon"></i>
+					</div>
+				</div>
+				<div class="log-out" @click="logOut">
+					退出登录
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="../../js/plugin/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/common/common.js"></script>
+		<script type="text/javascript" src="../../js/api/me.js"></script>
+	</body>
+	<script type="text/javascript">
+		mui.plusReady(function() {
+			vm.getUserInfo();
+		});
+		window.addEventListener('refreshs', function(){
+			vm.getUserInfo();
+		});
+		mui.back = function() {
+			var ws = plus.webview.currentWebview();
+			ws.hide("auto");
+		}
+		var vm = new Vue({
+			el: "#vueBox",
+			data: function() {
+				return {
+					userInfo: {}
+				}
+			},
+			created: function() {},
+			methods: {
+				back: function() {
+					mui.back();
+				},
+				goUserPage: function() {
+					mcm.singleJumpPage("user", "index.html", "个人信息");
+				},
+				getUserInfo: function() {
+					api.userInfo.userDataAPI({
+						success: function(result) {
+							vm.userInfo = result;
+						}
+					});
+				},
+				jumpNew: function() {
+					mcm.singleJumpPage("message", "../me/user-message/user-message.html", "我的消息");
+				},
+				jumpAbout: function() {
+					mui.toast('待完善')
+				},
+				jumpSet: function() {
+					mcm.singleJumpPage("set", "../me/user-set/user-set.html", "设置");
+				},
+				logOut: function() {
+					api.logout.logoutAPI({
+						success: function(result) {
+							mui.toast(mcm.message.logoutSuccess);
+							mcm.removeCookie();
+							var login = plus.webview.getWebviewById('login');
+							if(login) {
+								mui.fire(login, 'clearUserInfo');
+								setTimeout(function() {
+									login.show();
+								}, 100)
+								login.show();
+							} else {
+								mui.openWindow({
+									url: "../login/login.html",
+									id: "login",
+									styles: {
+										"render": "always",
+										"popGesture": "hide"
+									},
+									show: {
+										 duration: 600
+									}
+								});
+							}
+						}
+					})
+				}
+			}
+		})
+	</script>
+
+</html>

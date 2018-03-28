@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../../css/common.css" />
+		<link rel="stylesheet" type="text/css" href="css/shop-address.css" />
+		<script type="text/javascript" src="../../../js/plugin/vue.js"></script>
+		<title></title>
+	</head>
+	<body>
+		<div id="vueBox" class="shop-address">
+			<div class="map-head">
+				<div class="address pull-left" @click="selectCommpany">
+					<img src="../../../img/login/home_info_address.png" />
+					<span>{{form.regCity}}</span>
+					<img src="../../../img/login/home_info_address_arrow1.png" class="arrow" />
+				</div>
+				<!--<div class="search pull-left">
+					<img src="../../../img/login/home_info_search.png" />
+					<input type="text" v-model="queryAddr" @change="searchAddrInfo" placeholder="查找小区、街道、商厦等" />
+				</div>-->
+			</div>
+			<div class="map" id='map'>
+			</div>
+			
+			<div class="address-list padding">
+				<div class="address-item" >
+					<img  src="../../../img/login/home_info_address_choice.png" v-if="active === -1"  />
+					<img v-else src="../../../img/shopcar_unchoose.png" class="pull-left" @click="selectAddr(-1)"/>
+					<span >【当前】{{positionAddr}}</span>
+				</div>
+				<div class="address-item" :key="index" v-for="(c, index) in cirAddrs">
+					<img src="../../../img/login/home_info_address_choice.png"  class="pull-left"  v-if="active === index" />
+					<img v-else src="../../../img/shopcar_unchoose.png" class="pull-left" @click="selectAddr(index, c)" />
+					<div class="address-info pull-left">
+						<h2>{{c.name}}</h2>
+						<p>{{c.address}}</p>
+					</div>
+				</div>
+			</div>
+			<div class="event">
+				<a href="javascript:;" class="sub_btn" @click="confimAddr">确定</a>
+			</div>
+			
+		</div>
+		<script type="text/javascript" src="../../../js/plugin/mui.min.js"></script>
+		<script type="text/javascript" src="../../../js/common/common.js"></script>
+	</body>
+	<script type="text/javascript">
+		var map, center, address;
+		function switchMap(point) {
+			var form = vm.form;
+	        form.regLongitude = point.longitude;
+			form.regLatitude = point.latitude;
+	        center = new plus.maps.Point(point.longitude, point.latitude);
+	        map.setCenter(center);
+	        var bike1 = new plus.maps.Point(point.longitude, point.latitude);
+	        var marker = new plus.maps.Marker(bike1);
+	        if(plus.os.ios) {
+	        	marker.setIcon('../../../img/login/ios_address_map.png');
+	        } else {
+	        	marker.setIcon('../../../img/login/android_address_map.png');
+	        }
+	        marker.setDraggable(true);
+	        map.addOverlay(marker);
+	        marker.onDrag = function(target ) {
+	        	var point3 = target.point;
+	        	if(!point) return false;
+	        	var point2 = new plus.maps.Point(point3.longitude, point3.latitude);
+				plus.maps.Map.reverseGeocode(point2,{},function(event){
+					form.positionAddr = event.address; 
+					vm.positionAddr = event.address;
+					vm.queryCircumInfo();
+				},function(e){
+					console.log("Failed:"+JSON.stringify(e));
+				});
+	        }
+	       	vm.queryCircumInfo();
+		}
+		function showMap(info){
+		    plus.nativeUI.showWaiting();
+		    if(info) {
+		    	switchMap(info);
+		        plus.nativeUI.closeWaiting();
+		    } else {
+			    map.setZoom(19);
+			    map.showUserLocation(false);
+			    map.showZoomControls( true );
+		    	map.getUserLocation( function(state, point){
+			    	plus.nativeUI.closeWaiting();
+			        locationPos = point;
+			        switchMap(point);
+			    });
+		    }
+		    
+		}
+		mui.plusReady(function() {
+			map = new plus.maps.Map('map');
+			showMap();
+			plus.geolocation.getCurrentPosition(function(a) {
+				plus.nativeUI.closeWaiting();
+				var info = a.address, coords = a.coords;
+				var form = vm.form;
+				form.positionAddr = a.addresses;
+				vm.positionAddr = a.addresses;
+				form.regProvince = info.province;
+				form.regCity = info.city;
+				form.regArea = info.district;
+				vm.street = info.street;
+			}, function(e){
+				alert('Geolocation error: ' + e.message);
+			}); 
+		});
+		document.addEventListener('switchCommpany', function(event) {
+			if(event.detail.info) {
+				var info = event.detail.info;
+				var form = vm.form;
+				form.positionAddr = info.addresses;
+				vm.positionAddr = info.addresses;
+				form.regProvince = info.province;
+				form.regCity = info.city;
+				form.regArea = info.area;
+	        	showMap(info);
+				
+			}
+		});
+		var vm = new Vue({
+			el: "#vueBox",
+			data: function() {
+				return {
+					street: "",
+					positionAddr: "",
+					form: {
+						positionAddr: '定位失败',
+						regProvince: "",
+						regCity: "",
+						regArea: "",
+						regLongitude: "",
+						regLatitude: "",
+						doorplate: ""
+					},
+					queryAddr: '',
+					cirAddrs: [],
+					active: -1
+				}
+			},
+			methods: {
+				queryCircumInfo: function() {
+					var form = vm.form, query = "美食";
+					var location = form.regLatitude + "," + form.regLongitude;
+					var baiduUrl = 'http://api.map.baidu.com/place/v2/search?query='+query+'&location='+location+'&radius=1000&output=json&ak='+mcm.config.BARDUAK;
+					mui.ajax(baiduUrl,{
+						dataType: 'json',
+						success: function(result) {
+							if(result.status === 0) {
+								vm.cirAddrs = result.results;
+							}
+						},
+						error: function(e) {
+							console.log(JSON.stringify(e));
+						}
+					})
+				},
+				selectAddr: function(index, item) {
+					this.active = index, form = vm.form;
+					if(index >= 0) {
+						form.positionAddr = item.address;
+						form.regLongitude = item.location.lng;
+						form.regLatitude = item.location.lat;
+						form.doorplate = item.name;
+					} else {
+						form.doorplate = "";
+					}
+				},
+				confimAddr: function() {
+					var wn = plus.webview.getWebviewById("completeInfo");
+					if(wn) {
+						mui.fire(wn, "setAddrInfo", {
+							addrInfo: vm.form
+						});
+					}
+					mui.back();
+				},
+				selectCommpany: function() {
+					mcm.singleJumpPage("locationComplete", "location.html", "店铺位置");
+				},
+				searchAddrInfo: function() {
+					var form = vm.form;
+					var searchObj = new plus.maps.Search( map );
+					searchObj.onPoiSearchComplete = function( state, result ){
+						if ( state == 0 ) {
+							if ( result.currentNumber <= 0 ) {
+								alert( "没有检索到结果" );
+							}
+							for(var i=0; i<result.currentNumber; i++){
+								var pos = result.getPosition( i );
+								var marker = new plus.maps.Marker( pos.point );
+								marker.setLabel( pos.name );
+								map.addOverlay( marker );
+							}
+						} else {
+							alert( "检索失败" );
+						}
+					}
+					var pt = new plus.maps.Point(form.regLongitude, form.regLatitude ); 
+					searchObj.poiSearchNearBy( this.queryAddr, pt, 1000 );
+				}
+			}
+		});
+
+	
+	</script>
+
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>买菜么-商城</title>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="css/category.css"/>
+</head>
+	<body>
+		<div class="category-page" id="categoryPage">
+	 	</div>
+	 	<script type="text/javascript" src="../../js/plugin/mui.min.js"></script>
+    	<script type="text/javascript" src="../../js/common/common.js"></script>
+	 	<script type="text/javascript" >
+	 		var ctop = "0px";
+	 		if(mui.os.android) {
+	 			ctop = '65px';
+	 		}
+	 		var categoryId = mcm.getUrlParms('categoryId');
+	 		mui.init({
+			    subpages:[{
+			      url: '../common/shop-goods.html',
+			      id: 'categoryGoods',
+			      styles:{
+			      	top: ctop,
+			      	bottom: '49px'
+			      },
+			      extras:{
+			      	selectCategoryId: self.categoryId,
+			      	call: 'category'
+			      }
+			    },{
+			      url: 'category-footer.html',
+			      id: 'categoryFooter',
+			      styles:{
+			      	height: '58px',
+			      	bottom: '0px',
+			      	background: "transparent",
+			      	zIndex: 99
+			      },
+			      extras:{}
+			    }]
+		    });
+	 		mui.plusReady(function() {
+	 		})
+	 	</script>
+	</body>
+</html>

@@ -1,0 +1,67 @@
+@import "../../../css/config.less";
+.number-key-body{
+    background: none;
+    //数字键盘
+    .number-input {
+        position: fixed;
+        z-index: 999999;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        .back {
+            position: fixed;
+            z-index: 1;
+            bottom: 0;
+            top: 0;
+            right: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.45);
+        }
+        .num-con {
+            position: relative;
+            z-index: 2;
+            background: #FFF;
+            .show-num {
+                .pxrem(height, 90);
+                .pxrem(line-height, 90);
+                color: @mcm-color-text-secondary;
+                .pxrem(text-indent, 20);
+                .clear{
+                    display:inline-block;
+                    .pxrem(width, 30);
+                    .pxrem(height, 30);
+                    border-radius:50%;
+                   float: right;
+                   .pxrem(margin-top, 25);
+                   .pxrem(margin-right, 20);
+                   background: #999 url(../../../img/shopcar_details_close1.png) no-repeat;
+                   background-size:cover;
+                }
+            }
+            .count{
+                .pxrem(font-size, 32)
+            }
+            .keyboard {}
+        .num-item {
+            .pxrem(height, 90);
+            .pxrem(line-height, 90);
+            text-align: center;
+            .pxrem(font-size, 36);
+            border-top: 1px solid @mcm-border-color-base;
+            .num {
+                float: left;
+                width: 33.333%;
+                display: inline-block;
+                border-right: 1px solid @mcm-border-color-base;
+                margin-right: -1px;
+            }
+            .canel {
+                color: @mcm-color-text-placeholder;
+            }
+            .confim {
+                color: @mcm-color-primary;
+            }
+        }
+    }
+}
+}

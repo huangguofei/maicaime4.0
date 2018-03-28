@@ -1,0 +1,142 @@
+/**
+ * author pzh
+ * 商户系统主题配置
+ */
+/*主色调*/
+/*辅助色*/
+/*禁用*/
+/*主要字体色*/
+/*常规文字颜色*/
+/*次要文字颜色*/
+/*不可输入*/
+/*背景色*/
+/*主要边框*/
+/*分割线*/
+.clearFloat {
+  content: "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  *zoom: 1;
+  clear: both;
+  visibility: hidden;
+}
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+body {
+  background: #fff;
+}
+.shop-address {
+  height: 100%;
+}
+.shop-address .map-head {
+  height: 0.65625rem;
+  position: relative;
+  padding: 0rem 0.1875rem;
+}
+.shop-address .map-head .address {
+  position: absolute;
+  top: 0.0703125rem;
+}
+.shop-address .map-head .address span {
+  display: inline-block;
+  font-size: 0.28125rem;
+  color: #3E3E3E;
+  margin-top: 0.0703125rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 1.046875rem;
+}
+.shop-address .map-head .address img {
+  width: 0.1875rem;
+  height: auto;
+  vertical-align: middle;
+}
+.shop-address .map-head .address img:first-child {
+  width: 0.34375rem;
+  margin-top: -0.1640625rem;
+}
+.shop-address .map-head .address .arrow {
+  position: relative;
+  top: -0.0859375rem;
+}
+.shop-address .map-head .search {
+  margin-left: 1.90625rem;
+  height: 0.5rem;
+  border-radius: 0.265625rem;
+  background: #F2F2F2;
+  margin-top: 0.09375rem;
+}
+.shop-address .map-head .search img {
+  width: 0.34375rem;
+  height: auto;
+  vertical-align: middle;
+  margin-left: 10px;
+}
+.shop-address .map-head .search input {
+  background: #F2F2F2;
+  border: 0;
+  width: 80%;
+  height: 0.5rem;
+}
+.shop-address .map {
+  height: 3.9375rem;
+}
+.shop-address .address-list {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.71875rem;
+  overflow-y: auto;
+  top: 4.5625rem;
+}
+.shop-address .address-list .address-item {
+  color: #0A0B0C;
+  border-bottom: 1px solid #F0F0F0;
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+  zoom: 1;
+}
+.shop-address .address-list .address-item span {
+  font-size: 0.25rem;
+}
+.shop-address .address-list .address-item h2 {
+  font-size: 0.28125rem;
+  margin-bottom: 3px;
+}
+.shop-address .address-list .address-item p {
+  font-size: 0.21875rem;
+  color: #8f8f8f;
+}
+.shop-address .address-list .address-item img {
+  width: 0.5rem;
+  height: auto;
+}
+.shop-address .address-list .address-item:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.shop-address .address-list .address-item .address-info {
+  margin-left: 8px;
+}
+.shop-address .event {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+}
+.shop-address .sub_btn {
+  display: block;
+  width: 100%;
+  height: 0.71875rem;
+  line-height: 0.71875rem;
+  background: #1EC551;
+  text-align: center;
+  color: #fff;
+  font-size: 0.3125rem;
+}

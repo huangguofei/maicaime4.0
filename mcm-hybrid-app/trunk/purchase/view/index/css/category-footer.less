@@ -1,0 +1,72 @@
+@import "../../../css/config.less";
+.category-footer{
+    background: transparent;
+}
+.footer{
+        position: fixed;
+        bottom: 0;
+        left:0;
+        width: 100%;
+        height:49px;
+        z-index:9999;
+        background: @mcm-color-white;
+        border-top:1px solid @mcm-border-color-base;
+        .cart{
+            position:absolute;
+            width: 49px;
+            height: 49px;
+            border-radius: 50%;
+            z-index:99;
+            background: url(../../../img/login/home_classify_shopcar.png) no-repeat;
+            background-size: cover;
+            .pxrem(left, 10);
+            bottom:9px;
+            .num{
+               position:absolute;
+               .pxrem(right, -10);
+               .pxrem(top, 5);
+               display: inline-block;
+               .prem(-4, 6);
+               height: 10px;
+               line-height:10px;
+               padding: @prem;
+               color: @mcm-color-white;
+               background: @mcm-color-secondary;
+               .pxrem(border-radius, 100);
+               .pxrem(font-size, 20);
+               padding-top:2px;
+            }
+        }
+        .con{
+            height:100%;
+            .right{
+                display: inline-block;
+                float: right;
+            }
+            .go-cart{
+                .pxrem(width, 200);
+                line-height: 49px;
+                height: 100%;
+                background: @mcm-color-primary;
+                text-align: center;
+                color: @mcm-color-white;
+                .pxrem(font-size, 32);
+            }
+            .price{
+                color: @mcm-color-text-placeholder;
+                text-align: right;
+                margin-top: 10px;
+                .pxrem(margin-right, 20);
+                .total{
+                    .pxrem(font-size, 24);
+                    span{
+                        .pxrem(font-size, 32);
+                        color: @mcm-color-secondary;
+                    }
+                }
+                .adv{
+                    .pxrem(font-size, 20);
+                }
+            }
+        }
+    }

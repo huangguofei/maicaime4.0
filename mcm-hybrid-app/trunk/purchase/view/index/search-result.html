@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>买菜么-搜索</title>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="css/search-result.css"/>
+    <script type="text/javascript" src="../../js/plugin/vue.js"></script>
+</head>
+	<body>
+		<div class="search-result-page" id="searchPage">
+		 	<header class="header">
+		 		<span class="return" @click="back">
+		 			<img src="../../img/login/arrow_normals.png" alt="" />
+		 		</span>
+		 		<div class="s-con">
+		 			<input type="text" v-model="keyword" @input="searchKeyword" placeholder="搜索想要买的食材"/>
+		 		</div>
+		 		<span class="btn-search" @click="getProdList">搜索</span>
+		 	</header>
+		 	<div class="content">
+		 		<div class="key-down-area" v-if="keyShow">
+		 			<p class="item" v-for="k in keywordList" @click="searchVal(k.suggestion)">{{k.suggestion}}</p>
+		 		</div>
+		 		<div class="items" id="items" v-if="prodList &&　prodList.length > 0">
+					<div class="prod-item" v-for="p in prodList" >
+						<div class="p-con">
+							<div class="wrap">
+								<i class="p-img" @click="jumpDetail(p)">
+									<img :src="p.mainImage" alt="" />
+								</i>
+								<div class="p-info" >
+									<p class="name" @click="jumpDetail(p)">{{p.productName}}</p>
+									<p class="sku" v-if="p.sellProductTypeId == 1"><span>{{p.sellUnit}} </span><span>¥{{(p.sellPrice * 1).toFixed(2)}}</span></p>
+									<span class="price" v-if="p.sellProductTypeId != 1">
+										¥
+										<span v-if="p.minSellPrice && p.maxSellPrice">{{(p.minSellPrice * 1).toFixed(2)}}~{{(p.maxSellPrice * 1).toFixed(2)}}</span>
+										<span v-else-if="p.minSellPrice && !p.maxSellPrice">{{(p.minSellPrice * 1).toFixed(2)}}}}</span>
+										<span v-else-if="!p.minSellPrice && p.maxSellPrice">{{(p.maxSellPrice * 1).toFixed(2)}}}}</span>
+										<span v-else></span>
+										/{{p.settleUnit}}														
+									</span>
+									<span class="price" v-else>
+										¥{{(p.sellPrice/p.matrixingMultiple) < 0.01 ? 0.01 : (p.sellPrice/p.matrixingMultiple).toFixed(2)}}/{{p.settleUnit}}
+									</span>
+									<span class="select-sku" v-if="p.sellProductTypeId != 1" @click="skuSelect(p)">
+										<span>{{p.show ? "收起" : "选规格"}}</span>
+									</span>
+									<add-cart v-else :row="p" :num="p.productQuantity" class="cart" @changeprodnum="changeProdNum"></add-cart>
+									<i class="add-often" @click="oftenEvent(p)"><i :class="{active:p.often}"></i></i>
+								</div>
+							</div>
+						</div>
+						<div class="sku-area" v-if="p.sellProductTypeId == 2 && p.show">
+							<div class="s-item" v-for="s in p.products">
+								<p class="sku"><span>{{s.specName}} </span><span>¥{{(s.sellPrice * 1).toFixed(2)}}</span></p>
+								<span class="price">¥{{(s.sellPrice/s.matrixingMultiple) < 0.01 ? 0.01 : (s.sellPrice/s.matrixingMultiple).toFixed(2)}}/{{s.settleUnit}}</span>
+								<add-cart :row="s" :num="s.productQuantity" class="cart" ></add-cart>
+							</div>
+						</div>
+					</div>
+					<span class="parabola-area">
+						<cart-parabola  ref="parabold" >
+							 <div class="inner inner-hook">
+					         </div>
+						</cart-parabola>
+					</span>
+				</div>
+				<empty-page :datas="notDatas" v-if="(!prodList || prodList.length == 0) && loading"></empty-page>
+				<loading v-show="!loading"></loading>
+		 	</div>
+	 	</div>
+	 	<script type="text/javascript" src="../../js/plugin/mui.min.js"></script>
+    	<script type="text/javascript" src="../../js/common/common.js"></script>
+    	<script type="text/javascript" src="../../js/plugin/fastclick.js"></script>
+    	<script type="text/javascript" src="../../js/api/search.js"></script>
+    	<script type="text/javascript" src="../../components/add-cart.js"></script>
+    	<script type="text/javascript" src="../../components/cart-parabola.js"></script>
+    	<script type="text/javascript" src="../../components/empty-page.js"></script>
+    	<script type="text/javascript" src="../../components/loading.js"></script>
+	 	<script type="text/javascript" >
+	 		mui.plusReady(function() {
+	 			plus.nativeUI.closeWaiting();
+			    mui.currentWebview.show();
+	 			var self = plus.webview.currentWebview();
+	 			vm.keyword = self.keyword;
+	 			vm.getLocation();
+	 			
+	 		});
+	 		document.addEventListener('anewSearch', function(event) {
+	 			vm.keyword = event.detail.keyword;
+	 			vm.getProdList();
+	 		})
+	 		function getCurrentPosition() {
+				plus.geolocation.getCurrentPosition(function(a) {
+					var info = a.address,
+						coords = a.coords;
+					var addrInfo = {
+						province: info.province,
+						city: info.city,
+						district: info.district,
+						latitude: coords.latitude,
+						longitude: coords.longitude
+					}
+					vm.addrInfo = addrInfo;
+					plus.storage.setItem(mcm.config.LOCATIONINFO, JSON.stringify(addrInfo));
+					vm.getProdList();
+					
+				}, function(e) {
+					alert('Geolocation error: ' + e.message);
+				});
+			}
+	 		var vm = new Vue({
+				el: "#searchPage",
+				data: function() {
+					return{
+						prodList: [],
+						keyword: '',
+						keywordList: [],
+						addrInfo: {},
+						keyShow: false,
+						loading: false,
+						notDatas: {
+							src: '../../img/list_vacant.png',
+							info: '<p style="font-size:18px;color:#0A0B0C">没有搜索到食材</p><p style="margin-top:-30px;font-size:12px;">换个关键字试试</p>',
+							isShow: true
+						}
+					}
+				},
+				mounted: function() {
+					
+				},
+				methods: {
+					getLocation: function() {
+						try {
+							var addrInfo = plus.storage.getItem(mcm.config.LOCATIONINFO);
+							if(addrInfo) {
+								vm.addrInfo = JSON.parse(addrInfo);
+								vm.getProdList();
+							} else {
+								getCurrentPosition();
+							}
+						} catch(e) {
+							getCurrentPosition();
+						}
+					},
+					back: function() {
+						mui.back();
+					},
+					skuSelect: function(item) {
+						item.show = !item.show;
+					},
+					searchKeyword: function() {
+						function _success(result) {
+							try{
+								var data = JSON.parse(result);
+								if(data.suggestions){
+									vm.keywordList = data.suggestions;
+								}
+							}catch(e) {}
+						}
+						vm.keyShow = true;
+						if(vm.keyword) {
+							mcm.isLogin(false) ? api.search.suggestAPI({
+								data: {keyword: vm.keyword},
+								success: function(result) {
+									_success(result)
+								}
+							}) : api.search.guestSuggestAPI({
+								data: {keyword: vm.keyword},
+								success: function(result) {
+									_success(result)
+								}
+							}) 
+						} else {
+							vm.keywordList = [];
+						}
+					},
+					changeProdNum: function() {
+						
+					},
+					getProdList: function() {
+						vm.keyShow = false;
+						vm.loading = false;
+						var data = {
+							keyword: vm.keyword,
+							province: vm.addrInfo.province,
+							city: vm.addrInfo.city
+						}
+						mcm.isLogin(false) ? api.search.searchAPI({
+							data: data,
+							success:  function(result) {
+								vm.initProdData(result);
+								vm.loading = true;
+							}
+						}) : api.search.guestSearchAPI({
+							data: data,
+							success: function(result) {
+								vm.initProdData(result);
+								vm.loading = true;
+							}
+						})
+					},
+					oftenEvent: function(item) {
+						var data = {sellProductId: item.sellProductId}
+						if(mcm.isLogin(true, '../login/login.html')) {
+							item.often ? api.common.delOftenAPI({
+								data: data, 
+								success: function(result) {
+									item.often = false;
+								}
+							}) : api.common.addOftenAPI({
+								data: data,
+								success: function(result) {
+									item.often = true;
+								}
+							});
+						}
+					},
+					initProdData: function(pList) {
+						mui.each(pList, function(k, item) {
+							item.often = false;
+							if(item.sellProductTypeId === 1) {
+								item.productQuantity = 0
+							} else {
+								//多规格
+								item.show = false;
+								var products = item.products;
+								mui.each(products, function(p, item) {
+									item.productQuantity = 0
+								})
+							}
+						})
+						vm.prodList = [];
+						Vue.nextTick().then(function () {
+							vm.prodList = pList;
+							mcm.isLogin(false) && vm.initProdOftenOrCartNum()
+						})
+					},
+					initProdOftenOrCartNum: function() {
+						var haveAddOften = null, pList = vm.prodList;
+						mcm.getHaveAddOftenProd(function(result) {
+							haveAddOften = result;
+							api.common.getProdCartNumAPI({
+								success: function(result) {
+									
+									var catrs = result
+									mui.each(pList, function(k, item) {
+										if(haveAddOften) {
+											 haveAddOften[item.sellProductId] ? item.often = true : item.often = false;
+										} 
+										if(catrs) {
+											if(item.sellProductTypeId === 1) {
+												var cart = catrs[item.sellProductId];
+												item.productQuantity = cart ? cart.productQuantity : 0;
+											} else {
+												//多规格//
+												var products = item.products;
+												mui.each(products, function(i, sku) {
+													var cart = catrs[sku.sellProductId];
+													sku.productQuantity = cart ? cart.productQuantity : 0;
+												})
+											}
+										}
+									});
+								}
+							})
+						})
+					},
+					searchVal: function(val) {
+						vm.keyShow = false;
+						vm.keyword = val;
+					},
+					jumpDetail: function(prod) {
+						var webview = plus.webview.getWebviewById("shopDetail");
+						if(!webview) {
+							webview = mui.openWindow({
+							    url:"../shop/detail.html",
+							    id:"shopDetail",
+							    styles:{
+						    		"render": "always",
+			            			"popGesture": "hide",
+							    },
+							    extras : {
+							    	"sellProductId": prod.sellProductId
+							    }
+							});
+							webview.addEventListener('close',function(){
+								webview=null;
+							},false);
+						} else {
+							mui.fire(webview, "loadProdDetail", {
+								"sellProductId": prod.sellProductId
+							})
+							setTimeout(function() {
+								webview.show("slide-in-right",300);
+							}, 100)
+						}
+					},
+				}
+			})
+	 		
+	 	</script>
+	</body>
+</html>

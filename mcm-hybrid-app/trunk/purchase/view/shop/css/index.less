@@ -1,0 +1,50 @@
+@import "../../../css/config.less";
+.shop-index-page{
+    height: 100%;
+    overflow: hidden;
+    .header{
+        position: absolute;
+        width:100%;
+        z-index: 99;
+        height:49px;
+        padding-top:20px;
+        background: #FCFCFC;
+        i.logo{
+            position:absolute;
+            display: inline-block;
+            .pxrem(width, 108);
+            .pxrem(height, 40);
+            .pxrem(top, 80);
+            .pxrem(left, 20);
+            img{
+                max-width:100%;
+            }
+        }
+        .search{
+            .prem(0, 30);
+            padding: @prem;
+            .pxrem(padding-left, 149);
+            p{
+                background: @mcm-background-color-base url(../../../img/market_search.png) no-repeat 5px 3px;
+                background-size: auto 70%;
+                .pxrem(height, 58);
+                .pxrem(line-height, 58);
+                .pxrem(border-radius, 28);
+                .pxrem(text-indent, 55);
+                .pxrem(font-size, 28);
+                color: @mcm-color-text-placeholder;
+                .pxrem(margin-top, 20);
+            }
+        }
+    }
+    .category-nar{
+        position: absolute;
+        .pxrem(top, 98);
+        left:0;
+        right:0 ;
+        bottom: 0;
+        z-index:99;
+        background: #FCFCFC;
+        box-shadow: 0px 4px 10px 0px rgba(0,0,0,0.1);
+    }
+}

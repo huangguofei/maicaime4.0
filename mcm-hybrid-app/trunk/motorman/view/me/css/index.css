@@ -1,0 +1,91 @@
+/**
+ * author pzh
+ * 商户系统主题配置
+ */
+/*主色调*/
+/*辅助色*/
+/*禁用*/
+/*主要字体色*/
+/*常规文字颜色*/
+/*次要文字颜色*/
+/*不可输入*/
+/*背景色*/
+/*主要边框*/
+/*分割线*/
+.clearFloat {
+  content: "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  *zoom: 1;
+  clear: both;
+  visibility: hidden;
+}
+.me {
+  padding-bottom: 20px;
+}
+.me .remark {
+  color: #fff;
+  font-size: 0.265625rem;
+  box-sizing: border-box;
+  background: #282828;
+  height: 0.71875rem;
+}
+.me .item .item-head {
+  padding: 0 10px;
+  color: #9C9C9E;
+  font-size: 0.25rem;
+  height: 0.6171875rem;
+  line-height: 0.6171875rem;
+}
+.me .item .item-main {
+  background: #fff;
+  padding-left: 0.234375rem;
+  padding-right: 0.234375rem;
+  font-size: 0.25rem;
+}
+.me .item .item-main .list {
+  border-bottom: 1px solid #EFEFEF;
+  height: 0.71875rem;
+  line-height: 0.71875rem;
+}
+.me .item .item-main .list .list-title {
+  color: #6E6E6E;
+}
+.me .item .item-main .list .val {
+  color: #282828;
+  float: right;
+}
+.me .item .item-main .list .val img {
+  width: 0.1484375rem;
+  height: auto;
+  margin-left: 5px;
+  vertical-align: middle;
+}
+.me .item .item-main .list .val input {
+  border: 0;
+  height: 0.5rem;
+}
+.me .user-info .list:first-child {
+  color: #9C9C9E;
+  padding: 10px 0;
+}
+.me .user-info .user-head {
+  width: 0.8125rem;
+  height: 0.8125rem;
+  border-radius: 50%;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+.me .user-info .val {
+  text-align: left;
+  width: 80%;
+}
+.me .emergency-info input {
+  text-align: right;
+}
+.me .sub_btn {
+  width: 70%;
+  margin: 20px auto 0;
+  height: 0.578125rem;
+}

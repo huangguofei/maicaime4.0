@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/common.css" />
+		<link rel="stylesheet" type="text/css" href="css/purchase-map.css" />
+		<script type="text/javascript" src="../../js/plugin/vue.js"></script>
+		<title></title>
+	</head>
+	<body class="purchase-map-body">
+		<div id="vueBox" class="purchase-map">
+			<div class="switch" @click="unfoldMore"></div>
+			<div class="list">
+				<div class="item" v-for="(l, k) in list">
+					<i class="h-img"><img src="" alt="" /></i>
+					<i class="gps" @click="navigationMap(l)"></i>
+					<div class="content">
+						<h4>{{l.receiverName}}<span class="km">{{l.distance/1000}}km</span></h4>
+						<p class="addr">地址：{{l.receiverAddr}}</p>
+						<div class="event">
+							<button class="btn btn-detail" @click="lookDetail(l)">查看详情</button>
+							<button class="btn btn-complete" @click="confirmDelivery(l, k)">确认送达</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="../../js/plugin/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/common/common.js"></script>
+		<script type="text/javascript" src="../../js/api/order.js"></script>
+	</body>
+	<script type="text/javascript">
+		mui.back = function() {
+			var ws = plus.webview.currentWebview();
+			ws.hide("auto");
+		}
+		mui.plusReady(function() {
+			mui.back();
+			plus.geolocation.getCurrentPosition(function(a){
+				var info = a.address, coords = a.coords;
+				vm.position = {
+					latitude: coords.latitude,
+					longitude: coords.longitude
+				}
+			}, function(e){
+				mui.toast('请开启定位权限，才能使用地图模式')
+			}); 
+		})
+		document.addEventListener("setPurchaseList", function(event) {
+			vm.list = event.detail.list;
+		})
+		var vm = new Vue({
+			el: "#vueBox",
+			data: function() {
+				return {
+					list: [],
+					position: {}
+				}
+			},
+			methods: {
+				unfoldMore: function() {
+					mui.back();
+				},
+				navigationMap: function(item) {
+					var src = new plus.maps.Point(vm.position.longitude, vm.position.latitude); 
+					var dst = new plus.maps.Point(item.longitude, item.latitude); 
+					plus.maps.openSysMap( dst, item.receiverAddr, src );
+				},
+				lookDetail: function(item) {
+					mcm.singleJumpPage("details", "../order/order-details.html", "订单详情", {
+						orderId: item.deliveryOrderId
+					});
+				},
+				confirmDelivery: function(item, k) {
+					var that = this;
+					function submitDelivery(data) {
+						api.order.orderConfirmArrive({
+							data: data,
+							success: function(result) {
+								mui.toast("确认送达成功");
+								that.list.splice(k, 1)
+							}
+						})
+					}
+					if(item.deliveryWayId == 300) {
+						plus.nativeUI.prompt( "收款金额", function(e){
+						if(e.index==0) {
+								var val = e.value;
+								if(mcm.validation.checkPrice(val)) {
+									submitDelivery({
+										deliveryOrderId: item.deliveryOrderId,
+										amount: val
+									});
+								} else {
+									mui.toast('输入的金额格式不对')
+								}
+							}
+						},"", "金额", ["确定","取消"]);
+					} else {
+						submitDelivery({
+							deliveryOrderId: item.deliveryOrderId
+						})
+					}
+					
+				}
+			}
+		});
+
+	</script>
+
+</html>

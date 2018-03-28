@@ -1,0 +1,212 @@
+/**
+ * author pzh
+ * 系统公共主题配置
+ */
+/*主要字体色*/
+/*常规文字颜色*/
+/*次要文字颜色*/
+/*不可输入、禁用*/
+/*背景色*/
+/*主要边框*/
+/*分割线*/
+html,
+body,
+button,
+dd,
+dl,
+dt,
+fieldset,
+form,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+input,
+legend,
+li,
+ol,
+p,
+pre,
+td,
+textarea,
+th,
+ul {
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: '黑体', "Microsoft YaHei", STXihei, MingLiu, "Helvetica Neue", Helvetica, Arial, "Microsoft Yahei", "Hiragino Sans GB", "Heiti SC", "WenQuanYi Micro Hei", sans-serif;
+}
+html,
+body,
+#app {
+  width: 100%;
+  height: 100%;
+  min-width: 1280px;
+  font-size: 14px;
+}
+a {
+  text-decoration: none;
+}
+li {
+  list-style: none;
+}
+span,
+p,
+div,
+a,
+i,
+button,
+input,
+textarea {
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+}
+.main-area {
+  padding: 0;
+}
+.el-table td,
+.el-table th {
+  padding: 10px 0;
+}
+.el-table th {
+  padding: 8px 0;
+  font-size: 16px;
+  font-weight: normal;
+}
+.pull-left {
+  float: left;
+}
+.pull-right {
+  float: right;
+}
+.clear-float {
+  zoom: 1;
+}
+.clear-float:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.padding {
+  padding: 16px;
+}
+.hr {
+  position: relative;
+  border-bottom: 1px dashed #D7D7D7;
+}
+.hr:before {
+  content: "";
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  position: absolute;
+  background: #F2F6FC;
+  bottom: -10px;
+  left: -10px;
+}
+.hr:after {
+  content: "";
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  position: absolute;
+  background: #F2F6FC;
+  bottom: -10px;
+  right: -10px;
+}
+.user {
+  position: absolute;
+  right: 30px;
+  top: 20px;
+}
+.user p {
+  font-size: 16px;
+  line-height: initial;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.user p i {
+  display: inline-block;
+  width: 20px;
+  height: 10px;
+  background: url(../../images/zoom-icon.png) no-repeat;
+  background-size: 100%;
+  background-position: 0px -10px;
+}
+.user p i.show {
+  background-position: 0px -1px;
+}
+.user .nav {
+  position: absolute;
+  top: 25px;
+  width: 100px;
+  background: #fff;
+  box-shadow: 0 0 10px #000;
+  z-index: 10;
+}
+.user .nav a {
+  color: #000;
+  display: block;
+  text-align: center;
+  height: 30px;
+  line-height: 30px;
+  border-bottom: 1px solid #ccc;
+}
+.user .nav a:hover {
+  color: #3084F2;
+}
+/*单行省略号-默认宽度100%*/
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409EFF;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 145px;
+  height: 145px;
+  line-height: 145px;
+  text-align: center;
+}
+.avatar {
+  width: 145px;
+  height: 145px;
+  display: block;
+}
+.table-content img,
+.el-table img {
+  max-width: 62px;
+  max-height: 62px;
+}
+.detail-area .h-header {
+  padding: 20px 0;
+}
+.detail-area .row-item {
+  padding: 10px 0;
+  font-size: 14px;
+}
+.detail-area .row-item .tit {
+  display: inline-block;
+  min-width: 140px;
+}
+.el-input.is-disabled .el-input__inner {
+  background-color: #F2F6FC !important;
+  color: #000;
+}

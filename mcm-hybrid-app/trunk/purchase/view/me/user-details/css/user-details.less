@@ -1,0 +1,55 @@
+  @import "../../../../css/config.less";
+  .user-info {
+      padding-top: 10px;
+      .group {
+          background: #fff;
+          padding-top: 0;
+          padding-bottom: 0;
+      }
+      .item {
+          .pxrem(height, 115);
+          border-bottom: 1px solid #eee;
+          .clearfix();
+          b {
+              .pxrem(font-size, 32);
+          }
+          aside {
+              height: 100%;
+              span {
+                  .pxrem(font-size, 28);
+                  color: #666;
+              }
+          }
+          b {
+              .pxrem(line-height, 115);
+          }
+          span {
+              display: inline-block;
+              .pxrem(line-height, 115);
+          }
+          .headimg {
+              .pxrem(width, 80);
+              .pxrem(height, 80);
+              .pxrem(border-radius, 40);
+              .pxrem(margin-right, 50);
+              .pxrem(margin-top, 10);
+          }
+          aside {
+              position: relative;
+              /*.pxrem(width, 300);*/
+              text-align: right;
+              span {
+                  .pxrem(margin-right, 50);
+              }
+              .icon {
+                  vertical-align: middle;
+                  position: absolute;
+                  .pxrem(top, 35);
+                  .pxrem(right, 5);
+              }
+          }
+      }
+      .item:last-child {
+          border: 0;
+      }
+  }

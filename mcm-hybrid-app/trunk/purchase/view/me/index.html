@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" href="../../css/common.css" />
+		<link rel="stylesheet" href="css/index.css" />
+		<script type="text/javascript" src="../../js/plugin/vue.js"></script>
+	</head>
+
+	<body>
+		<div class="me-page" id="vueBox">
+			<div class="me-header">
+				<div class="me-head padding">
+					<!--<img src="" class="img_icon pull-left" />-->
+					<a href="javascript:;" @click="goMessage" class="message new pull-right">
+						<img src="../../img/mine_message.png" /><i v-show="userData.messageCount!=0"></i></a>
+				</div>
+			</div>
+			<article class="user-main padding" v-cloak>
+				<article class="user-header item padding">
+					<img :src="userData.headImg?userData.headImg:'../../img/user-default.png'" @click="goPage" />
+					<h2 class="title ellipsis">{{userData.buyerName}}</h2>
+				</article>
+				<ul class="info-nav item">
+					<li class="h-item">
+						<a href="javascript:;" @click="goCoupon"><b class="title">{{userData.couponCount}}</b>
+							<p>优惠券</p>
+						</a>
+					</li>
+					<li class="h-item">
+						<a href="javascript:;" @click="jumpDebt"><b class="title">{{userData.debtAmount|PRICE}}</b>
+							<p>欠款金额</p>
+						</a>
+					</li>
+					<li class="h-item">
+						<a href="javascript:;" @click="goMoney">
+							<b class="title">{{userData.availableAmount|PRICE}}</b>
+							<p>可用余额</p>
+						</a>
+					</li>
+				</ul>
+				<article class="user-order item" v-cloak>
+					<h2 class="header padding title">订单</h2>
+					<ul>
+						<li>
+							<a href="javascript:;" @click="goOrder('1')"><span class="new"><img src="../../img/mine_pay.png" /><i v-show="userData.unpayOrderAmount!=0"></i></span>
+								<p>待付款</p>
+							</a>
+						</li>
+						<li>
+							<a href="javascript:;" @click="goOrder('2')"><span class="new"><img src="../../img/mine_get.png" /><i v-show="userData.pendingDeliveryOrderAmount!=0"></i></span>
+								<p>待发货</p>
+							</a>
+						</li>
+						<li>
+							<a href="javascript:;" @click="goOrder('3')"><span class="new"><img src="../../img/mine_get.png" /><i v-show="userData.availableAmount!=0"></i></span>
+								<p>待收货</p>
+							</a>
+						</li>
+						<li>
+							<a href="javascript:;" @click="goOrder('4')"><span class="new"><img src="../../img/mine_finshed.png" /><i v-show="userData.shippingOrderAmount!=0"></i></span>
+								<p>已完成</p>
+							</a>
+						</li>
+						<li>
+							<a href="javascript:;" @click="goOrder('0')"><span class="new"><img src="../../img/mine_all.png" /><i></i></span>
+								<p>我的订单</p>
+							</a>
+						</li>
+					</ul>
+				</article>
+				<article class="user-nav item">
+					<a href="javascript:;" @click="goShopManage">
+						<section class=""><img src="../../img/mine_store.png" /><span class="title">门店管理</span><img class="pull-right" src="../../img/mine_arrow2.png" /></section>
+					</a>
+					<a href="javascript:;" @click="goAddress">
+						<section class=""><img src="../../img/mine_address.png" /><span class="title">收货地址管理</span><img class="pull-right" src="../../img/mine_arrow2.png" /></section>
+					</a>
+				</article>
+				<article class="user-nav item">
+					<a href="javascript:;" @click="goAbout"><img src="../../img/mine_help.png" /><span class="title">关于我们</span><img class="pull-right" src="../../img/mine_arrow2.png" /></a>
+					<a href="javascript:;" @click="goHelp"><img src="../../img/mine_about.png" /><span class="title">使用帮助</span><img class="pull-right" src="../../img/mine_arrow2.png" /></a>
+					<!--<a href="javascript:;" v-show="isComplete" @click="goCompleteInfo"><img src="../../img/complete.png" /><span class="title">完善店铺信息</span><img class="pull-right" src="../../img/mine_arrow2.png" /></a>-->
+				</article>
+				<a href="javascipt:;" class="logout btn-default" @click="logout">退出登录</a>
+			</article>
+		</div>
+		<!--<loading v-else></loading>-->
+		<script type="text/javascript" src="../../js/plugin/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/common/common.js"></script>
+		<script type="text/javascript" src="../../js/plugin/fastclick.js"></script>
+		<script type="text/javascript" src="../../components/loading.js"></script>
+		<script type="text/javascript" src="../../js/api/me.js"></script>
+		<script type="text/javascript">
+			document.addEventListener('openThatPage', function(event) {
+				vm.isComplete = mcm.getCookie("isPerfect");
+				vm.initPage();
+			});
+			//下单成功后进入订单页面
+			document.addEventListener('jumpOrder', function(event) {
+				vm.goOrder();
+			})
+			mui.plusReady(function() {
+				//禁止横屏
+				plus.screen.lockOrientation("portrait-primary");
+			});
+			mcm.closeAPP();
+			var vm = new Vue({
+				el: "#vueBox",
+				data: function() {
+					return {
+						loading: false,
+						userData: '',
+						isComplete: false
+					}
+				},
+				mounted: function() {
+
+				},
+				filters: {
+					PRICE: function(v) {
+						if(v == "" || v == 0)
+							return "0.00";
+						v = Math.abs(v);
+						if(v < 0.01) {
+							return 0.01;
+						}
+						return(v * 100 / 100).toFixed(2);
+					}
+				},
+				methods: {
+					goPage: function() {
+						mcm.singleJumpPage("user-details", "user-details/user-details.html", "个人资料");
+					},
+					goMessage: function() {
+						mcm.singleJumpPage("user-message", "user-message/user-message.html", "我的消息");
+					},
+					goAbout: function() {
+						mcm.singleJumpPage("user-set", "user-set/user-set.html", "设置");
+					},
+					goShopManage: function() {
+						mcm.singleJumpPage("user-shopManage", "user-shopManage/user-shopManage.html", "门店管理", {
+							isComplete: vm.isComplete
+						});
+					},
+					goAddress: function() {
+						mcm.singleJumpPage("user-address", "user-address/user-address.html", "地址管理");
+					},
+					goMoney: function() {
+						mcm.singleJumpPage("user-money", "user-money/user-money.html", "我的余额");
+					},
+					goCoupon: function() {
+						mcm.singleJumpPage("user-coupon", "user-coupon/user-coupon.html", "优惠券");
+					},
+					goOrder: function(index) {
+						mcm.singleJumpPage("user-order", "../order/index.html", "订单", {
+							active: index
+						});
+					},
+					jumpDebt: function() {
+						var _that = this;
+						mui.openWindow({
+							url: "user-debt/user-debt.html",
+							id: "user-debt",
+							extras: {
+								debtAmount: _that.userData.debtAmount
+							}
+						});
+					},
+					initPage: function() {
+						this.loadData();
+					},
+					loadData: function() {
+						api.userAccount.userAccountAPI({
+							success: function(data) {
+								vm.userData = data;
+								vm.loading = true;
+							}
+						});
+					},
+					goCompleteInfo: function() {
+						mui.openWindow({
+							url: "../login/completeInfo/completeInfo.html",
+							id: "completeInfo"
+						});
+					},
+					goHelp: function() {
+						mui.toast('暂未开发');
+						return false;
+					},
+					logout: function() {
+						api.userLogout.userLogoutAPI({
+							success: function(data) {
+								mcm.removeCookie();
+								var ws = plus.webview.getLaunchWebview();
+								ws.reload();
+								mui.fire(ws, "switchMenu", {
+									index: 1
+								});
+								var wt = plus.nativeUI.showWaiting();
+								ws.onloaded = function() {
+									wt.close();
+									var thatws = plus.webview.currentWebview();
+									thatws.close("auto");
+									ws.show();
+								}
+							}
+						});
+
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/common.css" />
+		<link rel="stylesheet" type="text/css" href="css/index.css" />
+		<script type="text/javascript" src="../../js/plugin/vue.js"></script>
+		<title></title>
+	</head>
+
+	<body>
+		<div id="vueBox" class="me">
+			<p class="remark padding">{{driverInfo.auditStatusId==0?'账号已生成，补全证件信息即可接单':driverInfo.auditStatusId==1?'账号已生成，证件信息审核中！':'已审核成功，快去接单吧'}}</p>
+			<div class="user-info item">
+				<div class="item-head">
+					<span class="item-title">个人信息</span>
+				</div>
+				<div class="item-main">
+					<div class="list" @click="uploadImg(3)">
+						<img :src="userInfo.headImg?userInfo.headImg:'../../img/user-default.png'" class="user-head" /> 修改头像
+					</div>
+					<div class="list">
+						<span class="list-title">昵称</span>
+						<div class="val"><input type="text" :disabled="driverInfo.auditStatusId==1" name="" v-model="userInfo.nickName" /></div>
+					</div>
+					<div class="list">
+						<span class="list-title">真实姓名</span>
+						<div class="val"><input type="text" :disabled="driverInfo.auditStatusId==1" v-model="userInfo.realName" /></div>
+					</div>
+					<div class="list">
+						<span class="list-title">电话</span>
+						<div class="val">{{userInfo.mobile}}</div>
+					</div>
+				</div>
+			</div>
+			<div class="drive-info item">
+				<div class="item-head">
+					<span class="item-title">驾驶证信息</span>
+					<span class="item-remark pull-right">信息仅用于审核，绝不外泄</span>
+				</div>
+				<div class="item-main">
+					<div class="list">
+						<span class="list-title">驾驶证照片</span>
+						<div class="val" @click="goAuthentication('1')">{{driverInfo.drivingLicenceImage?'已上传':'请上传'}}<img src="../../img/mine_arrow2.png"></div>
+					</div>
+					<div class="list">
+						<span class="list-title">身份证照片</span>
+						<div class="val" @click="goAuthentication('2')">{{driverInfo.idNumber?driverInfo.idNumber:'请上传'}}<img src="../../img/mine_arrow2.png"></div>
+					</div>
+					<!--<div class="list">
+						<span class="list-title">驾驶年龄</span>
+						<div class="val">未填写</div>
+					</div>-->
+					<div class="list">
+						<span class="list-title">司机姓名</span>
+						<div class="val">{{driverInfo.driverName?driverInfo.driverName:'未填写'}}</div>
+					</div>
+					<div class="list">
+						<span class="list-title">司机照片</span>
+						<div class="val" @click="goAuthentication('1')">{{driverInfo.portraitImage?'已上传':'请上传'}}<img src="../../img/mine_arrow2.png"></div>
+					</div>
+				</div>
+			</div>
+			<div class="drive-info item">
+				<div class="item-head">
+					<span class="item-title">车辆信息</span>
+					<span class="item-remark pull-right">信息仅用于审核，绝不外泄</span>
+				</div>
+				<div class="item-main">
+					<div class="list">
+						<span class="list-title">车辆正面照</span>
+						<div class="val" @click="goAuthentication('3')">{{driverInfo.vehicleImage?'已上传':'请上传'}}<img src="../../img/mine_arrow2.png"></div>
+					</div>
+					<div class="list">
+						<span class="list-title">车牌号</span>
+						<div class="val">{{driverInfo.licensePlateNumber?driverInfo.licensePlateNumber:'未填写'}}</div>
+					</div>
+					<div class="list">
+						<span class="list-title">车辆型号</span>
+						<div class="val">{{driverInfo.vehicleTypeText?driverInfo.vehicleTypeText:'未填写'}}</div>
+					</div>
+					<!--<div class="list">
+						<span class="list-title">车辆所有人</span>
+						<div class="val">未填写</div>
+					</div>-->
+				</div>
+			</div>
+			<div class="emergency-info item">
+				<div class="item-head">
+					<span class="item-title">紧急联系人信息</span>
+					<span class="item-remark pull-right">信息仅用于审核，绝不外泄</span>
+				</div>
+				<div class="item-main">
+					<div class="list">
+						<span class="list-title">联系人姓名</span>
+						<div class="val"><input type="text" :disabled="driverInfo.auditStatusId==1" name="" v-model="driverInfo.emergencyContact" /></div>
+					</div>
+					<div class="list">
+						<span class="list-title">联系人电话</span>
+						<div class="val"><input type="text" maxlength="11" :disabled="driverInfo.auditStatusId==1" name="" v-model="driverInfo.emergencyContactMobile" /></div>
+					</div>
+				</div>
+			</div>
+			<button type="button" class="btn-default sub_btn" @click="subEvent(driverInfo.auditStatusId)">{{driverInfo.auditStatusId!=1?'提交信息':'资料审核中'}}</button>
+		</div>
+		<script type="text/javascript" src="../../js/plugin/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/common/common.js"></script>
+		<script type="text/javascript" src="../../js/api/me.js"></script>
+	</body>
+	<script type="text/javascript">
+		mui.plusReady(function() {
+			var self = plus.webview.currentWebview();
+			var update = self.data;
+			vm.initPage(update);
+		})
+		document.addEventListener('updateUserInfo', function(event) {
+			vm.update(event.detail.data);
+		});
+		var oldBack = mui.back();
+		mui.back = function() {
+			mcm.setCookie('COMPLETEUSERDATA', JSON.stringify(vm.userInfo));
+			mcm.setCookie('COMPLETEDRIVERDATA', JSON.stringify(vm.driverInfo));
+			mui.currentWebview.close();
+		}
+		var vm = new Vue({
+			el: "#vueBox",
+			data: function() {
+				return {
+					userInfo: {},
+					driverInfo: {},
+				}
+			},
+			created: function() {},
+			methods: {
+				goAuthentication: function(index) {
+					if(this.driverInfo.auditStatusId != 1) {
+						var _that = this;
+						mcm.singleJumpPage("Authentication", "authentication-info/authentication-info.html", "认证信息", {
+							type: index,
+							data: _that.driverInfo
+						});
+					}
+				},
+				initPage: function(data) {
+					var _that = this;
+					var cookUserInfo = mcm.getCookie('COMPLETEUSERDATA');
+					var cookDriverInfo = mcm.getCookie('COMPLETEDRIVERDATA');
+					api.userInfo.driverInfoAPI({
+						success: function(result) {
+							_that.driverInfo = result;
+							if(_that.driverInfo.auditStatusId == 0 && cookDriverInfo) {
+								//读取缓存
+								_that.driverInfo = JSON.parse(cookDriverInfo);
+								_that.userInfo = JSON.parse(cookUserInfo);
+							}
+							if(data)
+								_that.update(data)
+						}
+					});
+					api.userInfo.userInfoAPI({
+						success: function(result) {
+							if(!cookUserInfo || _that.driverInfo.auditStatusId != 0) {
+								_that.userInfo = result;
+							}
+						}
+					});
+				},
+				subEvent: function(status) {
+					if(status != 1) {
+						if(!this.userInfo.headImg) {
+							mui.toast(mcm.message.headImgNull);
+							return false;
+						}
+						if(!this.userInfo.nickName) {
+							mui.toast(mcm.message.nickNameNull);
+							return false;
+						}
+						if(!this.userInfo.realName) {
+							mui.toast(mcm.message.realNameNull);
+							return false;
+						}
+						if(!this.driverInfo.drivingLicenceImage || !this.driverInfo.identityCardFrontImage || !this.driverInfo.driverName || !this.driverInfo.portraitImage) {
+							mui.toast(mcm.message.drivingLicenceErr);
+							return false;
+						}
+						if(!this.driverInfo.vehicleImage || !this.driverInfo.licensePlateNumber || !this.driverInfo.vehicleTypeId) {
+							mui.toast(mcm.message.carInfoErr);
+							return false;
+						}
+						if(!this.driverInfo.emergencyContact || !this.driverInfo.emergencyContactMobile) {
+							mui.toast(mcm.message.linkmanErr);
+							return false;
+						}
+						var step_a = false,
+							step_b = false;
+						var _that = this;
+						api.editUser.editUserAPI({
+							data: this.userInfo,
+							success: function(result) {
+								mui.toast(mcm.message.auditInfoSuccess);
+								step_a = true;
+								if(step_a && step_b) {
+									_that.initPage();
+									var wb = plus.webview.getWebviewById('order');
+									mui.fire(wb, 'isAuditStatus', {
+										auditStatusId: 1
+									});
+								}
+								//刷新个人信息页面
+								var ws = plus.webview.getWebviewById('userInfo');
+								mui.fire(ws, 'refreshs');
+								mcm.setCookie('COMPLETEUSERDATA', '');
+							}
+						});
+						api.editUser.editDriverAPI({
+							data: this.driverInfo,
+							success: function(result) {
+								mui.toast(mcm.message.auditInfoSuccess);
+								step_b = true;
+								if(step_a && step_b) {
+									_that.initPage();
+									var wb = plus.webview.getWebviewById('order');
+									mui.fire(wb, 'isAuditStatus', {
+										auditStatusId: 1
+									});
+								}
+								mcm.setCookie('COMPLETEDRIVERDATA', '');
+							}
+						});
+					}
+				},
+				uploadImg: function(index) {
+					if(this.driverInfo.auditStatusId != 1) {
+						var _that = this;
+						mcm.uploadImage(index, function(path) {
+							_that.userInfo.headImg = path;
+						});
+					}
+				},
+				update: function(data) {
+					var _that = this;
+					this.driverInfo = Object.assign(this.driverInfo, data);
+					this.driverInfo.vehicleType = this.driverInfo.vehicleTypeId;
+				}
+			}
+		})
+	</script>
+
+</html>

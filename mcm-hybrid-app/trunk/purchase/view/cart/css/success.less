@@ -1,0 +1,88 @@
+@import "../../../css/config.less";
+.cart-success-page{
+    section{
+        margin:auto;
+        .pxrem(width,640);
+        position: relative;
+        .pxrem(top,300);
+        background: #FFF;
+        .conent{
+            .prem(160, 20, 100, 20);
+            padding:@prem;
+            text-align: center;
+            .s-icon{
+                position: absolute;
+                .pxrem(top,-100);
+                .pxrem(margin-left,-130);
+                left:50%;
+                display: inline-block;
+                .pxrem(width,260);
+                .pxrem(height,200);
+                background: url(../../../img/shopcar_details_pay_success.png) no-repeat;
+                background-size: cover;
+            }
+        }
+        .title{
+            .pxrem(font-size,40);
+            i{
+                position: relative;
+                .pxrem(top,-14);
+                display: inline-block;
+                .pxrem(width,82);
+                border:1px solid #000;
+            }
+            span{
+                display: inline-block;
+                .prem(0,8);
+                padding:@prem;
+            }
+        }
+        .reamk{
+            .pxrem(font-size,30);
+            color:#666666;
+        }
+        footer{
+            text-align: center;
+            .prem(20);
+            padding:@prem;
+            border-top:1px dashed #E9E9E9;
+            position: relative;
+            button{
+                .pxrem(width,200);
+                .pxrem(height,68);
+                .pxrem(line-height,68);
+                background: #FFF;
+                .pxrem(font-size, 32);
+                .pxrem(border-radius,8);
+                .prem(-4,20);
+                margin:@prem;
+            }
+            .look-orders{
+                border:1px solid @mcm-border-color-base;
+                color:#4A4A4A;
+            }
+            .go-orders{
+                border:1px solid @mcm-color-primary;
+                color:@mcm-color-primary;
+            }
+        }
+        .footer-circle{
+            content : "";
+            position: absolute;
+            .pxrem(top,-22);
+            .pxrem(width,30);
+            .pxrem(height,30);
+            background: #f3f3f3;
+            display: inline-block;
+            border-radius:50%;
+        }
+        footer:after{
+            .footer-circle;
+            .pxrem(left,-20);
+        }
+        footer:before{
+            .footer-circle;
+            .pxrem(right,-20);
+        }
+    }
+}

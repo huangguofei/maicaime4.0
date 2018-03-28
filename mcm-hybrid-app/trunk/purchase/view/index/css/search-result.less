@@ -1,0 +1,68 @@
+@import "../../../css/config.less";
+.search-result-page{
+    .header{
+        position: fixed;
+        top:0;
+        left: 0;
+        width:100%;
+        height: 49px;
+        padding-top:25px;
+        background: #FCFCFC;
+        .return{
+            position: absolute;
+            top: 41px;
+            .pxrem(left, 20);
+            display: inline-block;
+            .pxrem(width, 35);
+            .pxrem(height, 35);
+            img{
+                height:100%;
+            }
+        }
+    }
+    
+    .s-con{
+       .pxrem(height, 98);
+       .prem(0, 120, 0, 80);
+       padding: @prem;
+        input{
+            width: 100%;
+            .pxrem(height, 56);
+            border:1px solid @mcm-background-color-base;
+            background: @mcm-background-color-base url(../../../img/market_search.png) no-repeat 5px 3px;
+            background-size: auto 70%;
+            .pxrem(border-radius, 30);
+            .pxrem(margin-top, 16);
+            .pxrem(text-indent, 50);
+            .pxrem(font-size, 28);
+        }
+    }
+    .btn-search{
+        position: absolute;
+        top: 45px;
+        .pxrem(right, 30);
+        color: @mcm-color-primary;
+        .pxrem(font-size, 32);
+    }
+    .content{
+        padding-top: 74px;
+        .items{
+            .pxrem(margin-top, 10);
+            background: #FFF;
+        }
+        .key-down-area{
+            position: fixed;
+            top: 74px;
+            bottom:20px;
+            left: 0;
+            right: 0;
+            z-index:9999;
+            background: #FFF;
+            .item{
+                .prem(20);
+                padding:@prem;
+                border-bottom:1px solid @mcm-border-color-base;
+            }
+        }
+    }
+}

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../../css/common.css" />
+		<link rel="stylesheet" type="text/css" href="css/user-debt.css" />
+		<script type="text/javascript" src="../../../js/plugin/vue.js"></script>
+		<title></title>
+	</head>
+
+	<body>
+		<div id="vueBox" class="user-debt">
+			<back-page :datas="{title:'我的欠款'}"><span class="page-right" @click="goDebtList">明细</span></back-page>
+			<div class="main">
+				<img src="../../../img/mine_qiankuan.png" />
+				<p class="title">我的欠款</p>
+				<p class="money">¥<b>{{debtAmount|PRICE}}</b></p>
+			</div>
+			<button type="button" class="sub_btn btn-default" @click="repayment">还钱</button>
+		</div>
+		<script type="text/javascript" src="../../../js/plugin/mui.min.js"></script>
+		<script type="text/javascript" src="../../../js/common/common.js"></script>
+		<script type="text/javascript" src="../../../components/page-header.js"></script>
+	</body>
+	<script type="text/javascript">
+		mui.plusReady(function() {
+			var self = plus.webview.currentWebview();
+			vm.debtAmount = self.debtAmount;
+		});
+		window.addEventListener('refresh', function(event) {
+			vm.debtAmount = 0;
+		});
+		var vm = new Vue({
+			el: "#vueBox",
+			data: function() {
+				return {
+					debtAmount: 0
+				}
+			},
+			filters: {
+				PRICE: function(v) {
+					if(v == "" || v == 0)
+						return "0.00";
+					v = Math.abs(v);
+					if(v < 0.01) {
+						return 0.01;
+					}
+					return(v * 100 / 100).toFixed(2);
+				}
+			},
+			methods: {
+				goDebtList: function() {
+					mui.toast('暂未开发');return false;
+					mcm.singleJumpPage("user-debtList", "../user-debtDetails/user-debtList.html", "欠款明细");
+				},
+				repayment: function() {
+					if(this.debtAmount == 0) {
+						mui.toast("您当前没有欠款，请继续保持！");
+						return false;
+					}
+					var result = {
+						type: "repayment",
+						totalAmount: this.debtAmount
+					}
+					var pay = plus.webview.getWebviewById('paymentType')
+					if(pay) {
+						mui.fire(pay, 'noOrderChange', {
+							payOrderInfo: result
+						})
+						setTimeout(function() {
+							pay.show('slide-in-bottom');
+						}, 100)
+					} else {
+						mui.openWindow({
+							url: '../../common/payment-type.html',
+							id: "paymentType",
+							styles: {
+								"render": "always",
+								"popGesture": "hide",
+								background: "transparent"
+							},
+							show: {
+								aniShow: 'slide-in-bottom',
+								duration: 500
+							},
+							extras: {
+								payOrderInfo: result
+							}
+						});
+					}
+				}
+			}
+		})
+	</script>
+
+</html>

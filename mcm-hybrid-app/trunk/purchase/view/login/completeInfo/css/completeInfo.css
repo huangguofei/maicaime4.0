@@ -1,0 +1,190 @@
+/**
+ * author pzh
+ * 商户系统主题配置
+ */
+/*主色调*/
+/*辅助色*/
+/*禁用*/
+/*主要字体色*/
+/*常规文字颜色*/
+/*次要文字颜色*/
+/*不可输入*/
+/*背景色*/
+/*主要边框*/
+/*分割线*/
+.clearFloat {
+  content: "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  *zoom: 1;
+  clear: both;
+  visibility: hidden;
+}
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+body {
+  background: #fff;
+}
+.complete-info {
+  height: 100%;
+}
+.complete-info .step {
+  width: 90%;
+  margin: 0 auto;
+  height: 1.046875rem;
+  line-height: 0.96875rem;
+  border-radius: 0.5390625rem;
+  background: #F77E44;
+  text-align: center;
+  box-shadow: 0px 3px 10px #f77e44;
+}
+.complete-info .step span {
+  display: inline-block;
+  width: 32%;
+  text-align: center;
+  color: #ffffff;
+  fill-opacity: .5;
+  filter: alpha(opacity=50);
+  opacity: .5;
+  font-size: 0.28125rem;
+}
+.complete-info .step span i {
+  font-style: normal;
+  font-size: 0.5rem;
+  position: relative;
+  bottom: 0.046875rem;
+}
+.complete-info .step .active {
+  fill-opacity: 1;
+  opacity: 1;
+}
+.complete-info .step .active i {
+  opacity: .5!important;
+}
+.complete-info .step_page {
+  margin-top: 10px;
+}
+.complete-info .step_page form {
+  height: 4.71875rem;
+}
+.complete-info .step_page .form_list {
+  height: 0.8125rem;
+  border-bottom: 1px solid #f0f0f0;
+  padding-top: 0.1875rem;
+  box-sizing: border-box;
+}
+.complete-info .step_page .form_list label {
+  display: inline-block;
+  font-size: 0.28125rem;
+  color: #0A0B0C;
+  width: 1.203125rem;
+}
+.complete-info .step_page .form_list input {
+  border: 0;
+  font-size: 0.28125rem;
+  width: 70%;
+}
+.complete-info .step_page .form_list .address img {
+  width: 0.1484375rem;
+}
+.complete-info .step_page .adddress {
+  padding-top: 0;
+  display: flex;
+  align-items: center;
+}
+.complete-info .step_page .adddress label {
+  font-size: 0.203125rem;
+  width: 1.046875rem;
+  margin-right: 0.1875rem;
+}
+.complete-info .step_page .form_upload {
+  position: relative;
+  width: 48%;
+  height: 1.984375rem;
+  border: 1px dashed #C0C4CC;
+  border-radius: 5px;
+  text-align: center;
+  float: left;
+  margin-left: 2.5%;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+  padding: 5px;
+}
+.complete-info .step_page .form_upload a {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  background: #F0F8FF;
+  border-radius: 5px;
+}
+.complete-info .step_page .form_upload a img {
+  margin-top: 20px;
+  margin-bottom: 5px;
+  width: 0.578125rem;
+  height: auto;
+}
+.complete-info .step_page .form_upload a p {
+  font-size: 0.25rem;
+  color: #1EC551;
+}
+.complete-info .step_page .form_upload a .show-img {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  width: 100%;
+  height: 100%;
+}
+.complete-info .step_page .form_upload .image-show {
+  display: flex;
+  align-items: center;
+}
+.complete-info .step_page .form_upload .image-show img {
+  width: 100%;
+  height: auto;
+  margin: 0;
+  vertical-align: middle;
+}
+.complete-info .step_page .form_upload .state {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0.8125rem;
+  height: auto;
+}
+.complete-info .step_page .form_upload .again {
+  position: relative;
+  bottom: 0.421875rem;
+  height: 0.421875rem;
+  line-height: 0.421875rem;
+  border-radius: 0 0 5px 5px ;
+  text-align: center;
+  color: #fff;
+  font-size: 0.234375rem;
+  background: #000;
+  opacity: .5;
+}
+.complete-info .step_page .form_upload:nth-child(2n+1) {
+  margin-left: 0;
+}
+.complete-info .step_page .form_upload:nth-child(3) a {
+  background: #EBFFF1;
+}
+.complete-info .step_page .form_upload:nth-child(4) a {
+  background: #FFFCED;
+}
+.complete-info .step_page .step_footer {
+  margin-top: 30px;
+}
+.complete-info .step_page .step_footer .disabled {
+  background: #F0F0F0;
+  color: #fff;
+}
+.complete-info .step_page .step_footer .remark {
+  color: #8F8F8F;
+  font-size: 0.25rem;
+  text-align: center;
+  margin-top: 10px;
+}

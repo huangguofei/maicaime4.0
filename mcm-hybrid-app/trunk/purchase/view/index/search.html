@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>买菜么-搜索</title>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="css/search.css"/>
+    <script type="text/javascript" src="../../js/plugin/vue.js"></script>
+</head>
+	<body>
+		<div class="search-page" id="searchPage">
+		 	<header class="header">
+		 		<span class="return" @click="back">
+		 			<img src="../../img/login/arrow_normals.png" alt="" />
+		 		</span>
+		 		<div class="s-con">
+		 			<input type="text"  @input="searchKeyword" v-model="keyword" placeholder="搜索想要买的食材"/>
+		 		</div>
+		 		<span class="btn-search" @click="jumpSearchResult">搜索</span>
+		 	</header>
+		 	<div class="content">
+		 		<!--热门搜索-->
+		 		<div class="s-item hot-search">
+		 			<h4>热门搜索</h4>
+		 			<div class="items">
+		 				<span class="item" v-for="h in hots" @click="searchVal(h)">{{h}}</span>
+		 			</div>
+		 		</div>
+		 		<!--搜索历史-->
+		 		<!--<div class="s-item log-search">
+		 			<h4>搜索历史<span class="clear"></span></h4>
+		 			<div class="items">
+		 				<span class="item" v-for="l in logs" @click="searchVal(l)">{{l}}</span>
+		 			</div>
+		 		</div>-->
+		 		<div class="key-down-area" v-if="keyShow">
+		 			<p class="item" v-for="k in keywordList" @click="searchVal(k.suggestion)">{{k.suggestion}}</p>
+		 		</div>
+		 	</div>
+	 	</div>
+	 	<script type="text/javascript" src="../../js/plugin/mui.min.js"></script>
+    	<script type="text/javascript" src="../../js/common/common.js"></script>
+    	<script type="text/javascript" src="../../js/plugin/fastclick.js"></script>
+    	<script type="text/javascript" src="../../js/api/search.js"></script>
+	 	<script type="text/javascript" >
+	 		mui.plusReady(function() {
+	 			plus.navigator.setStatusBarStyle('dark');
+	 			vm.initData();
+	 		})
+	 		var vm = new Vue({
+				el: "#searchPage",
+				data: function() {
+					return{
+						keyword: '',
+						hots:[],
+						logs: [],
+						keyShow: false,
+						keywordList: []
+					}
+				},
+				methods: {
+					back: function() {
+						mui.back();
+					},
+					initData: function() {
+						vm.getKeyword()
+					},
+					getKeyword: function() {
+						mcm.isLogin(false) ? api.search.keywordAPI({
+							success:  function(result) {
+								vm.hots = result;
+							}
+						}) : api.search.guestKeywordAPI({
+							success: function(result) {
+								vm.hots = result;
+							}
+						})
+					},
+					searchVal: function(val) {
+						vm.keyword = val;
+						vm.jumpSearchResult();
+					},
+					searchKeyword: function() {
+						function _success(result) {
+							try{
+								var data = JSON.parse(result);
+								if(data.suggestions){
+									vm.keywordList = data.suggestions;
+								}
+							}catch(e) {}
+						}
+						vm.keyShow = true;
+						if(vm.keyword) {
+							mcm.isLogin(false) ? api.search.suggestAPI({
+								data: {keyword: vm.keyword},
+								success: function(result) {
+									_success(result)
+								}
+							}) : api.search.guestSuggestAPI({
+								data: {keyword: vm.keyword},
+								success: function(result) {
+									_success(result)
+								}
+							}) 
+						} else {
+							vm.keywordList = [];
+						}
+					},
+					jumpSearchResult: function() {
+						vm.keyShow = false;
+						var ws = plus.webview.getWebviewById('searchResult');
+						if(ws) {
+							mui.fire(ws, 'anewSearch', {
+								keyword: vm.keyword
+							})
+							setTimeout(function() {
+								ws.show();
+							}, 100)
+						} else {
+							mui.openWindow({
+								url: 'search-result.html',
+								id: 'searchResult',
+								styles: {
+									"render": "always",
+								},
+								extras:{
+							      	keyword: vm.keyword
+							    }
+							});
+						}
+					}
+				}
+			})
+	 		
+	 	</script>
+	</body>
+</html>

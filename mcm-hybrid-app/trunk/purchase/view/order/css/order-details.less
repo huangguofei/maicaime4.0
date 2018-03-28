@@ -1,0 +1,222 @@
+    @import "../../../css/config.less";
+    .order-details {
+        .item {
+            background: #fff;
+            margin-bottom: 10px;
+        }
+        .item:last-child {
+            margin: 0;
+        }
+        .o-head {
+            .head {
+                text-align: center;
+                padding-bottom: 10px;
+                .o-state {
+                    position: relative;
+                    .pxrem(font-size, 36);
+                    color: #0A0B0C;
+                    margin-bottom: 5px;
+                    img {
+                        .pxrem(width, 15);
+                        height: auto;
+                    }
+                    .tiem {
+                        position: absolute;
+                        top: 3px;
+                        right: 10px;
+                        .pxrem(font-size, 28);
+                        color: #666;
+                    }
+                }
+                .remark {
+                    .pxrem(font-size, 24);
+                    color: #8F8F8F;
+                }
+            }
+            .main {
+                text-align: center;
+                a {
+                    display: inline-block;
+                    width: 30%;
+                    height: 30px;
+                    line-height: 30px;
+                    border: 1px solid #F0F0F0;
+                    border-radius: 3px;
+                    .pxrem(font-size, 28);
+                    color: #222;
+                }
+                a.disabled{
+                    color: #C0C4CC;
+                }
+            }
+            .footer {
+                border-top: 1px solid #F0F0F0;
+                text-align: center;
+                .pxrem(font-size, 28);
+                color: #222;
+                padding-top: 10px;
+                img {
+                    vertical-align: middle;
+                }
+                .head-icon {
+                    .pxrem(width, 60);
+                    .pxrem(height, 60);
+                    border-radius: 50%;
+                    margin-right: 5px;
+                }
+                .call-icon {
+                    .pxrem(width, 50);
+                }
+            }
+        }
+        .o-goods {
+            .head {
+                padding: 0px 0 10px;
+                .pxrem(font-size, 28);
+                color: #0A0B0C;
+                border-bottom: 1px solid #F0F0F0;
+                img {
+                    .pxrem(width, 40);
+                    height: auto;
+                    vertical-align: middle;
+                }
+            }
+            .main {
+                ul {
+                    li {
+                        .clearfix();
+                        padding: 10px 0;
+                        border-bottom: 1px solid #F0F0F0;
+                        .goods-img {
+                            .pxrem(width, 120);
+                            .pxrem(height, 120);
+                            margin-right: 10px;
+                            display: flex;
+                            align-items: center;
+                            img {
+                                width: 100%;
+                                height: auto;
+                            }
+                        }
+                        .goods-info {
+                            h2 {
+                                .pxrem(font-size, 28);
+                                color: #0A0B0C;
+                            }
+                            .goods-specs {
+                                .pxrem(font-size, 24);
+                                color: #8F8F8F;
+                                margin: 1px 0 3px;
+                            }
+                            .goods-price {
+                                .pxrem(font-size, 20);
+                                color: #F77E44;
+                            }
+                        }
+                        .goods-num{
+                            margin-bottom: 20px;
+                            text-align: right;
+                        }
+                        .goods-count {
+                            .pxrem(font-size, 28);
+                            color: #3E3E3E;
+                            margin-top: 40px;
+                        }
+                    }
+                }
+            }
+            .footer {
+                display: block;
+                margin-top: 10px;
+                text-align: center;
+                .pxrem(font-size, 24);
+                color: #606266;
+            }
+        }
+        .o-delivery {
+            h2 {
+                font-weight: normal;
+            }
+            .head {
+                .pxrem(font-size, 32);
+                color: #222;
+                padding-bottom: 10px;
+            }
+            .main {
+                .clearfix();
+                padding-top: 10px;
+                img {
+                    .pxrem(width, 30);
+                    height: auto;
+                    margin-top: 10px;
+                    margin-right: 5px;
+                }
+                .address-info {
+                    width: 90%;
+                    h2 {
+                        .pxrem(font-size, 32);
+                        color: #0A0B0C;
+                    }
+                    p {
+                        .pxrem(font-size, 24);
+                        color: #8F8F8F;
+                    }
+                }
+            }
+        }
+        .o-info,
+        .o-money {
+            .main {
+                padding-bottom: 5px;
+            }
+            .footer {
+                padding-top: 5px;
+            }
+            .list {
+                .pxrem(font-size, 28);
+                color: #8F8F8F;
+                line-height: 30px;
+                span {
+                    color: #3E3E3E;
+                }
+            }
+        }
+        .o-info {
+            span {
+                margin-left: 20px;
+            }
+        }
+        .o-money {
+            span {
+                .pxrem(font-size, 30);
+                float: right;
+            }
+        }
+        .o-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            .clearfix();
+            height: 49px;
+            line-height: 49px;
+            background: #fff;
+           box-shadow: 0 -3px 15px #ccc;
+            .price {
+                .pxrem(font-size, 28);
+                .pxrem(margin-left, 20);
+                color: #0A0B0C;
+                i {
+                    color: #F77E44;
+                    font-style: normal;
+                }
+            }
+            .pay_btn {
+                line-height: 50px;
+                .pxrem(font-size, 32);
+                color: #fff;
+                padding: 0 20px;
+                background: @mcm-color-primary;
+            }
+        }
+    }

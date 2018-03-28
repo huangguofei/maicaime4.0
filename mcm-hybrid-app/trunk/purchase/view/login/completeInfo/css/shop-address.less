@@ -1,0 +1,110 @@
+@import "../../../../css/config.less";
+body {
+    background: #fff;
+}
+
+.shop-address {
+    height: 100%;
+    .map-head {
+        .pxrem(height, 80);
+        position: relative;
+        .prem(-4, 20);
+        padding: @prem;
+        .address {
+            position:absolute;
+            .pxrem(top, 5);
+            span {
+                display: inline-block;
+                .pxrem(font-size, 32);
+                color: #3E3E3E;
+                .pxrem(margin-top, 5);
+                .ellipsis;
+                .pxrem(width, 130);
+            }
+            img {
+                .pxrem(width, 20);
+                height: auto;
+                vertical-align: middle;
+            }
+            img:first-child {
+                .pxrem(width, 40);
+                .pxrem(margin-top, -25);
+            }
+            .arrow{
+                position:relative;
+                .pxrem(top, -15);
+            }
+        }
+        .search {
+            .pxrem(margin-left, 240);
+            .pxrem(height, 60);
+            .pxrem(border-radius, 30);
+            background: #F2F2F2;
+            .pxrem(margin-top, 8);
+            img {
+                .pxrem(width, 40);
+                height: auto;
+                vertical-align: middle;
+                margin-left: 10px;
+            }
+            input {
+                background: #F2F2F2;
+                border: 0;
+                width: 80%;
+                .pxrem(height, 60);
+            }
+        }
+    }
+    .map {
+        .pxrem(height, 500);
+    }
+    .address-list {
+        position: absolute;
+        left:0;
+        right:0;
+        .pxrem(bottom, 88);
+        overflow-y:auto;
+        .pxrem(top, 580);
+        .address-item {
+            color: #0A0B0C;
+            border-bottom: 1px solid #F0F0F0;
+            padding: 10px 0;
+            display: flex;
+            align-items: center;
+            span{
+                .pxrem(font-size, 28);
+            }
+            h2 {
+                .pxrem(font-size, 32);
+                margin-bottom: 3px;
+            }
+            p {
+                .pxrem(font-size, 24);
+                color: #8f8f8f;
+            }
+            img{
+                .pxrem(width,60);
+                height: auto;
+            }
+            .clearfix();
+            .address-info{
+                 margin-left: 8px;
+            }
+        }
+    }
+    .event{
+        width: 100%;
+        position: absolute;
+        bottom:0;
+    }
+    .sub_btn{
+        display: block;
+        width: 100%;
+       .pxrem(height, 88);
+       .pxrem(line-height, 88);
+        background: @mcm-color-primary;
+        text-align: center;
+        color: #fff;
+        .pxrem(font-size,36);
+    }
+}

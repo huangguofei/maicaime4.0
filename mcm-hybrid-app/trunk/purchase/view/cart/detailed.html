@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>买菜么-食材清单</title>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="css/detailed.css"/>
+    <script type="text/javascript" src="../../js/plugin/vue.js"></script>
+	</head>
+	<body>
+		<div class="cart-detailed-page" id="cartDetailedPage">
+			<div class="items" >
+				<div class="prod-item" v-for="p in prods" >
+					<div class="p-con">
+						<div class="wrap">
+							<i class="p-img" >
+								<img :src="p.mainImage" alt="" />
+							</i>
+							<div class="p-info">
+								<p class="name" >{{p.productName}}</p>
+								<p class="sku" ><span>{{p.sellUnit}} </span><span>¥{{(p.sellPrice * 1).toFixed(2)}}</span></p>
+								<span class="price" >¥{{(p.sellPrice/p.matrixingMultiple) < 0.01 ? 0.01 : (p.sellPrice/p.matrixingMultiple).toFixed(2)}}/{{p.settleUnit}}</span>
+								<span class="count">数量：{{p.productQuantity}}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="../../js/plugin/mui.min.js"></script>
+    	<script type="text/javascript" src="../../js/common/common.js"></script>
+    	<script type="text/javascript" src="../../js/plugin/fastclick.js"></script>
+	 	<script type="text/javascript" >
+	 		mui.plusReady(function() {
+	 			var self = plus.webview.currentWebview();
+				vm.prods = self.prods;
+	 		})
+	 		var vm = new Vue({
+				el: "#cartDetailedPage",
+				data: function() {
+					return{
+						prods: []
+					}
+				},
+				mounted: function() {
+
+				},
+				methods: {
+				}	
+			})
+	 	</script>
+	</body>
+</html>

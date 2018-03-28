@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>买菜么-购物车</title>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="css/success.css"/>
+    <script type="text/javascript" src="../../js/plugin/vue.js"></script>
+	</head>
+	<body>
+		<div class="cart-success-page" id="cartSuccessPage">
+			<section>
+				<div class="conent">
+					<i class="s-icon"></i>
+					<p class="title">
+						<span>下单成功，未完成支付!</span>
+					</p>
+					<p class="reamk">请去订单页面完成订单！</p>
+				</div>
+				<footer>
+					<a href="javascript:void(0)" @click="lookOrders()">
+						<button class="look-orders">去支付订单</button>
+					</a>
+				</footer>
+			</section>
+		</div>
+		<script type="text/javascript" src="../../js/plugin/mui.min.js"></script>
+    	<script type="text/javascript" src="../../js/common/common.js"></script>
+    	<script type="text/javascript" src="../../js/plugin/fastclick.js"></script>
+  
+	 	<script type="text/javascript" >
+	 
+			mui.plusReady(function() {
+				//vm.initData();
+				mcm.closeWebView(["foodsDetailed", "cartOrders"])
+			})
+			mcm.closeAPP();
+	 		var vm = new Vue({
+				el: "#cartSuccessPage",
+				data: function() {
+					return{
+					
+					}
+				},
+				mounted: function() {
+
+				},
+				methods: {
+					lookOrders: function() {
+						mcm.singleJumpPage("user-order", "../order/index.html", "订单",{active:0});
+					}
+				}
+			})
+	 	</script>
+	</body>
+</html>

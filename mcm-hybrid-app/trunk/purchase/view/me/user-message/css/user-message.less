@@ -1,0 +1,50 @@
+ @import "../../../../css/config.less";
+ .message {
+     ul {
+         li {
+             width: 100%;
+             border: 1px solid #E9E9E9;
+             .pxrem(border-radius, 8);
+             background: #fff;
+             .pxrem(margin-bottom, 20);
+             box-sizing: border-box;
+             header {
+                 .clearfix();
+                 section {
+                     img {
+                         .pxrem(width, 40);
+                         .pxrem(height, 40);
+                         .pxrem(margin-right, 10);
+                         .pxrem(margin-top, -15);
+                         vertical-align: middle;
+                     }
+                     span {
+                         .pxrem(font-size, 32);
+                         color: #000;
+                         font-weight: bold;
+                     }
+                 }
+                 span {
+                     color: #666;
+                     .pxrem(font-size, 23);
+                 }
+             }
+             .content {
+                 .pxrem(margin-top, 20);
+                 color: #666;
+                 .pxrem(font-size, 28);
+             }
+             .new {
+                 position: relative;
+                 i {
+                     position: absolute;
+                     .pxrem(width, 10);
+                     .pxrem(height, 10);
+                     border-radius: 50%;
+                     background: #FF5B60;
+                     right: -0.05rem;
+                 }
+             }
+         }
+     }
+ }

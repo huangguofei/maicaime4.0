@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/common.css" />
+		<link rel="stylesheet" type="text/css" href="css/index.css" />
+		<script type="text/javascript" src="../../js/plugin/vue.js"></script>
+		<title></title>
+		<style>
+			.mui-content-padded {}
+		</style>
+	</head>
+
+	<body>
+		<div id="vueBox" class="order ">
+			<div class="order-main ">
+				<!-- 主页面标题 -->
+				<header class="head mui-bar mui-bar-nav">
+					<a href="javascript:void(0)" @click="jumpUserInfo" class="mui-icon mui-action-menu mui-icon-bars user-icon pull-left"><img src="../../img/mine_icon.png"></a>
+					<a href="javascript:;" v-if="options.orderStatus === 40" @click="changeShowMap" class="change-icon pull-right"><img src="../../img/list_map.png" v-if="showType==1"><img v-else src="../../img/list_list.png"></a>
+					<h1 class="mui-title">配送单</h1>
+				</header>
+				<div id="slider" class="mui-slider mui-fullscreen">
+					<div id="sliderNav" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted mui-segmented-control-positive">
+						<a class="mui-control-item" href="#item1">待取货</a>
+						<a class="mui-control-item" href="#item2">待送达</a>
+						<a class="mui-control-item" href="#item3">已完成</a>
+					</div>
+					<div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-5">
+						<div class="line"></div>
+					</div>
+					<div id="sliderPage" class="mui-slider-group">
+						<div id="item1" class="mui-slider-item mui-control-content">
+							<div id="refreshContainer" class="mui-content mui-scroll-wrapper" v-if="active==0 && orderData.length!=0">
+								<scroller :on-refresh="refresh" :on-infinite="infinite" class="mcm-scroller" ref="scroller">
+									<order-list :datas="orderData"></order-list>
+								</scroller>
+							</div>
+							<empty-page :datas="emptyData" v-else></empty-page>
+						</div>
+						<div id="item2" class="mui-slider-item mui-control-content">
+							<div id="refreshContainer" class="mui-content mui-scroll-wrapper" v-if="active==1 && orderData.length!=0">
+								<scroller :on-refresh="refresh" :on-infinite="infinite" class="mcm-scroller" ref="scroller">
+									<order-list :datas="orderData"></order-list>
+								</scroller>
+							</div>
+							<empty-page :datas="emptyData" v-else></empty-page>
+						</div>
+						<div id="item3" class="mui-slider-item mui-control-content">
+							<div id="refreshContainer" class="mui-content mui-scroll-wrapper" v-if="active==2 && orderData.length!=0">
+								<scroller :on-refresh="refresh" :on-infinite="infinite" class="mcm-scroller" ref="scroller">
+									<order-list :datas="orderData"></order-list>
+								</scroller>
+							</div>
+							<empty-page :datas="emptyData" v-else></empty-page>
+						</div>
+					</div>
+				</div>
+			</div>
+			<dialog-page :datas="dialogData"></dialog-page>
+			<upgrade-package></upgrade-package>
+		</div>
+		<script type="text/javascript" src="../../js/plugin/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/common/common.js"></script>
+		<script type="text/javascript" src="../../components/dialog.js"></script>
+		<script type="text/javascript" src="../../js/api/order.js"></script>
+		<script type="text/javascript" src="../../components/order-list.js"></script>
+		<script type="text/javascript" src="../../components/empty-page.js"></script>
+		<script type="text/javascript" src="../../js/plugin/vue-scroller.min.js"></script>
+		<script type="text/javascript" src="../../components/upgrade-package.js"></script>
+	</body>
+	<script type="text/javascript">
+		var userInfoPage = null,
+			pageMap = null;
+		mui.plusReady(function() {
+			userInfoPage = mui.preload({
+				url: '../me/userInfo.html',
+				id: 'userInfo',
+				styles: {
+					"render": "always",
+					"background": "transparent"
+				}
+			});
+			var self = plus.webview.currentWebview();
+			if(self.auditStatusId == 0) {
+				vm.dialogData.isShow = true;
+			}
+			vm.initPage();
+		});
+		mcm.closeAPP();
+		document.addEventListener('isAuditStatus', function(event) {
+			if(event.detail.auditStatusId == 0) {
+				vm.dialogData.isShow = true;
+			}
+		})
+		document.addEventListener('anewLoadData', function(event) {
+			vm.initPage();
+		})
+		var vm = new Vue({
+			el: "#vueBox",
+			data: function() {
+				return {
+					showType: 1,
+					dialogData: {
+						isShow: false, //是否显示弹窗
+						title: '完善个人信息', //弹窗标题
+						info: "您的信息还未完善，为了不影响您正常 接单，请前去完善个人信息", //弹窗提示语
+						logoSrc: '../../img/login_remind_icon.png', //弹窗头部图片地址
+						yBtn: {
+							str: "好的，去完善", //弹窗确认按钮文字，默认为：是
+							callback: this.goUserPage //弹窗确认事件
+						},
+						nBtn: {
+							str: "不，稍后完善", //弹窗取消按钮文字，默认为：否
+							callback: this.dialogN //弹窗取消事件
+						}
+					},
+					userInfo: {},
+					timeCreated: '',
+					active: 0,
+					options: {
+						orderStatus: 30,
+						pageNum: 1,
+						pageSize: 999
+					},
+					orderData: [],
+					orderStatus: [30, 40, 100],
+					orderId: '',
+					mobile: '',
+					emptyData: {
+						isShow: true,
+						src: "../../img/no_order.png",
+						info: "您还没有配送单哦"
+
+					},
+					mapShow: true
+				}
+			},
+			created: function() {},
+			methods: {
+				refresh: function() {
+					var that = this;
+					vm.$refs.scroller && setTimeout(function() {
+						vm.orderData = [];
+						vm.options.pageNum = 1;
+						vm.getOrderList();
+					}, 1000);
+				},
+				infinite: function(done) {
+					if(vm.options.orderStatus != 100) {
+						done(true)
+					}
+					if(vm.orderData.length < vm.options.pageSize) {
+						done(true)
+					} else {
+						setTimeout(function() {
+							vm.getOrderList(done);
+						}, 1000)
+					}
+				},
+				switchMap: function() {
+
+				},
+				jumpUserInfo: function() {
+					userInfoPage.show("slide-in-left");
+				},
+				changeShowMap: function() {
+					var _that = this;
+					plus.geolocation.getCurrentPosition(function(a) {
+						_that.showType = _that.showType == 1 ? 2 : 1;
+						var ws = plus.webview.getWebviewById('orderMap');
+						if(_that.showType === 1) {
+							ws.hide();
+							vm.initPage();
+						} else {
+							if(ws) {
+								ws.show();
+							} else {
+								mui.openWindow({
+									url: "order-map.html",
+									id: "orderMap",
+									styles: {
+										"render": "always",
+										"top": "90px",
+										"bottom": "0px"
+									},
+									show: {
+										autoShow: false,
+										aniShow: "none"
+									},
+									waiting: {
+										title: "正在加载地图"
+									}
+								})
+							}
+						}
+					}, function(e) {
+						mui.toast('请开启定位权限，才能使用地图模式');
+					});
+
+				},
+				dialogN: function() {
+					this.dialogData.isShow = false;
+				},
+				initPage: function() {
+					this.getOrderList();
+				},
+				getOrderList: function(done) {
+					api.order.orderListAPI({
+						data: this.options,
+						success: function(data) {
+							vm.$refs.scroller && vm.$refs.scroller.finishPullToRefresh();
+							if(vm.options.orderStatus === 100) {
+								var resultList = data.resultList;
+								vm.orderData = vm.orderData.concat(resultList);
+								if(!resultList || resultList.length < vm.options.pageSize) {
+									if(done) {
+										done(true)
+									} else {
+										vm.$refs.scroller && vm.$refs.scroller.finishInfinite(2)
+									}
+								} else {
+									++vm.options.pageNum;
+									done && done();
+								}
+							} else {
+								vm.orderData = data.resultList;
+							}
+						}
+					})
+				},
+				call: function(phone) {
+					var btnArray = ['拨打', '取消'];
+					mui.confirm('是否拨打' + phone + '?', '提示', btnArray, function(e) {
+						if(e.index == 0) {
+							plus.device.dial(phone, false);
+						}
+					});
+				},
+				confirmArrive: function(id, type) {
+					var _that = this;
+					if(type == 300) {
+						mui.prompt("请输入收款金额", "收款金额", "确认收货", ["确认收货", "取消"], function(txt) {
+							_that.subConfirmArrive(id, txt.value);
+						}, 'div');
+					} else {
+						_that.subConfirmArrive(id);
+					}
+				},
+				subConfirmArrive: function(id, amount) {
+					var data = {
+						deliveryOrderId: id
+					}
+					if(amount) {
+						data.amount = amount;
+					}
+					var _that = this;
+					api.order.orderConfirmArrive({
+						data: data,
+						success: function(result) {
+							mui.toast("收货完成！");
+							_that.initPage();
+						}
+					})
+				},
+				goUserPage: function() {
+					mcm.singleJumpPage("user", "../me/index.html", "个人信息");
+				}
+
+			}
+		});
+		document.querySelector(".mui-slider").addEventListener('slide', function(event) {
+			vm.orderData = [];
+			vm.active = event.detail.slideNumber;
+			vm.options.orderStatus = vm.orderStatus[vm.active];
+			vm.options.pageNum = 1;
+			if(vm.options.orderStatus == 100) {
+				vm.options.pageSize = 10;
+			} else {
+				vm.options.pageSize = 999;
+			}
+			if(vm.options.orderStatus != 40) {
+				var ws = plus.webview.getWebviewById('orderMap');
+				ws && ws.close();
+				vm.showType = 1;
+			}
+			vm.getOrderList();
+		});
+	</script>
+
+</html>

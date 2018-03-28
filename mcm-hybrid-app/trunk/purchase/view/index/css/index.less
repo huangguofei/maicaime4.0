@@ -1,0 +1,127 @@
+@import "../../../css/config.less";
+.home-page{
+    .pxrem(padding-bottom, 98);
+    .header{
+        z-index: 999;
+        top: 0;
+        padding-top: 20px;
+        .pxrem(height, 80);
+        .pxrem(line-height, 90);
+        .con{
+            .prem(-4, 20);
+            padding: @prem;
+            
+        }
+        .position{
+            width: 45%;
+            .pxrem(height, 80);
+            .pxrem(max-width, 300);
+            float:left;
+            position: relative;
+            overflow: hidden;
+            text-overflow:ellipsis;
+            white-space:nowrap;
+            .icon{
+                position: absolute;
+                .pxrem(width, 45);
+                .pxrem(height, 45);
+                .pxrem(top, 10);
+                img{
+                    width:100%;
+                }
+            }
+            .addr{
+                display: inline-block;
+                color: @mcm-color-white;
+                .pxrem(text-indent, 70);
+                .icon{
+                    display: inline-block;
+                    position:relative;
+                    .pxrem(top, -5);
+                    .pxrem(width, 30);
+                    .pxrem(height, 20);
+                    background: url(../../../img/down-tAwesome.png) no-repeat center center;
+                    background-size: 90% auto;
+                }
+            }
+        }
+        .search{
+            width: 55%;
+            height: 100%;
+            float:right;
+            .con{
+                background: #3E3B3A url(../../../img/home/home_search.png) no-repeat 5px 5px;
+                background-size:auto 70%;
+                .pxrem(height, 60);
+                .pxrem(line-height, 65);
+                .pxrem(border-radius, 30);
+                .pxrem(margin-top, 10);
+                .pxrem(font-size, 28);
+                color: #C2C2C2;
+                .pxrem(text-indent, 40);
+            }
+        }
+    }
+    .content{
+        .food-category{
+            .pxrem(margin-top, 20);
+            background: @mcm-color-white;
+            .prem(20);
+            padding:@prem;
+            &:after{
+                .clearFloat
+            }
+            .item{
+                width: 20%;
+                float: left;
+                text-align: center;
+                .prem(10, -4);
+                padding:@prem;
+                .icon{
+                    display: inline-block;
+                    .pxrem(width, 100);
+                    .pxrem(height, 100);
+                    img{
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+                .name{
+                    color: @mcm-color-text-secondary;
+                    .pxrem(font-size, 26);
+                    .pxrem(margin-top, 3);
+                }
+            }
+        }
+        .recommend{
+            .pxrem(margin-top, 20);
+            .r-header{
+                .pxrem(height, 180);
+                background: @mcm-color-white url(../../../img/home/home_recommend.png) no-repeat;
+                background-size:cover;
+            }
+        }
+        .category-nar{
+            border-top: 1px solid @mcm-border-line-color;
+        }
+        .not-dredge{
+            text-align: center;
+            .pxrem(padding-top, 80);
+            img{
+                .pxrem(width, 320);
+            }
+            .mes{
+                .prem(30, -4);
+                padding: @prem;
+                .pxrem(font-size, 32);
+            }
+            .btn-look{
+                color: @mcm-color-primary;
+                border-color: @mcm-color-primary;
+                .pxrem(border-radius, 33);
+                .prem(5, 35);
+                padding: @prem;
+            }
+        }
+    }
+}

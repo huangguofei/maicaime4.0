@@ -1,0 +1,115 @@
+    @import "../../../../css/config.less";
+    .user-coupon {
+        .order-null {
+            text-align: center;
+            color: #999;
+            .pxrem(line-height, 50);
+        }
+        ul {
+            li {
+                position: relative;
+                width: 100%;
+                .pxrem(height, 220);
+                .pxrem(border-radius, 14);
+                background: #fff;
+                .pxrem(margin-bottom, 20);
+                box-sizing: border-box;
+                .clearfix();
+                .item-left {
+                    width: 28%;
+                    text-align: center;
+                    border-right: 1px dashed #D7D7D7;
+                    position: relative;
+                    height: 100%;
+                    p {
+                        .pxrem(font-size, 50);
+                        color: #F77E44;
+                        .pxrem(line-height, 100);
+                        b {
+                            .pxrem(font-size, 90);
+                            font-weight: normal;
+                        }
+                    }
+                    span {
+                        .pxrem(font-size, 24);
+                        color: #999;
+                    }
+                    .common() {
+                        content: "";
+                        display: inline-block;
+                        .pxrem(width, 20);
+                        .pxrem(height, 20);
+                        .pxrem(border-radius, 10);
+                        position: absolute;
+                        background:#F3F3F3;
+                        .pxrem(right, -15);
+                    }
+                    &:before {
+                        .common();
+                        .pxrem(top, -40);
+                    }
+                    &:after {
+                        .common();
+                        .pxrem(bottom, -40);
+                    }
+                }
+                .item-right {
+                    .pxrem(padding-left, 10);
+                    .title {
+                        .pxrem(font-size, 36);
+                        img {
+                            .pxrem(width, 100);
+                            height: 20px;
+                            position: relative;
+                            .pxrem(top, -10);
+                            .pxrem(left, 10);
+                        }
+                    }
+                    .time {
+                        .pxrem(font-size, 20);
+                        color: #8F8F8F;
+                        margin: 5px 0 10px;
+                    }
+                    .remark {
+                        .pxrem(font-size, 24);
+                        color: #999;
+                        display: inline-block;
+                        .pxrem(padding-left, 18);
+                        .pxrem(padding-right, 18);
+                        background: #F2F2F2;
+                        .pxrem(height, 46);
+                        .pxrem(line-height, 46);
+                        .pxrem(border-radius, 23);
+                        i {
+                            display: inline-block;
+                            .pxrem(width, 10);
+                            .pxrem(height, 10);
+                            .pxrem(margin-right, 5);
+//                          vertical-align: middle;
+                            background: #666;
+                            .pxrem(border-radius, 5);
+                        }
+                    }
+                }
+            }
+        }
+        .view-other {
+            display: block;
+            margin-top: .2rem;
+            .pxrem(font-size, 28);
+            color: #9a9a9a;
+            text-align: center;
+            vertical-align: middle;
+            img {
+                .pxrem(width, 30);
+                height: auto;
+                .pxrem(margin-left, 5);
+                vertical-align: middle;
+            }
+        }
+        .active {
+            background: url(../../images/order_check.png) no-repeat -1px -1px;
+            background-size: 120% auto;
+            border-color: @mcm-color-primary;
+        }
+    }

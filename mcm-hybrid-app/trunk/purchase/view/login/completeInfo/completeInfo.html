@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../../css/common.css" />
+		<link rel="stylesheet" type="text/css" href="css/completeInfo.css" />
+		<script type="text/javascript" src="../../../js/plugin/vue.js"></script>
+		<title></title>
+	</head>
+
+	<body>
+		<div id="vueBox" class="complete-info">
+			<back-page :datas="{title:'店铺信息完善'}"><span @click="jumpHome" class="wait">稍后完善</span></back-page>
+			<div class="step">
+				<span class="step_list" :class="{active:step==1}" @click="step=1"><i>1</i>基础信息</span>
+				<span class="step_list" :class="{active:step==2}" @click="infoNext(2)"><i>2</i>认证信息</span>
+				<span class="step_list" :class="{active:step==3}" @click="infoNext(3)"><i>3</i>收货信息</span>
+			</div>
+			<div class="con" v-show="loading">
+				<div class="step_page step_one padding" v-if="step==1">
+					<form>
+						<div class="form_list">
+							<label>店铺名称</label>
+							<input type="text" v-model="form.buyerName" placeholder="输入完整真实的店铺名称" />
+						</div>
+						<div class="form_list">
+							<label>负责人</label>
+							<input type="text" v-model="form.principal" placeholder="店长姓名" />
+						</div>
+						<div class="form_list">
+							<label>联系电话</label>
+							<input type="text" maxlength="11" v-model="form.principalMobile" placeholder="负责人电话号码" />
+						</div>
+						<div class="form_list">
+							<label>地址</label>
+							<input type="text" @click="selectAddress" v-model="addr" readonly="" placeholder="点击选择店铺地址" />
+							<a href="javascript:;" @click="selectAddress" class="address"><img src="../../../img/login/home_info_arrow.png" /></a>
+						</div>
+						<div class="form_list adddress">
+							<label>详细地址/门牌号</label>
+							<input type="text" v-model="form.doorplate" placeholder="店铺所在街道及门牌" />
+						</div>
+					</form>
+					<div class="step_footer">
+						<button class="setp_btn btn-default" type="button" @click="infoNext(2)">下一步</button>
+						<p class="remark">如有任何问题，请拨打400-8082-836</p>
+					</div>
+				</div>
+				<div class="step_page step_two padding" v-else-if="step==2">
+					<form>
+						<div class="form_upload">
+							<a href="javascript:;" class="image-upload" @click="uploadImg(4, 'front')">
+								<img src="../../../img/login/home_info_add.png" v-if="!form.identityCardFrontImage" />
+								<img :src="form.identityCardFrontImage" class="show-img" v-else />
+								<p v-if="!form.identityCardFrontImage">上传身份证正面</p>
+							</a>
+							<!--<a href="javascript:;" class="image-show"><img src="../../../img/home/home_banner.png"/></a>-->
+							<!--<img class="state" src="../../../img/login/home_info_check.png"/>-->
+						</div>
+						<div class="form_upload">
+							<a href="javascript:;" class="image-upload" @click="uploadImg(4)">
+								<img src="../../../img/login/home_info_add.png" v-if="!form.identityCardReverseImage" />
+								<img :src="form.identityCardReverseImage" class="show-img" v-else />
+								<p v-if="!form.identityCardReverseImage">上传身份证反面</p>
+							</a>
+							<!--<a href="javascript:;" class="image-show"><img src="../../../img/home/home_banner.png"/></a>-->
+						</div>
+						<div class="form_upload">
+							<a href="javascript:;" class="image-upload" @click="uploadImg(1)">
+								<img src="../../../img/login/home_info_add.png" v-if="!form.shopImage" />
+								<img :src="form.shopImage" class="show-img" v-else />
+								<p v-if="!form.shopImage">上传店铺门头照</p>
+							</a>
+							<!--<p class="again">重新上传</p>-->
+						</div>
+						<div class="form_upload">
+							<a href="javascript:;" class="image-upload" @click="uploadImg(2)">
+								<img src="../../../img/login/home_info_add.png" v-if="!form.businessLicenseImage" />
+								<img :src="form.businessLicenseImage" class="show-img" v-else />
+								<p v-if="!form.businessLicenseImage">上传营业执照</p>
+							</a>
+							<!--<a href="javascript:;" class="image-show"><img src="../../../img/home/home_banner.png"/></a>-->
+							<!--<p class="again">重新上传</p>-->
+						</div>
+					</form>
+					<div class="step_footer">
+						<button class="setp_btn btn-default" type="button" @click="infoNext(3)">下一步</button>
+						<p class="remark">材料审核需要一个工作日，如有任何问题，请拨打400-8082-836</p>
+					</div>
+				</div>
+				<div class="step_page step_three padding" v-else>
+					<form>
+						<div class="form_list">
+							<label>收货人</label>
+							<input type="text" v-model="form.deliverName" placeholder="输入收货人姓名" />
+						</div>
+						<div class="form_list">
+							<label>电话</label>
+							<input type="text" maxlength="11" v-model="form.deliverMobile" placeholder="收货人的联系方式" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" />
+						</div>
+						<div class="form_list">
+							<label>收货时间</label>
+							<input type="text" v-model="form.expectedReceiptTime" placeholder="您的期望收货时间" />
+							<!--<a href="javascript:;" class="address">
+								<img src="../../../img/login/home_info_arrow.png" /></a>-->
+						</div>
+					</form>
+					<div class="step_footer">
+						<button class="setp_btn btn-default" type="button" @click="confimForm">完成</button>
+						<p class="remark">如有任何问题，请拨打400-8082-836</p>
+					</div>
+				</div>
+				<dialog-page :datas=dialogData></dialog-page>
+			</div>
+		</div>
+		<script type="text/javascript" src="../../../js/plugin/mui.min.js"></script>
+		<script type="text/javascript" src="../../../js/common/common.js"></script>
+		<script type="text/javascript" src="../../../components/dialog.js"></script>
+		<script type="text/javascript" src="../../../components/page-header.js"></script>
+		<script type="text/javascript" src="../../../js/api/login.js"></script>
+	</body>
+	<script type="text/javascript">
+		mui.plusReady(function() {
+			mcm.closeWebView(["login", "register"]);
+			var perfectform = mcm.getCookie('perfectform');
+			if(perfectform) {
+				vm.readCookie(JSON.parse(perfectform))
+			}
+		});
+		document.addEventListener('setAddrInfo', function(event) {
+			var info = event.detail.addrInfo,
+				form = vm.form;
+			if(info) {
+				vm.addr = info.positionAddr;
+				form.doorplate = info.doorplate;
+				form.province = info.regProvince;
+				form.city = info.regCity;
+				form.area = info.regArea;
+				form.longitude = info.regLongitude;
+				form.latitude = info.regLatitude;
+				form.address = vm.addr + form.doorplate;
+			}
+		});
+		var vm = new Vue({
+			el: "#vueBox",
+			data: function() {
+				return {
+					loading: false,
+					step: 1,
+					isDisabled: true,
+					addr: "",
+					form: {
+						buyerName: "",
+						principal: "",
+						principalMobile: "",
+						province: "",
+						city: "",
+						area: "",
+						address: "",
+						longitude: "",
+						latitude: "",
+						shopImage: "",
+						businessLicenseImage: "",
+						identityCardFrontImage: "",
+						identityCardReverseImage: "",
+						deliverName: "",
+						deliverMobile: "",
+						expectedReceiptTime: ""
+					},
+					dialogData: {
+						isShow: true,
+						title: '完善店铺信息',
+						info: "为方便购买食材，您大概需要花费 3～5分钟完善店铺信息，",
+						logoSrc: '../../../img/login/home_info_remind.png',
+						yBtn: {
+							str: "好的，去完善",
+							callback: this.dialogY
+						},
+						nBtn: {
+							str: "不，稍后完善",
+							callback: this.dialogN
+						}
+					}
+				}
+			},
+			mounted: function() {
+				setTimeout(function() {
+					vm.loading = true;
+				}, 500);
+			},
+			methods: {
+				dialogY: function() {
+					this.dialogData.isShow = false;
+				},
+				dialogN: function() {
+					this.jumpHome();
+				},
+				selectAddress: function() {
+					mcm.singleJumpPage("shop-address", "shop-address.html", "店铺位置");
+				},
+				jumpHome: function() {
+					mcm.setCookie('isPerfect', 'true');
+					//保存缓存
+					mcm.setCookie("perfectform", JSON.stringify(vm.form));
+					var me = plus.webview.getWebviewById("me");
+					me && me.hide();
+					plus.webview.currentWebview().hide("none");
+					var home = plus.webview.getLaunchWebview();
+					if(home) {
+						mui.fire(home, "switchMenu", {
+							index: 1
+						});
+						setTimeout(function() {
+							home.show("none");
+						}, 100);
+					} else {
+						mui.openWindow({
+							url: "../../index.html",
+							id: "home"
+						});
+					}
+				},
+				infoNext: function(step) {
+					if(this.verificationStep(step)) {
+						this.step = step;
+					}
+				},
+				verificationStep: function(step) {
+					var form = this.form,
+						error = null,
+						bool = true;
+					if(step === 2) {
+						if(!form.buyerName) {
+							error = mcm.message.shopNameNull;
+						} else if(!form.principal) {
+							error = mcm.message.principalNull;
+						} else if(!form.principalMobile) {
+							error = mcm.message.mobileNull;
+						} else if(!mcm.validation.checkMobile(form.principalMobile)) {
+							error = mcm.message.mobileError;
+						} else if(!form.address) {
+							error = mcm.message.addrNull;
+						}
+
+					} else if(step === 3) {
+						if(!form.identityCardFrontImage) {
+							error = mcm.message.identityCardFrontImageNull;
+						} else if(!form.identityCardReverseImage) {
+							error = mcm.message.identityCardReverseImageNull;
+						}
+					} else if(step === 4) {
+						if(!form.deliverName) {
+							error = mcm.message.deliverNameNull;
+						} else if(!form.deliverMobile) {
+							error = mcm.message.mobileNull;
+						} else if(!mcm.validation.checkMobile(form.deliverMobile)) {
+							error = mcm.message.mobileError;
+						} else if(!form.expectedReceiptTime) {
+							error = mcm.message.expectedReceiptTimeNull;
+						}
+					}
+					if(error) {
+						mui.toast(error);
+						bool = false;
+					}
+					return bool;
+
+				},
+				confimForm: function() {
+					if(this.verificationStep(4)) {
+						api.perfectInfo.baseInfoAPI({
+							data: this.form,
+							success: function(result) {
+								mcm.setCookie("isPerfect", '');
+								mcm.setCookie("perfectform", '');
+								var me = plus.webview.getWebviewById("me");
+								mui.fire(me,'openThatPage');
+								me && me.hide();
+								mui.toast(mcm.message.baseInfoSuccess);
+								var home = plus.webview.getLaunchWebview();
+								if(home) {
+									mui.fire(home, "switchMenu", {
+										index: 1
+									});
+									setTimeout(function() {
+										home.show();
+									}, 100);
+								} else {
+									mui.openWindow({
+										url: "../../../index.html",
+										id: "home"
+									});
+								}
+							}
+						});
+					}
+				},
+				uploadImg: function(index, type) {
+					var form = this.form;
+					mcm.uploadImage(index, function(path) {
+						if(index === 1) {
+							form.shopImage = path;
+						} else if(index === 4) {
+							if(type === "front") {
+								form.identityCardFrontImage = path;
+							} else {
+								form.identityCardReverseImage = path;
+							}
+						} else {
+							form.businessLicenseImage = path;
+						}
+					});
+				},
+				readCookie: function(data) {
+					vm.form = data;
+					vm.addr = data.address;
+				}
+			}
+		})
+	</script>
+
+</html>

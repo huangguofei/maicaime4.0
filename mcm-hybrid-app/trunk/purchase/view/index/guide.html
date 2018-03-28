@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>买菜么-商城</title>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="css/guide.css"/>
+</head>
+	<body>
+		<div class="guide-page mui-slider mui-fullscreen" id="slider">
+			<div class="mui-slider-group">
+				<div class="mui-slider-item slider-1">
+					
+				</div>
+				<div class="mui-slider-item slider-2">
+					
+				</div>
+				<div class="mui-slider-item slider-3">
+					<div class="open-home" id="openHome"></div>
+				</div>
+			</div>
+	 	</div>
+	 	<script type="text/javascript" src="../../js/plugin/mui.min.js"></script>
+    	<script type="text/javascript" src="../../js/common/common.js"></script>
+    	<script type="text/javascript" src="../../js/plugin/fastclick.js"></script>
+	 	<script type="text/javascript" >
+	 		mui.plusReady(function() {
+	 			if(mui.os.ios){
+					plus.navigator.setFullscreen(true);
+				}
+	 		})
+	 		document.getElementById("openHome").addEventListener('tap', function(event) {
+				plus.storage.setItem("lauchFlag", "true");
+				plus.navigator.setFullscreen(false);
+				plus.webview.currentWebview().close();
+			}, false);
+
+	 	</script>
+	</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../../css/common.css" />
+		<link rel="stylesheet" type="text/css" href="css/user-debtList.css" />
+		<script type="text/javascript" src="../../../js/plugin/vue.js"></script>
+		<title></title>
+	</head>
+
+	<body>
+		<div id="vueBox" class="user-debtList">
+			<article class="debtList-list">
+				<div class="item padding" @click="goDebtDetails">
+					<img src="../../../img/mine_yue_details_icon1.png" class="pull-left add-img" />
+					<!--<img src="" class="pull-left reduce-img" />-->
+					<section class="pull-left">
+						<p>下单支付</p>
+						<span>08-06 14:43:30</span>
+					</section>
+					<span class="pull-right">-188.50</span>
+				</div>
+				<div class="item padding">
+					<img src="../../../img/mine_yue_details_icon1.png" class="pull-left add-img" />
+					<!--<img src="" class="pull-left reduce-img" />-->
+					<section class="pull-left">
+						<p>下单支付</p>
+						<span>08-06 14:43:30</span>
+					</section>
+					<span class="pull-right">-188.50</span>
+				</div>
+			</article>
+		</div>
+		<script type="text/javascript" src="../../../js/plugin/mui.min.js"></script>
+		<script type="text/javascript" src="../../../js/common/common.js"></script>
+	</body>
+	<script type="text/javascript">
+		var vm = new Vue({
+			el: "#vueBox",
+			data: function() {
+				return {
+
+				}
+			},
+			methods: {
+				goDebtDetails: function() {
+					mcm.singleJumpPage("user-debtDetails", "user-debtDetails.html", "欠款明细详情");
+				}
+			}
+		})
+	</script>
+
+</html>

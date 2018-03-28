@@ -1,0 +1,152 @@
+/**
+ * author pzh
+ * 商户系统主题配置
+ */
+/*主色调*/
+/*辅助色*/
+/*禁用*/
+/*主要字体色*/
+/*常规文字颜色*/
+/*次要文字颜色*/
+/*不可输入*/
+/*背景色*/
+/*主要边框*/
+/*分割线*/
+.clearFloat {
+  content: "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  *zoom: 1;
+  clear: both;
+  visibility: hidden;
+}
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.home-page {
+  padding-bottom: 0.796875rem;
+}
+.home-page .header {
+  z-index: 999;
+  top: 0;
+  padding-top: 20px;
+  height: 0.65625rem;
+  line-height: 0.734375rem;
+}
+.home-page .header .con {
+  padding: 0rem 0.1875rem;
+}
+.home-page .header .position {
+  width: 45%;
+  height: 0.65625rem;
+  max-width: 2.375rem;
+  float: left;
+  position: relative;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.home-page .header .position .icon {
+  position: absolute;
+  width: 0.3828125rem;
+  height: 0.3828125rem;
+  top: 0.109375rem;
+}
+.home-page .header .position .icon img {
+  width: 100%;
+}
+.home-page .header .position .addr {
+  display: inline-block;
+  color: #fff;
+  text-indent: 0.578125rem;
+}
+.home-page .header .position .addr .icon {
+  display: inline-block;
+  position: relative;
+  top: -0.0078125rem;
+  width: 0.265625rem;
+  height: 0.1875rem;
+  background: url(../../../img/down-tAwesome.png) no-repeat center center;
+  background-size: 90% auto;
+}
+.home-page .header .search {
+  width: 55%;
+  height: 100%;
+  float: right;
+}
+.home-page .header .search .con {
+  background: #3E3B3A url(../../../img/home/home_search.png) no-repeat 5px 5px;
+  background-size: auto 70%;
+  height: 0.5rem;
+  line-height: 0.5390625rem;
+  border-radius: 0.265625rem;
+  margin-top: 0.109375rem;
+  font-size: 0.25rem;
+  color: #C2C2C2;
+  text-indent: 0.34375rem;
+}
+.home-page .content .food-category {
+  margin-top: 0.1875rem;
+  background: #fff;
+  padding: 0.1875rem;
+}
+.home-page .content .food-category:after {
+  content: "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  *zoom: 1;
+  clear: both;
+  visibility: hidden;
+}
+.home-page .content .food-category .item {
+  width: 20%;
+  float: left;
+  text-align: center;
+  padding: 0.109375rem 0rem;
+}
+.home-page .content .food-category .item .icon {
+  display: inline-block;
+  width: 0.8125rem;
+  height: 0.8125rem;
+}
+.home-page .content .food-category .item .icon img {
+  width: 100%;
+  height: 100%;
+}
+.home-page .content .food-category .item .name {
+  color: #3E3E3E;
+  font-size: 0.234375rem;
+  margin-top: 0.0546875rem;
+}
+.home-page .content .recommend {
+  margin-top: 0.1875rem;
+}
+.home-page .content .recommend .r-header {
+  height: 1.4375rem;
+  background: #fff url(../../../img/home/home_recommend.png) no-repeat;
+  background-size: cover;
+}
+.home-page .content .category-nar {
+  border-top: 1px solid #F0F0F0;
+}
+.home-page .content .not-dredge {
+  text-align: center;
+  padding-top: 0.65625rem;
+}
+.home-page .content .not-dredge img {
+  width: 2.53125rem;
+}
+.home-page .content .not-dredge .mes {
+  padding: 0.265625rem 0rem;
+  font-size: 0.28125rem;
+}
+.home-page .content .not-dredge .btn-look {
+  color: #1EC551;
+  border-color: #1EC551;
+  border-radius: 0.2890625rem;
+  padding: 0.0703125rem 0.3046875rem;
+}

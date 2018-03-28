@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>买菜么-商城</title>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="css/detail.css"/>
+    <script type="text/javascript" src="../../js/plugin/vue.js"></script>
+	</head>
+	<body>
+		<div class="shop-detail-page" id="shopDetailPage">
+			<div class="header" :class="{'back-header':headerShow}" :style="{background:headerBack}">
+				<i class="back" @click="back">
+					<img src="../../img/login/arrow_normals.png" alt="" />
+				</i>
+				<p>{{detailInfo.productName}}</p>
+			</div>
+			<scroller class="mcm-scroller" ref="scroller" :on-scrollmove="scrollmove" >
+				<div class="img-slider" v-if="loading">
+					<!--轮播-->
+		    		<div class="mui-slider">
+						  <div class="mui-slider-group mui-slider-loop">
+						    <!--支持循环，需要重复图片节点-->
+						    <div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img :src="detailInfo.mainImage" /></a></div>
+						    <div class="mui-slider-item" v-for="imgs in prodImgs"><a href="#"><img :src="imgs.url" /></a></div>
+						    <div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img :src="detailInfo.mainImage" /></a></div>
+						  </div>
+					</div>
+					<div class="info">
+						<p class="name">{{detailInfo.productName}}</p>
+						<i class="add-often" @click="oftenEvent"><i :class="{active:detailInfo.isExistCollect}"></i></i>
+					</div>
+				</div>
+				<div class="skus-info"  v-if="loading">
+					<div class="sku-select">
+						<p class="title">选择规格</p>
+						<div class="items">
+							<span class="item" @click="switchSku(index)" :class="index === skuActive ? 'active' : ''" v-for="(s, index) in skus">{{s.sellUnit}}</span>
+						</div>
+					</div>
+					<div class="info" v-if="skus[skuActive]">
+						<span class="sku-price">¥<span>{{(skus[skuActive].sellPrice * 1).toFixed(2)}}</span></span><br />
+						<span class="unit-price">
+							¥{{(skus[skuActive].sellPrice / skus[skuActive].matrixingMultiple) < 0.01 ? 0.01 : (skus[skuActive].sellPrice / skus[skuActive].matrixingMultiple).toFixed(2)}}/{{skus[skuActive].settleUnit}}
+						</span>
+						<add-cart  :num="skus[skuActive].productQuantity" :row="skus[skuActive]" class="cart"  @changeprodnum="changeProdNum"></add-cart>
+						<p class="desc">
+							描述：{{detailInfo.remark}}
+						</p>
+					</div>
+				</div>
+				<div class="recommend"  v-if="loading && recommProdList && recommProdList.length">
+					<h4><i class="left-icon"></i>为你推荐<i class="right-icon"></i></h4>
+					<recommend-prods
+						:recommprodlist="recommProdList"
+						></recommend-prods>
+				</div>
+				
+			</scroller>
+			<loading v-if="!loading"></loading>
+		</div>
+		<script type="text/javascript" src="../../js/plugin/mui.min.js"></script>
+    	<script type="text/javascript" src="../../js/common/common.js"></script>
+    	<script type="text/javascript" src="../../js/plugin/fastclick.js"></script>
+    	<script type="text/javascript" src="../../components/loading.js"></script>
+    	<script type="text/javascript" src="../../components/recommend-prods.js"></script>
+    	<script type="text/javascript" src="../../components/add-cart.js"></script>
+    	<script type="text/javascript" src="../../js/api/shop.js"></script>
+    	<script type="text/javascript" src="../../components/number-key.js"></script>
+    	<script type="text/javascript" src="../../js/api/index.js"></script>
+    	<script type="text/javascript" src="../../js/plugin/vue-scroller.min.js"></script>
+	 	<script type="text/javascript" >
+	 		mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				vm.sellProductId = self.sellProductId;
+				vm.getDetailInfo()
+				vm.getRecommendProd();
+	 		})
+	 		document.addEventListener("loadProdDetail", function(e) {
+	 			vm.sellProductId = e.detail.sellProductId;
+				vm.getDetailInfo();
+				vm.getRecommendProd();
+	 		})
+	 		mui.back = function() {
+	 			var front = plus.webview.currentWebview().opener();
+	 			if(front) {
+	 				mui.fire(front, 'detailBackAnewLoadProdData')
+	 			}
+	 			setTimeout(function() {
+	 				plus.webview.currentWebview().close();
+	 			}, 100)
+	 		}
+	 		mui.init({
+			    subpages:[{
+			      url: '../index/category-footer.html',
+			      id: 'detailFooter',
+			      styles:{
+			      	height: '58px',
+			      	bottom: '0px',
+			      	background: "transparent",
+			      	zIndex: 99
+			      },
+			      extras:{},
+			      
+			    }]
+		    });
+	 		var vm = new Vue({
+				el: "#shopDetailPage",
+				data: function() {
+					return{
+						loading: false,
+						skuActive: 0,
+						often: false,
+						sellProductId: '',
+						detailInfo: {},
+						skus: [],
+						prodImgs: [],
+						recommProdList: [],
+						headerShow: false,
+						headerBack: 'rgba(255, 255, 255, 0)'
+					}
+				},
+				mounted: function() {
+					
+				},
+				methods: {
+					back: function() {
+						mui.back();
+					},
+					scrollmove: function(position) {
+						var top = position.top;
+						if(top > 20) {
+							vm.headerShow = true;
+							var opacity = top / 120;
+							if(opacity >= 1) {
+								opacity = 1
+							} 
+							vm.headerBack = 'rgba(255, 255, 255, '+ opacity +')'
+						} else {
+							vm.headerShow = false;
+							vm.headerBack = 'rgba(255, 255, 255, 0)'
+						}
+					},
+					oftenEvent: function() {
+						var data = {sellProductId: vm.detailInfo.sellProductId}
+						if(mcm.isLogin(true, '../login/login.html')) {
+							vm.detailInfo.isExistCollect ? api.common.delOftenAPI({
+								data: data, 
+								success: function(result) {
+									vm.detailInfo.isExistCollect = false;
+								}
+							}) : api.common.addOftenAPI({
+								data: data,
+								success: function(result) {
+									vm.detailInfo.isExistCollect = true;
+								}
+							});
+						}
+					},
+					switchSku: function(index) {
+						var that = this;
+						that.skuActive = -1;
+						Vue.nextTick().then(function() {
+							that.skuActive = index;
+						})
+					},
+					getDetailInfo: function() {
+						var apiUrl = mcm.isLogin(false) ? 'detailAPI' : 'guestDetailAPI';
+						api.shop[apiUrl]({
+							data: {sellProductId: vm.sellProductId},
+							success: function(result) {
+								vm.loading = true;
+								vm.detailInfo = result;
+								try{
+									vm.prodImgs = JSON.parse(result.minorImage);
+									if(result.sellProductTypeId === 1) {
+										vm.skus.push({
+											sellProductId: result.sellProductId,
+											sellUnit: result.sellUnit,
+											sellPrice: result.sellPrice,
+											matrixingMultiple: result.matrixingMultiple,
+											settleUnit: result.settleUnit,
+											productQuantity: 0
+										})
+									} else {
+										var products = result.products;
+										mui.each(products, function(i, item) {
+											vm.skus.push({
+												sellProductId: item.sellProductId,
+												sellUnit: item.specName,
+												sellPrice: item.sellPrice,
+												settleUnit: item.sellUnit,
+												matrixingMultiple: item.matrixingMultiple,
+												productQuantity: 0
+											})
+										})
+									}
+									mcm.isLogin(false) && vm.getSkuCartNum();
+								}catch(e) {}
+								setTimeout(function() {
+									var gallery = mui('.mui-slider');
+									gallery.slider({
+									  interval: 5000
+									});
+								}, 500)
+								
+							}
+						})
+					},
+					getSkuCartNum: function() {
+						var skus = vm.skus, prodIds = [];
+						mui.each(skus, function(i, item) {
+							prodIds.push(item.sellProductId);
+						})
+						if(prodIds.length) {
+							api.common.getCartNumByProdId({
+								data: {
+									sellProductIds: prodIds.toString()
+								},
+								success: function(result) {
+									if(result) {
+										mui.each(skus, function(i, item) {
+											var skuId = item.sellProductId;
+											if(result[skuId]) {
+												item.productQuantity = result[skuId].productQuantity;
+											}
+										})
+									}
+								}
+							})
+						}
+					},
+					getRecommendProd: function() {
+						var addrStr = plus.storage.getItem(mcm.config.LOCATIONINFO);
+						try{
+							var addr = JSON.parse(addrStr);
+							if(addr) {
+								var params = {}
+								params.province = addr.province;
+								params.city = addr.city;
+								params.sellProductId = vm.sellProductId;
+								mcm.getRecommendProd({
+									type: 'prod',
+									data: params,
+									callback: function(result) {
+										vm.recommProdList =  result;
+									}
+								})
+							} 
+						}catch(e) {}
+						
+					},
+					getCartNum: function(data) {
+						var prodAssignNum = function(carts) {
+							mui.each(data, function(n, prod) {
+								if(carts){
+									var cart = carts[prod.sellProductId];
+									if(cart){
+										prod.productQuantity = cart.productQuantity;
+									} else {
+										prod.productQuantity = 0;
+									}
+								} else {
+									prod.productQuantity = 0;
+								}
+							})
+							vm.recommProdList = data;
+						}
+						mcm.isLogin(false) ? api.common.getProdCartNumAPI({
+							success: function(result) {
+								prodAssignNum(result)
+							}
+						}) : prodAssignNum();
+					},
+					changeProdNum: function() {
+						var ws = plus.webview.getWebviewById('detailFooter');
+						ws && (function() {
+							mui.fire(ws, 'anewLoadData')
+						})()
+					},
+				}
+			})
+	 		
+	 	</script>
+	</body>
+</html>

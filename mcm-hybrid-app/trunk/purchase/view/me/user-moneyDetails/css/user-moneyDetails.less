@@ -1,0 +1,80 @@
+@import "../../../../css/config.less";
+.user-moneyDetails {
+    .head {
+        .clearfix();
+        background: #FCFCFC;
+        .date {
+            border-right: 1px solid #d7d7d7;
+            padding-right: 5px;
+            .time {
+                text-align: center;
+                b {
+                    color: #000;
+                    .pxrem(font-size, 36);
+                }
+                p {
+                    color: #666;
+                    .pxrem(font-size, 28);
+                }
+            }
+            img {
+                .pxrem(width, 30);
+                height: auto;
+                margin: 10px 5px;
+            }
+        }
+        .amount {
+            padding-left: 10px;
+            span {
+                color: #666;
+                .pxrem(font-size, 24);
+            }
+            p {
+                color: #000;
+                .pxrem(font-size, 32);
+            }
+        }
+    }
+    .moneyDetails-list {
+        margin-top: 10px;
+        background: #fff;
+        .item {
+            .pxrem(height, 90);
+            .clearfix();
+            border-bottom: 1px solid #F0F0F0;
+            img {
+                .pxrem(width, 70);
+                height: 40px;
+                .pxrem(margin-right, 30);
+            }
+            .reduce-img {
+                display: none;
+            }
+            section {
+                p {
+                    .pxrem(font-size, 32);
+                }
+                span {
+                    .pxrem(font-size, 24);
+                    color: #535353;
+                }
+            }
+            &>span {
+                .pxrem(font-size, 36);
+                color: #1EC551;
+                .pxrem(line-height, 90);
+            }
+        }
+        .active {
+            img {
+                display: none;
+            }
+            .reduce-img {
+                display: inline-block;
+            }
+            &>span {
+                color: #F9AB0C;
+            }
+        }
+    }
+}

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>支付</title>
+		<link rel="stylesheet" type="text/css" href="../../css/common.css" />
+		<link rel="stylesheet" type="text/css" href="css/payment-type.css" />
+		<script type="text/javascript" src="../../js/plugin/vue.js"></script>
+	</head>
+
+	<body class="payment-type-body">
+		<div class="payment-type" id="paymentType">
+			<div class="bank" @click="closePage"></div>
+			<div class="fixed-pay">
+				<div class="pay-content">
+					<div class="header">
+						付款方式<span class="close" @click="closePage"></span>
+					</div>
+					<div class="pay-con">
+						<div class="item balance" v-if="!entoryPage || entoryPage == 'unpaid'">
+							<i class="pay-icon">
+								<img src="../../img/shopcar_details_pay_yue.png" alt="" />
+							</i>
+							<div class="info">
+								<p class="title">余额支付</p>
+								<p class="val">可用余额：¥{{(balanceAmount * 1).toFixed(2)}}</p>
+							</div>
+							<i class="check" :class="{active:activeId == 'balance'}" @click="selectPay('balance')"></i>
+						</div>
+						<div class="item" :class="p.id" v-for="p in payType">
+							<i class="pay-icon">
+								<img src="../../img/shopcar_details_pay_alipay.png" alt="" v-if="p.id === 'alipay'" />
+								<img src="../../img/shopcar_details_pay_wecaht.png" alt="" v-if="p.id === 'wxpay'"/>
+							</i>
+							<div class="info">
+								<p class="title" v-if="p.id === 'alipay'">支付宝支付</p>
+								<p class="title" v-if="p.id === 'wxpay'">微信支付</p>
+							</div>
+							<i class="check" :class="{active:activeId == p.id}" @click="selectPay(p.id)"></i>
+						</div>
+						<button class="btn btn-pay" @click="confimPay">确定支付</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="../../js/plugin/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/common/common.js"></script>
+		<script type="text/javascript" src="../../js/plugin/fastclick.js"></script>
+		<script type="text/javascript">
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				vm.orderInfo = self.payOrderInfo;
+				vm.initPay();
+				vm.getBalanceAPI();
+			})
+			document.addEventListener('ordersPayResult', function(event) {
+				vm.orderInfo = event.detail.payOrderInfo;
+				vm.initPay();
+				vm.getBalanceAPI();
+			});
+			document.addEventListener('noOrderChange', function(event) {
+				vm.orderInfo = event.detail.payOrderInfo;
+				vm.initPay();
+			});
+			//重新获取余额
+			document.addEventListener('anewGetBalance', function() {
+				vm.getBalanceAPI();
+			})
+			mui.back = function() {
+				if(!vm.entoryPage) {
+					vm.closePage();
+				} else {
+					var ws = plus.webview.currentWebview();
+					ws.hide("auto");
+				}
+			}
+			var vm = new Vue({
+				el: "#paymentType",
+				data: function() {
+					return {
+						balanceAmount: null,
+						activeId: 'balance',
+						payType: [],
+						orderInfo: {},
+						entoryPage: ''
+					}
+				},
+				methods: {
+					initPay: function() {
+						vm.entoryPage = (vm.orderInfo && vm.orderInfo.type) ? vm.orderInfo.type : '';
+						if(vm.entoryPage) {
+							vm.activeId = "alipay";
+						}
+						plus.payment.getChannels(function(channels) {
+							vm.payType = channels;
+						}, function(e) {
+							alert("获取支付通道失败：" + e.message);
+						});
+					},
+					selectPay: function(id) {
+						this.activeId = id;
+					},
+					confimPay: function() {
+						if(!this.entoryPage) {
+							if(!vm.orderInfo.sellOrderIds && !vm.orderInfo.sellOrderIds.length) {
+								return false;
+							}
+						}
+						var id = this.activeId;
+						if(id === 'balance') {
+							if(vm.orderInfo.totalAmount > vm.balanceAmount) {
+								mui.toast('余额不足够,请选择其他支付方式');
+							} else {
+								vm.blancePay();
+							}
+						} else {
+							var pays = this.payType,
+								channel = null,
+								apiUrl = '';
+							mui.each(pays, function(i, item) {
+								item.id === id && (channel = item);
+							})
+							if(id === 'alipay') {
+								apiUrl = 'alipayAPI';
+							} else if(id === 'wxpay') {
+								apiUrl = 'wxpayAPI';
+							}
+							apiUrl && api.common[apiUrl]({
+								data: {
+									amount: vm.orderInfo.totalAmount
+								},
+								success: function(result) {
+									if(id === 'wxpay') {
+										result = JSON.stringify(result);
+									}
+									plus.payment.request(channel, result, function(result) {
+										if(vm.entoryPage) {
+											if(vm.entoryPage === 'unpaid') {
+												vm.blancePay();
+											} else {
+												plus.nativeUI.alert(vm.entoryPage == "repayment" ? "还款成功！" : "充值成功！", function() {
+													var webObj = vm.entoryPage == "repayment" ? plus.webview.getWebviewById('user-debt') : plus.webview.getWebviewById('user-money');
+													mui.fire(webObj, 'refresh');
+													mui.back();
+												});
+												return false;
+											}
+										}
+										vm.blancePay();
+									}, function(error) {
+										if(vm.entoryPage) {
+											if(vm.entoryPage === 'unpaid') {
+												mui.toast('支付失败!');
+												mui.back();
+											} else {
+												mui.toast((vm.entoryPage == "repayment" ? '还款' : '充值') + '失败');
+												mui.back();
+											}
+										} else {
+											vm.payResultJumpPage(false)
+										}
+									});
+								}
+							})
+						}
+					},
+					closePage: function() {
+						if(this.entoryPage) {
+							if(vm.entoryPage === 'unpaid') {
+								mui.back();
+							} else {
+								mui.toast("取消" + (vm.entoryPage == "repayment" ? '还款' : '充值'));
+								mui.back();
+							}
+						} else {
+							mcm.singleJumpPageNew({
+								id: "ordersError",
+								url: "../cart/error.html",
+								title: "下单成功，未完成支付"
+							});
+						}
+					},
+					getBalanceAPI: function() {
+						api.common.getBalanceAPI({
+							success: function(result) {
+								vm.balanceAmount = result.amount;
+							}
+						})
+					},
+					payResultJumpPage: function(status) {
+						status ? mcm.singleJumpPageNew({
+							id: "ordersSuccess",
+							url: "../cart/success.html",
+							title: "下单成功"
+						}) : mcm.singleJumpPageNew({
+							id: "ordersError",
+							url: "../cart/error.html",
+							title: "下单成功，未完成支付"
+						});
+					},
+					blancePay: function() {
+						var sellOrderIds = vm.orderInfo.sellOrderIds.toString();
+						api.common.balancePayAPI({
+							data: {
+								sellOrderIds: sellOrderIds
+							},
+							success: function(result) {
+								/*var wb = plus.webview.getWebviewById('user-order');
+								if(wb)
+									mui.fire(wb, 'refresh');*/
+								if(vm.entoryPage === 'unpaid') {
+									mcm.singleJumpPageNew({
+										id: "paySuccess",
+										url: "../order/pay-success.html",
+										title: "支付成功"
+									});
+								} else {
+									vm.payResultJumpPage(true)
+								}
+							},
+							error: function() {
+								if(vm.entoryPage === 'unpaid') {
+									mui.back();
+								}  else {
+									vm.payResultJumpPage(false)
+								}
+							}
+						})
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

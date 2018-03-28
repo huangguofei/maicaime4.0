@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>买菜么-购物车</title>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="css/index.css"/>
+    <script type="text/javascript" src="../../js/plugin/vue.js"></script>
+	</head>
+	<body>
+		<div class="cart-index-page" id="cartIndexPage">
+			<header class="header" ref="header">
+				<span class="title">购物车</span>
+				<span class="edit" @click="editCart" v-if="loading">
+					<span v-if="!editStatus">编辑</span>
+					<span v-else class="confim">完成</span>
+				</span>
+			</header>
+			
+			<div class="content" v-show="loading" >
+				
+				<div class="items" v-if="cartList.length" v-cloak>
+					<scroller :on-refresh="refresh" ref="scroller" class="mcm-scroller">
+						<p class="shop-in-business" v-if="cartList && cartList.length === 1 && !cartList[0].shop.inBusiness">
+							营业时间为{{cartList[0].shop.startBusinessHours}}-{{cartList[0].shop.endBusinessHours}}，非营业时间不能下单，敬请谅解！
+						</p>
+						<div class="shop-item" v-for="c in cartList">
+								<header class="shop-header">
+									<i class="check" :class="{active:c.shop.check}" @click="shopCheckedUpdate(c)"></i>
+									<span class="shop-name">{{c.shop.shopName}}</span>
+									<span v-if="c.shop.inBusiness">
+										<span class="r" v-if="c.shop.distributionAmountLimit">
+											<span v-if="c.shop.shortAmount">还差{{c.shop.shortAmount}}元起送
+											<button @click="jumpShop">凑单</button>
+											</span>
+											<span v-else @click="jumpShop">已免运费，继续逛逛></span>
+										</span>
+										<span class="r" v-else @click="jumpShop">免费配送，继续逛逛></span>
+									</span>
+									<img v-if="!c.shop.inBusiness" class="store-close" src="../../img/shopcar_details_storeclose.png" alt="" />
+								</header>
+								<div class="prod-item" v-for="p in c.list">
+									<div class="p-con">
+										<i class="check"  :class="{active:p.check}" @click="prodCheckUpdate(p, c)"></i>
+										<i class="p-img">
+											<img :src="p.mainImage" alt="" />
+										</i>
+										<div class="p-info">
+											<p class="name">{{p.productName}}{{p.specName}}</p>
+											<p class="sku"><span>{{p.sellUnit}} </span><span>¥{{(p.sellPrice * 1).toFixed(2)}}</span></p>
+											<span class="price">¥{{(p.sellPrice/p.matrixingMultiple).toFixed(2)}}/{{p.settleUnit}}</span>
+											<add-cart 
+												:row="p" 
+												type="cart" 
+												:num="p.productQuantity" 
+												class="cart" @changeprodnum="changeProdNum"></add-cart>
+										</div>
+									</div>
+								</div>
+							</div>
+						
+					</scroller>
+				</div>
+				<empty-page :datas="notDatas" v-else></empty-page>
+			</div>
+			
+			<footer class="footer" v-show="loading && cartList.length">
+				<div class="con">
+					<i class="check" :class="{active:allCheck}" @click="allCheckUpdate"></i><span class="check-tit">全选</span>
+					
+					<div class="right event" v-if="editStatus">
+						<button class="btn btn-often" @click="addOften">添加到常用</button>
+						<button class="btn btn-del" @click="delProd">删除</button>
+					</div>
+					<div class="right" v-else>
+						<span v-if="cartList.length === 1 && !cartList[0].shop.inBusiness">
+							<div class="right go-cart disabled">已打烊</div>
+						</span>
+						<span v-else>
+							<div class="right go-cart disabled" v-if="cartList.length === 1 && cartList[0].shop.shortAmount" >差{{cartList[0].shop.shortAmount}}元起送</div>
+							<div class="right go-cart" :class="{disabled:!isNormalOrder}" v-else @click="jumpOrders">下单</div>
+						</span>
+						<div class="right price"  @click="cartDetail">
+							<p class="total">合计：<span>¥{{totalAmount}}</span></p>
+							<p class="adv">包含配送费：<span>¥0.00</span></p>
+						</div>
+					</div>
+				</div>
+			</footer>
+			<span class="parabola-area">
+				<cart-parabola  ref="parabold" >
+					 <div class="inner inner-hook">
+			         </div>
+				</cart-parabola>
+			</span>
+			<loading v-show="!loading"></loading>
+			<div class="fixed-layer" v-if="detailShow">
+				<div class="con">
+					<h4>商品汇总</h4>
+					<div class="desc">食材汇总清单是您购物车选中食材的总计</div>
+					<div class="prods">
+						<div class="items" v-for="c in cartList" v-if="c.shop.check">
+							<div class="item" v-for="p in c.list" v-if="p.check">
+								<span>{{p.productName}}</span>
+								<span class="r">已选<span class="count">{{p.productQuantity}}</span>{{p.sellUnit}}</span>
+							</div>
+						</div>
+					</div>
+					<div class="event">
+						<button class="btn btn-return" @click="hideLayer">返回</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="../../js/plugin/mui.min.js"></script>
+    	<script type="text/javascript" src="../../js/common/common.js"></script>
+    	<script type="text/javascript" src="../../js/plugin/fastclick.js"></script>
+    	<script type="text/javascript" src="../../components/loading.js"></script>
+    	<script type="text/javascript" src="../../components/add-cart.js"></script>
+    	<script type="text/javascript" src="../../js/plugin/vue-scroller.min.js"></script>
+    	<script type="text/javascript" src="../../js/api/cart.js"></script>
+    	<script type="text/javascript" src="../../components/empty-page.js"></script>
+    	<script type="text/javascript" src="../../components/cart-parabola.js"></script>
+	 	<script type="text/javascript" >
+	 		document.addEventListener('openThatPage', function(event) {
+	 			vm.initData();
+				setTimeout(function() {
+					var category = plus.webview.getWebviewById("category");
+					category && category.close("none");
+				}, 500);
+				var home = plus.webview.getLaunchWebview();
+				mui.fire(home, "switchMenu", {
+					index : 3
+				});
+			});	
+			mui.plusReady(function() {
+				//预加载数字键盘
+				mcm.preloadKeyNumber();
+			})
+			mcm.closeAPP();
+	 		var vm = new Vue({
+				el: "#cartIndexPage",
+				data: function() {
+					return{
+						loading: false,		
+						totalAmount: 0,
+						allCheck: true,
+						editStatus: false,
+						detailShow: false,
+						mask: null,
+						cartList: [],
+						isNormalOrder: false,
+						notDatas: {
+							src: '../../img/no_shoppingcar.png',
+							info: '购物车空空如也',
+							isShow: true
+						},
+						auditStatusId: ''
+					}
+				},
+				mounted: function() {
+					window.$ref_parabold = this.$refs.parabold;
+				},
+				methods: {
+					initData: function() {
+						this.getCartList();
+					},
+					//计算总价格
+					calculateTotalAmount: function() {
+						var total = 0, count = 0, len = this.cartList.length;
+						mui.each(this.cartList, function(key, item) {
+							var sub = 0, prods = item.list, shop = item.shop;
+							mui.each(prods, function(k, prod) {
+								if(prod.check) {
+									sub += prod.productQuantity * prod.sellPrice;
+								}
+							});
+							if(shop.distributionAmountLimit) {
+								var shortAmount = sub - shop.distributionAmountLimit;
+								if(shortAmount < 0) {
+									shop.shortAmount = Math.abs(shortAmount).toFixed(2);
+								} else {
+									shop.shortAmount = 0;
+								}
+							}
+							if(!item.shop.shortAmount) {
+								++count;
+							}
+							total += sub;
+						});
+						if(count) {
+							this.isNormalOrder = true;
+						} else {
+							this.isNormalOrder = false;
+						}
+						this.totalAmount = total.toFixed(2);
+					},
+					shopCheckedUpdate: function(item) {
+						mui.each(item.list, function(k, prod) {
+							prod.check = !item.shop.check;
+						});
+						item.shop.check = !item.shop.check;
+						if(!item.shop.check) {
+							this.allCheck = false;
+						} else {
+							var uncheck = 0;
+							mui.each(this.carts, function(key, item) {
+								if(!item.shop.check) {
+									++ uncheck; 
+								}
+							});
+							if(uncheck === 0) {
+								vm.allCheck = true;
+							} else {
+								vm.allCheck = false;
+							}
+						}
+						this.calculateTotalAmount();
+					},
+					allCheckUpdate: function() {
+						this.allCheck = !this.allCheck;
+						mui.each(this.cartList, function(key, item) {
+							var prods = item.list;
+							item.shop.check = vm.allCheck;
+							mui.each(prods, function(k, prod) {
+								prod.check = vm.allCheck;
+							});
+						});
+						this.calculateTotalAmount();
+					},
+					prodCheckUpdate: function(prod, item) {
+						prod.check = !prod.check;
+						var uncheck = 0;
+						mui.each(item.list, function(k, prod) {
+							if(!prod.check) {
+								++ uncheck; 
+							}
+						});
+						if(uncheck === 0) {
+							item.shop.check = true;
+							vm.allCheck = true;
+						} else {
+							item.shop.check  = false;
+							vm.allCheck = false;
+						}
+						this.calculateTotalAmount();
+					},
+					changeProdNum: function(item, count) {
+						if(count === 0) {
+							this.getCartList();
+						} else {
+							item.count = count;
+							this.calculateTotalAmount();
+						}
+					},
+					editCart: function() {
+						this.editStatus = !this.editStatus;
+					},
+					addOften: function() {
+						var cartList = this.cartList, prodIds = [];
+						mui.each(cartList, function(key, item) {
+							var prods = item.list;
+							mui.each(prods, function(k, prod) {
+								if(prod.check) {
+									prodIds.push(prod.sellProductId);
+								}
+							});
+						});
+						prodIds.length ? api.common.prodBatchAddOften({
+							data: {sellProductIdStr: prodIds.toString()},
+							success: function(result) {
+								mui.toast('添加成功')
+							}
+						}) : mui.toast('请勾选要删除的商品!')
+					},
+					delProd: function() {
+						var cartList = this.cartList, cartIds = [];
+						mui.each(cartList, function(key, item) {
+							var prods = item.list;
+							mui.each(prods, function(k, prod) {
+								if(prod.check) {
+									cartIds.push(prod.cartId);
+								}
+							});
+						});
+						cartIds.length ? plus.nativeUI.confirm('确定要删除已选商品', function(e){
+							api.cart.clearAPI({
+								data: {cartIds: cartIds.toString()},
+								success: function(result) {
+									vm.initData();
+									vm.editStatus = false;
+									mui.toast('删除成功')
+								}
+							})
+						}) : mui.toast('请勾选要删除的商品!')
+					},
+					cartDetail: function() {
+						vm.mask = mui.createMask(function() {
+							vm.detailShow = false;
+						});
+						vm.detailShow = true;
+						setTimeout(function() {
+							vm.mask.show();
+						}, 100);
+					},
+					hideLayer: function() {
+						vm.mask.close();
+						this.detailShow = false;
+					},
+					jumpOrders: function() {
+						if(!this.isNormalOrder) return false;
+						var that = this;
+						var wt = plus.nativeUI.showWaiting("正在提交中...")
+						api.common.buyerStatusAPI({
+							success: function(result) {
+								wt.close();
+								var auditStatusId = result.auditStatusId;
+								if(auditStatusId === 0) {
+									//未完善信息
+									vm.perfectCommpanyInfo()
+									return false;
+								} else if(auditStatusId === 1) {
+									mui.toast('您的信息还在审核中\n审核通过后才能正常下单哦')
+								} else if(auditStatusId === 2) {
+									var cart = that.cartList, skuProds = []
+									if(cart.length) {
+										mui.each(cart, function(key, item) {
+											//如果大于0 不能正常下单
+											if(!item.shop.shortAmount) {
+												var prods = item.list;
+												mui.each(prods, function(k, prod) {
+													if(prod.check) {
+														skuProds.push(prod.cartId)
+													}
+												});
+											} 
+										});
+										if(skuProds.length) {
+											var ordersPage = plus.webview.getWebviewById('cartOrders');
+											if(ordersPage) {
+												mui.fire(ordersPage, 'upadteOrdersData', {
+													cartIds: skuProds.toString()
+												})
+											} else {
+												mcm.singleJumpPage("cartOrders", "orders.html", "填写订单", {
+													cartIds: skuProds.toString()
+												});
+											}
+										} else {
+											mui.toast(mcm.message.cartProdNull)
+										}
+									} else {
+										mui.toast(mcm.message.cartProdNull)
+									}
+								} else {
+									mui.toast('您的信息审核不通过\n请修改信息提交审核');
+								}
+							}
+						})
+					},
+					refresh: function() {
+						setTimeout(function() {
+							vm.initData();
+						}, 1000);
+					},
+					getCartList: function() {
+						api.cart.listAPI({
+							success: function(result) {
+								vm.loading = true;
+								var total = 0;
+								mui.each(result, function(k, item) {
+									var sub = 0, shop = item.shop;
+									shop.check = true;
+									var list = item.list;
+									mui.each(list, function(n, prod) {
+										prod.check = true;
+										sub += prod.productQuantity * prod.sellPrice;
+									})
+									if(shop.distributionAmountLimit) {
+										var shortAmount = sub - shop.distributionAmountLimit;
+										if(shortAmount < 0) {
+											shop.shortAmount = Math.abs(shortAmount).toFixed(2);
+										} else {
+											shop.shortAmount = 0;
+										}
+									}
+									total += sub;
+								});
+								vm.$refs.scroller && vm.$refs.scroller.finishPullToRefresh();
+								vm.totalAmount = total.toFixed(2);
+								vm.cartList = [];
+								Vue.nextTick().then(function () {
+									vm.cartList = result;
+									vm.calculateTotalAmount();
+								})
+							},
+							error: function() {
+								vm.loading = true;
+							}
+						});
+					},
+					jumpShop: function() {
+						var shop = plus.webview.getWebviewById('shop'),
+							home = plus.webview.getLaunchWebview();
+						mui.fire(shop, "openThatPage");
+						shop.show();
+						mui.fire(home, "switchMenu", {
+							index: 2
+						})
+					},
+					perfectCommpanyInfo: function() {
+						var ws = plus.webview.getWebviewById("completeInfo");
+						if(ws) {
+							ws.show();
+						} else {
+							mui.openWindow({
+								url: "../login/completeInfo/completeInfo.html",
+								id: "completeInfo",
+								styles: {
+									"render": "always",
+								}
+							});
+						}
+					}
+				}
+			})
+	 	</script>
+	</body>
+</html>

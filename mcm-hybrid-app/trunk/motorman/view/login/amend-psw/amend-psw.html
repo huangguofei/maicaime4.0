@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../../css/common.css" />
+		<link rel="stylesheet" type="text/css" href="css/amend-psw.css" />
+		<script type="text/javascript" src="../../../js/plugin/vue.js"></script>
+		<title></title>
+	</head>
+
+	<body>
+		<div id="vueBox" class="amend-psw">
+			<article class="content">
+				<p>修改登录密码？</p>
+				<h3>输入买菜么账号原密码</h3>
+				<article class="form">
+					<section class="item">
+						<img src="../../../img/login_account.png" />
+						<input type="password" class="phone" v-model="oldUserPassword" maxlength="11" placeholder="原密码" />
+					</section>
+					<section class="item">
+						<img src="../../../img/login_secret.png" />
+						<input type="password" class="code" v-model="newUserPassword" maxlength="6" placeholder="输入新密码" />
+					</section>
+					<section class="item">
+						<img src="../../../img/login_secret.png" />
+						<input type="password" class="phone" v-model="newUserPasswords" id="" placeholder="确认新密码" />
+					</section>
+				</article>
+				<button type="button" class="btn-default" @click="subEvent" :class="{disabled:!isDisabled}">确定</button>
+			</article>
+		</div>
+		<script type="text/javascript" src="../../../js/plugin/mui.min.js"></script>
+		<script type="text/javascript" src="../../../js/common/common.js"></script>
+	</body>
+	<script type="text/javascript">
+		var vm = new Vue({
+			el: "#vueBox",
+			data: function() {
+				return {
+					isDisabled: true,
+					newUserPassword: "",
+					newUserPasswords: '',
+					oldUserPassword: ""
+				}
+			},
+			methods: {
+				subEvent: function() {
+					if(!this.oldUserPassword) {
+						mui.toast(mcm.message.oldPwdNull);
+						return false;
+					}
+					if(!this.newUserPassword || !this.newUserPasswords) {
+						mui.toast(mcm.message.newPwdNull);
+						return false;
+					}
+					if(this.newUserPassword != this.newUserPasswords) {
+						mui.toast(mcm.message.pwdDifferent);
+						return false;
+					}
+					api.updatePsw.updatePswAPI({
+						data: {
+							newUserPassword:this.newUserPassword,
+							oldUserPassword:oldUserPassword
+						},success:function(result){
+							mui.toast(mcm.message.updatePwdSuccess);
+							mui.back();
+						}
+					})
+				}
+			}
+		})
+	</script>
+
+</html>

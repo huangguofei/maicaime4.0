@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../../css/common.css" />
+		<link rel="stylesheet" type="text/css" href="css/user-message.css" />
+		<script type="text/javascript" src="../../../js/plugin/vue.js"></script>
+		<title></title>
+	</head>
+
+	<body>
+		<div id="vueBox" class="message padding">
+			<ul v-if="messageData.length>0">
+				<li class="padding" v-for="v in messageData" @click="messageRead(v)">
+					<header>
+						<section class="pull-left"><img src="../../../img/mine_message-icon1.png" /><span class="new">系统通知<i v-show="!v.isRead"></i></span></section>
+						<span class="pull-right">{{v.createTime}}</span>
+					</header>
+					<p class="content">{{v.messageContent}}</p>
+				</li>
+				<li class="padding" v-show="false">
+					<header>
+						<section class="pull-left"><img src="../../../img/mine_message-icon2.png" /><span class="new">缺货通知<i></i></span></section>
+						<span class="pull-right">2017-01-15 16:54:34</span>
+					</header>
+					<p class="content">您在刘浩然神马都有批发部购买的食材有缺货，供应商马上与你联系</p>
+				</li>
+			</ul>
+			<empty-page v-else :datas="emptyData"></empty-page>
+		</div>
+		<script type="text/javascript" src="../../../js/plugin/mui.min.js"></script>
+		<script type="text/javascript" src="../../../js/common/common.js"></script>
+		<script type="text/javascript" src="../../../js/api/me.js"></script>
+		<script type="text/javascript" src="../../../components/empty-page.js"></script>
+	</body>
+	<script type="text/javascript">
+		mui.plusReady(function() {
+			vm.initPage();
+		});
+		var vm = new Vue({
+			el: "#vueBox",
+			data: function() {
+				return {
+					messageData: [],
+					options: {
+						pageNum: 1,
+						pageSize: 10
+					},
+					emptyData: {
+						isShow: true,
+						src: "../../../img/no_message.png",
+						info: "您暂未收到任何消息"
+					}
+				}
+			},
+			methods: {
+				initPage: function() {
+					this.loadMessage();
+				},
+				loadMessage: function() {
+					var _that = this;
+					api.userMessage.userMessageListAPI({
+						data: this.options,
+						success: function(result) {
+							_that.messageData = result.resultList;
+						}
+					})
+				},
+				messageRead: function(data) {
+					if(data.isRead) {
+						mui.toast("消息已经阅读了哦！");
+						return false;
+					}
+					api.userMessage.userMessageReadAPI({
+						data: {
+							messageIdStr: data.messageId
+						},
+						success: function(result) {
+							mui.toast("消息已读！");
+							data.isRead = true;
+						}
+					});
+				}
+			}
+		})
+	</script>
+
+</html>

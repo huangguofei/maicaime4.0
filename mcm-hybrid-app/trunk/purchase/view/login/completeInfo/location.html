@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>买菜么-店铺位置</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="css/location.css"/>
+    <script type="text/javascript" src="../../../js/plugin/vue.js"></script>
+</head>
+	<body>
+		<div class="location-page" id="locationPage">
+		 	<header class="header fixed-header">
+		 		<div class="con">
+		 			<div class="city">
+		 				<i class="icon">
+	    					<img src="../../../img/login/home_info_address.png" alt="" />
+	    				</i>
+	    				<span class="name">{{city}}</span> 
+		 			</div>
+		 			<!--<div class="search">
+		 				<input type="text" placeholder="查找小区、街道、商厦等"/>
+		 			</div>-->
+		 		</div>
+		 	</header>
+		 	<div class="content">
+		 		<div class="l-item">
+		 			<h4>当前位置</h4>
+		 			<div class="items">
+		 				<div class="item">
+			 				<span>{{location}}</span>
+			 				<span class="right">重新定位</span>
+			 			</div>
+		 			</div>
+		 			
+		 		</div>
+		 		<div class="l-item">
+		 			<h4>已开通服务区域</h4>
+		 			<div class="items" v-if="commpanyList.length">
+		 				<div class="item" v-for="c in commpanyList" @click="switchCommpany(c)">
+			 				<span>{{c.city}}</span>
+			 			</div>
+		 			</div>
+		 			<div class="items" v-else>
+		 				<div class="item">
+			 				<span>暂未开通</span>
+			 			</div>
+		 			</div>
+		 			
+		 		</div>
+		 	</div>
+	 	</div>
+	 	<script type="text/javascript" src="../../../js/plugin/mui.min.js"></script>
+    	<script type="text/javascript" src="../../../js/common/common.js"></script>
+	 	<script type="text/javascript" >
+	 		mui.plusReady(function() {
+	 			plus.geolocation.getCurrentPosition(function(a){
+	 				var info = a.address;
+					vm.city = info.city;
+					vm.location = info.street + info.streetNum + (info.poiName ? info.poiName : "");
+				}, function(e){
+					alert('Geolocation error: ' + e.message);
+				}); 
+				vm.getCommpanyList();
+	 		});
+	 		var vm = new Vue({
+				el: "#locationPage",
+				data: function() {
+					return{
+						city: "",
+						location: "",
+						commpanyList: []
+					}
+				},
+				methods: {
+					getCommpanyList: function() {
+						mcm.isLogin() ? api.common.commpanyAPI({
+							success: function(result) {
+								vm.commpanyList = result;
+							}
+						}) : api.common.guestCommpanyAPI({
+							success: function(result) {
+								vm.commpanyList = result;
+							}
+						})
+					},
+					switchCommpany: function(item) {
+						mui.back();
+						var h = plus.webview.getWebviewById("shop-address");
+						h && mui.fire(h, 'switchCommpany', {
+							info: item
+						})
+					}
+				}
+			})
+	 		
+	 	</script>
+	</body>
+</html>

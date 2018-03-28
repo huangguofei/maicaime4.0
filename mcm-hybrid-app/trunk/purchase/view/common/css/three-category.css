@@ -1,0 +1,120 @@
+/**
+ * author pzh
+ * 商户系统主题配置
+ */
+/*主色调*/
+/*辅助色*/
+/*禁用*/
+/*主要字体色*/
+/*常规文字颜色*/
+/*次要文字颜色*/
+/*不可输入*/
+/*背景色*/
+/*主要边框*/
+/*分割线*/
+.clearFloat {
+  content: "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  *zoom: 1;
+  clear: both;
+  visibility: hidden;
+}
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.three-category-body {
+  background: none;
+}
+.three-category-page {
+  height: 100%;
+}
+.three-category-page .bank {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+.three-category-page .con-area {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 80px;
+  background: #FFF;
+  z-index: 99;
+}
+.three-category-page .header {
+  margin-top: 20px;
+  height: 0.734375rem;
+  line-height: 0.734375rem;
+  padding: 0.03125rem 0.1875rem;
+}
+.three-category-page .header .all {
+  float: right;
+  display: inline-block;
+  color: #3E3E3E;
+}
+.three-category-page .header .all .icon {
+  display: inline-block;
+  position: relative;
+  left: 0.0703125rem;
+  top: 0.046875rem;
+  width: 0.1875rem;
+  height: 0.1875rem;
+  background: url(../../../img/login/home_info_address_arrow1.png) no-repeat;
+  background-size: 100% auto;
+  opacity: 0.5;
+}
+.three-category-page .content {
+  position: absolute;
+  top: 0.96875rem;
+  bottom: 0.796875rem;
+  left: 0px;
+  right: 0px;
+  padding: 0.1875rem;
+  overflow: auto;
+}
+.three-category-page .content .item {
+  display: inline-block;
+  width: 1.125rem;
+  padding: 0.09375rem 0.0703125rem;
+  border: 1px solid #F0F0F0;
+  text-align: center;
+  font-size: 0.234375rem;
+  border-radius: 0.265625rem;
+  margin-right: 0.1875rem;
+  margin-bottom: 0.1875rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.three-category-page .content .active {
+  color: #1EC551;
+  border-color: #1EC551;
+}
+.three-category-page .footer {
+  position: fixed;
+  height: 0.796875rem;
+  left: 80px;
+  bottom: 0;
+  right: 0px;
+  border-top: 1px solid #F0F0F0;
+}
+.three-category-page .footer .btn-f {
+  width: 50%;
+  height: 100%;
+  float: left;
+  background: #FFF;
+  border: 0;
+  font-size: 0.28125rem;
+}
+.three-category-page .footer .btn-confim {
+  background: #1EC551;
+  color: #FFF;
+}

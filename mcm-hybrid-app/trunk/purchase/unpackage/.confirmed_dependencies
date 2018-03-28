@@ -1,0 +1,162 @@
+{
+	"index.html": {
+		"refer": [
+			"view/me/index.html",
+			"view/often/index.html",
+			"view/shop/index.html",
+			"view/cart/index.html",
+			"view/index/category.html",
+			"view/index/search.html",
+			"view/login/login.html",
+			"view/index/location.html",
+			"view/common/number-key.html",
+			"view/shop/detail.html",
+			"view/index/guide.html"
+		],
+		"resources": [
+			"img/marketHighlight.png"
+		]
+	},
+	"view/shop/index.html": {
+		"refer": [
+			"view/shop/detail.html",
+			"view/shop/goods.html",
+			"view/common/shop-goods.html"
+		],
+		"resources": [
+			"view/shop/goods.html",
+			"view/common/shop-goods.html"
+		]
+	},
+	"view/me/index.html": {
+		"refer": [
+			"view/login/completeInfo/completeInfo-a.html",
+			"view/login/completeInfo/completeInfo.html",
+			"view/me/user-details/user-details.html",
+			"view/me/user-message/user-message.html",
+			"view/me/user-set/user-set.html",
+			"view/me/user-shopManage/user-shopManage.html",
+			"view/me/user-address/user-address.html",
+			"view/me/user-money/user-money.html",
+			"view/me/user-debt/user-debt.html",
+			"view/me/user-coupon/user-coupon.html",
+			"view/order/index.html",
+			"view/login/login.html"
+		]
+	},
+	"view/login/completeInfo/completeInfo.html": {
+		"refer": [
+			"view/login/completeInfo/shop-address.html",
+			"view/me/index.html"
+		]
+	},
+	"view/me/user-details/user-details.html": {
+		"refer": [
+			"view/me/index.html"
+		]
+	},
+	"view/me/user-set/user-set.html": {
+		"refer": [
+			"view/me/user-amendPsw/user-amendPsw.html",
+			"view/login/login.html"
+		]
+	},
+	"view/me/user-money/user-money.html": {
+		"refer": [
+			"view/me/user-moneyDetails/user-moneyDetails.html",
+			"view/common/payment-type.html"
+		]
+	},
+	"view/me/user-debt/user-debt.html": {
+		"refer": [
+			"view/me/index.html",
+			"view/me/user-debtDetails/user-debtDetails.html",
+			"view/me/user-debtDetails/user-debtList.html",
+			"view/common/payment-type.html"
+		]
+	},
+	"view/me/user-debtDetails/user-debtList.html": {
+		"refer": [
+			"view/me/user-debtDetails/user-debtDetails.html"
+		]
+	},
+	"view/order/index.html": {
+		"refer": [
+			"view/order/order-details.html",
+			"view/login/login.html",
+			"view/common/payment-type.html"
+		]
+	},
+	"view/login/login.html": {
+		"refer": [
+			"view/login/register.html",
+			"view/login/completeInfo/completeInfo.html",
+			"view/login/forget.html"
+		]
+	},
+	"view/cart/index.html": {
+		"refer": [
+			"view/cart/orders.html",
+			"view/common/number-key.html"
+		]
+	},
+	"view/cart/orders.html": {
+		"refer": [
+			"view/cart/success.html",
+			"view/common/payment-type.html",
+			"view/me/user-coupon/user-coupon.html",
+			"view/me/user-money/user-money.html"
+		]
+	},
+	"view/me/user-shopManage/user-shopManage.html": {
+		"refer": [
+			"view/login/login.html",
+			"view/login/completeInfo/completeInfo.html"
+		]
+	},
+	"view/common/payment-type.html": {
+		"refer": [
+			"view/cart/error.html",
+			"view/cart/success.html",
+			"view/order/pay-success.html"
+		]
+	},
+	"view/cart/error.html": {
+		"refer": [
+			"view/order/index.html"
+		]
+	},
+	"view/index/category.html": {
+		"resources": [
+			"view/common/shop-goods.html"
+		],
+		"refer": [
+			"view/index/category-footer.html",
+			"view/common/shop-goods.html"
+		]
+	},
+	"view/common/shop-goods.html": {
+		"refer": [
+			"view/common/three-category.html",
+			"view/shop/detail.html"
+		]
+	},
+	"view/cart/success.html": {
+		"refer": [
+			"view/order/index.html"
+		]
+	},
+	"view/shop/detail.html": {
+		"resources": [
+			"view/index/category-footer.html"
+		],
+		"refer": [
+			"view/index/category-footer.html"
+		]
+	},
+	"view/order/order-details.html": {
+		"refer": [
+			"view/common/payment-type.html"
+		]
+	}
+}

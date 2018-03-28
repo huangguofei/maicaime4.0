@@ -1,0 +1,116 @@
+@import "../../../css/config.less";
+.user-info-body{
+     background: none;
+     .back-layer{
+         position: absolute;
+         top:0;
+         bottom:0;
+         left:0;
+         right:0;
+     }
+}
+.user-info{
+    height: 100%;
+    .content{
+        position:absolute;
+        z-index:99;
+        top:0;
+        left: 0;
+        right: 100px;
+        bottom:0;
+        background:#FFF url(../../../img/mine_bg.png) no-repeat;
+        background-size:100% auto;
+        box-shadow: 10px 0px 24px 0px rgba(0,0,0,0.16);
+    }
+    .header{
+        .prem(52, 42);
+        padding:@prem;
+        .back{
+            img{
+                .pxrem(height, 35);
+                position: relative;
+                .pxrem(top, 0);
+            }
+            .pxrem(font-size, 38);
+            color: @mcm-color-text-primary;
+        }
+        .app-title{
+            .pxrem(text-indent, 35);
+            color: @mcm-color-text-primary;
+            .pxrem(padding-top, 3);
+        }
+        .info{
+            position: relative;
+            .prem(120, -4, 100, -4);
+            padding:@prem;
+            border-bottom: 1px solid @mcm-border-color-base;
+            .h-img{
+                position: absolute;
+                .pxrem(width, 120);
+                .pxrem(height, 120);
+                border-radius: 50%;
+                overflow: hidden;
+                border:2px solid #FFF;
+                img{
+                    width:100%;
+                    height:100%;
+                }
+            }
+            .more-info{
+                position: absolute;
+                .pxrem(width, 50);
+                .pxrem(height, 50);
+                img{
+                    width: 100%;
+                }
+                .pxrem(right, -20);
+                .pxrem(top, 165);
+            }
+            .info-con{
+                .pxrem(padding-left, 136);
+                .pxrem(padding-top, 30);
+                .name{
+                    .pxrem(font-size, 36);
+                     color: @mcm-color-text-primary;
+                }
+                .date{
+                    .pxrem(font-size, 24);
+                     color: @mcm-color-text-secondary;
+                }
+            }
+        }
+        
+    }
+    .menu{
+        .prem(42);
+        padding: @prem;
+        .item{
+            .prem(20, -4);
+            padding: @prem;
+            position: relative;
+            .more-icon{
+                position: absolute;
+                right:0;
+                display: inline-block;
+                .pxrem(width, 12);
+                .pxrem(height, 23);
+                background: url(../../../img/mine_arrow2.png) no-repeat;
+                background-size: auto 100%;
+                .pxrem(top, 28);
+            }
+        }
+    }
+    .log-out{
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-top: 1px solid @mcm-border-color-base;
+        .prem(42);
+        padding: @prem;
+        background: url(../../../img/mine_quit.png) no-repeat 20px center;
+        background-size:auto 22px;
+        text-indent: 30px;
+        .pxrem(font-size, 32);
+    }
+}

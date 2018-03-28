@@ -1,0 +1,169 @@
+    @import "../../../css/config.less";
+    .me-page {
+        .me-header {
+            background: url(../../../img/mine_bg.png) no-repeat;
+            background-size: 100%;
+            height: 300px;
+            .me-head {
+                .clearfix();
+                a {
+                    position: relative;
+                    z-index: 10;
+                    img {
+                        .pxrem(width, 50);
+                        height: 20px;
+                        .pxrem(margin-top, 30);
+                    }
+                }
+            }
+        }
+        .user-main {
+            position: fixed;
+            .pxrem(top, 50);
+            left: 0;
+            right: 0;
+            padding-top: 0;
+            bottom: 0;
+            overflow: auto;
+            .new {
+                position: relative;
+                i {
+                    position: absolute;
+                    .pxrem(width, 10);
+                    .pxrem(height, 10);
+                    border-radius: 50%;
+                    background: #F74C31;
+                    right: 0;
+                }
+            }
+            .title {
+                .pxrem(font-size, 32);
+                color: #000;
+            }
+            .item {
+                background: #fff;
+                .pxrem(margin-bottom, 20);
+                .header {
+                    border-bottom: 1px solid #E5E5E5;
+                }
+            }
+            ul {
+                .clearfix();
+                .pxrem(padding-top, 20);
+                background: #fff;
+                li {
+                    float: left;
+                    width: 20%;
+                    text-align: center;
+                    p {
+                        .pxrem(font-size, 24);
+                    }
+                    a {
+                        display: inline-block;
+                        .pxrem(font-size, 34);
+                    }
+                }
+                .h-item {
+                    width: 33.3%;
+                }
+            }
+            .user-header {
+                position: relative;
+                background: none;
+                .pxrem(padding-bottom, 20);
+                text-align: center;
+                .title {
+                    .pxrem(line-height, 70);
+                    .pxrem(font-size, 36);
+                }
+                img {
+                    .pxrem(width, 120);
+                    .pxrem(height, 120);
+                    border-radius: 50%;
+                }
+            }
+            .info-nav {
+                border-radius: 5px;
+                .pxrem(height, 160);
+                padding-top: 20px;
+                box-sizing: border-box;
+                box-shadow: 0px 0px 10px #ccc;
+                p {
+                    color: #3E3E3E;
+                    .pxrem(font-size, 24);
+                }
+                b {
+                    color: @mcm-color-primary;
+                    .pxrem(font-size, 36);
+                    .pxrem(height, 50);
+                    .pxrem(line-height, 50);
+                    font-weight: normal;
+                }
+            }
+            .user-order {
+                .pxrem(padding-bottom, 20);
+                ul {
+                    li {
+                        a {
+                            display: inline-block;
+                            width: 100%;
+                            img {
+                                .pxrem(width, 50);
+                                height: auto;
+                            }
+                            span {
+                                display: inline-block;
+                                .pxrem(min-height, 60);
+                            }
+                            color:#4a4a4a;
+                        }
+                    }
+                    li:nth-child(4) {
+                        border-right: 1px solid #E5E5E5;
+                        box-sizing: border-box;
+                    }
+                }
+            }
+            .user-nav {
+                .clearfix();
+                .pxrem(padding-left, 25);
+                .pxrem(padding-right, 25);
+                a {
+                    display: block;
+                    .pxrem(padding-top, 25);
+                    .pxrem(padding-bottom, 25);
+                    border-bottom: 1px solid #E5E5E5;
+                    img {
+                        .pxrem(width, 40);
+                        height: auto;
+                        .pxrem(margin-right, 10);
+                        vertical-align: text-bottom;
+                    }
+                    img:last-child {
+                        .pxrem(width, 15);
+                        height: auto;
+                    }
+                }
+                a:last-child {
+                    border: 0;
+                    section {
+                        border: 0;
+                    }
+                }
+            }
+        }
+        .logout {
+            display: block;
+            width: 80%;
+            color: #fff;
+            background: @mcm-color-primary;
+            border-color: @mcm-color-primary;
+            .pxrem(height, 60);
+            .pxrem(line-height, 60);
+            .pxrem(border-radius, 5);
+            margin: 0 auto;
+            text-align: center;
+            .pxrem(margin-top, 20);
+            .pxrem(font-size, 32);
+        }
+    }

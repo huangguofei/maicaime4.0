@@ -1,0 +1,80 @@
+@import "../../../../css/config.less";
+.user-debtList {
+    padding-top: 10px;
+    .debtList-list {
+        background: #fff;
+        .item {
+            .pxrem(height, 90);
+            .clearfix();
+            border-bottom: 1px solid #F0F0F0;
+            img {
+                .pxrem(width, 70);
+                .pxrem(height, 70);
+                .pxrem(margin-right, 30);
+            }
+            .reduce-img {
+                display: none;
+            }
+            section {
+                p {
+                    .pxrem(font-size, 32);
+                }
+                span {
+                    .pxrem(font-size, 24);
+                    color: #535353;
+                }
+            }
+            &>span {
+                .pxrem(font-size, 36);
+                color: #1EC551;
+                .pxrem(line-height, 90);
+            }
+        }
+        .active {
+            img {
+                display: none;
+            }
+            .reduce-img {
+                display: inline-block;
+            }
+            &>span {
+                color: #F9AB0C;
+            }
+        }
+    }
+}
+
+.user-debtDatails {
+    padding-top: 10px;
+    .main {
+        background: #fff;
+        .head {
+            border-bottom: 1px solid #F0F0F0;
+            height: 40px;
+            line-height: 40px;
+            margin-bottom: 10px;
+            .clearfix();
+            .title {
+                .pxrem(font-size, 32);
+                color: #0A0B0C;
+            }
+            .text {
+                .pxrem(font-size, 36);
+                color: #F77E44;
+            }
+        }
+        .item {
+            .clearfix();
+            height: 30px;
+            line-height: 30px;
+            .title {
+                .pxrem(font-size, 26);
+                color: #8F8F8F;
+            }
+            .text {
+                .pxrem(font-size, 28);
+                color: #0A0B0C;
+            }
+        }
+    }
+}

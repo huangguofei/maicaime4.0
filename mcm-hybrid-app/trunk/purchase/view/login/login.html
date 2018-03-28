@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="css/login.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/common.css" />
+		<script type="text/javascript" src="../../js/plugin/vue.js"></script>
+		<title>登录</title>
+	</head>
+
+	<body>
+		<div id="vueBox" class="login-page mui-content">
+			<a href="javascript:void(0)" class="return-back" @click="backLogin()">
+				<img src="../../img/login/arrow_normals.png" alt="" />
+			</a>
+			<div class="bac"></div>
+			<article class="main">
+				<p class="forget_psw" v-show="type==1" @click="forgetPwd">忘记密码？</p>
+				<img class="logo" src="../../img/login/login_logo.png" />
+				<form class="login-form">
+					<div class="list">
+						<img src="../../img/login/login_mobile.png" />
+						<input type="number" v-model="form.mobile" id="number" maxlength="11" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" placeholder="手机号" />
+						<a href="javascript:;" v-if="type==2" @click="sendcode" class="get_code">
+							{{codeStr}}
+						</a>
+					</div>
+					<div class="list" v-if="type === 1">
+						<img src="../../img/login/login_secret.png" />
+						<input type="password" v-model="form.pwd" id="password" value="" placeholder="密码" />
+					</div>
+					<div class="list" v-else>
+						<img src="../../img/login/login_yanzhengma.png" />
+						<input type="number" v-model="form.code" placeholder="输入验证码" />
+					</div>
+
+					<div class="from-btn">
+						<input type="button" id="sub_btn" @click="login" value="登录" />
+					</div>
+				</form>
+				<p class="code_log" @click="type === 1 ? type=2:type=1">{{type === 1?"验证码":"账号密码"}}登录</p>
+				<a href="javascript:;" class="go_register" @click="jumpRegister">没有账号，立即注册</a>
+			</article>
+		</div>
+		<script type="text/javascript" src="../../js/plugin/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/common/common.js"></script>
+		<script type="text/javascript" src="../../js/api/login.js"></script>
+	</body>
+	<script type="text/javascript">
+		mui.plusReady(function() {
+			//禁止横屏
+			plus.screen.lockOrientation("portrait-primary");
+			setTimeout(function() {
+				vm.loading = true;
+			}, 100)
+			mcm.setCookie("isPerfect", '');
+			mcm.setCookie("perfectform", '');
+		});
+		mui.back = function() {
+			var ws = plus.webview.currentWebview();
+			ws.hide();
+		}
+		var vm = new Vue({
+			el: "#vueBox",
+			data: function() {
+				return {
+					loading: false,
+					type: 1,
+					numTime: 0,
+					codeStr: "获取验证码",
+					form: {
+						mobile: "",
+						pwd: "",
+						code: ""
+					}
+				}
+			},
+			methods: {
+				sendcode: function() {
+					var form = this.form,
+						error = null;
+					if(!form.mobile) {
+						error = mcm.message.mobileNull;
+					} else if(!mcm.validation.checkMobile(form.mobile)) {
+						error = mcm.message.mobileError;
+					}
+					if(error) {
+						mui.toast(error);
+						return;
+					} else {
+						if(vm.numTime === 0) {
+							var params = {
+								mobile: vm.form.mobile
+							}
+							mcm.sendCode(vm, params, "login");
+						}
+					}
+				},
+				login: function() {
+					var form = this.form,
+						error = null,
+						type = vm.type;
+					if(!form.mobile) {
+						error = mcm.message.mobileNull;
+					} else if(!mcm.validation.checkMobile(form.mobile)) {
+						error = mcm.message.mobileError;
+					}
+					if(!form.pwd && 　type === 1) {
+						error = mcm.message.pwdNull;
+					}
+					if(!form.code && 　type === 2) {
+						error = mcm.message.codeNull;
+					}
+					if(error) {
+						mui.toast(error);
+						return;
+					} else {
+						if(type === 1) {
+							var data = {
+								userName: form.mobile,
+								password: form.pwd
+							}
+							api.login.loginAPI({
+								type: "POST",
+								data: data,
+								success: function(result) {
+									vm.loginSuccess(result);
+								}
+							});
+						} else {
+							var data = {
+								userName: form.mobile,
+								authCode: form.code
+							}
+							api.login.loginCodeAPI({
+								type: "POST",
+								data: data,
+								success: function(result) {
+									vm.loginSuccess(result);
+								}
+							});
+						}
+					}
+				},
+				forgetPwd: function() {
+					mcm.singleJumpPage(
+						"forget",
+						"forget.html",
+						"忘记密码"
+					);
+				},
+				jumpRegister: function() {
+					mui.openWindow({
+						url: "register.html",
+						id: "register"
+					});
+				},
+				loginSuccess: function(result) {
+					mcm.setCookie(mcm.config.USER_TOKEN, result.token);
+					var auditStatusId = result.auditStatusId;
+					if(auditStatusId === 0) { //未提交审核资料
+						mui.openWindow({
+							url: "completeInfo/completeInfo.html",
+							id: "completeInfo"
+						});
+					} else {
+						var wxId = plus.storage.getItem(mcm.config.LASTWEBVIEWID),
+							ws = null;
+						if(wxId) {
+							ws = plus.webview.getWebviewById(wxId);
+						} else {
+							ws = plus.webview.getLaunchWebview();
+						}
+						try{
+							ws.reload();
+							var wt = plus.nativeUI.showWaiting();
+							ws.onloaded = function() {
+								wt.close();
+								var thatws = plus.webview.currentWebview();
+								thatws.close("auto");
+								ws.show();
+							}
+						}catch(e) {
+							ws = plus.webview.getLaunchWebview();
+							mui.fire(ws, 'switchMenu', {
+								index: 1
+							})
+							setTimeout(function() {
+								ws.show();
+							}, 100)
+						}
+						
+					}
+				},
+				backLogin: function() {
+					mui.back();
+				}
+			}
+		})
+	</script>
+
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../../css/common.css" />
+		<link rel="stylesheet" type="text/css" href="css/authentication-info.css" />
+		<script type="text/javascript" src="../../../js/plugin/vue.js"></script>
+		<title></title>
+	</head>
+
+	<body>
+		<div id="vueBox" class="authentication-info">
+			<div class="item">
+				<p class="title">{{type==1?'驾驶证照片':type==2?'身份证正面照':'车辆正面照'}}</p>
+				<div class="item-main padding">
+					<div class="image-box" @click="uploadImg('1')">
+						<img :src="imgOne" v-if="imgOne" />
+						<img v-else src="../../../img/add-img.png" class="img-icon" />
+					</div>
+				</div>
+			</div>
+			<div class="item" v-if="type==2||type==1">
+				<p class="title">{{type==1?'司机照片':'身份证反面照'}}</p>
+				<div class="item-main padding">
+					<div class="image-box" @click="uploadImg('2')">
+						<img :src="imgTwo" v-if="imgTwo" />
+						<img v-else src="../../../img/add-img.png" class="img-icon" />
+					</div>
+				</div>
+			</div>
+			<div class="info-form padding">
+				<div class="list" v-show="type==1">
+					司机姓名
+					<input type="text" name="" id="" v-model="driverName" />
+				</div>
+				<!--<div class="list" v-show="type==1">
+					驾驶年龄
+					<input type="text" name="" id="" />
+				</div>-->
+				<div class="list" v-show="type==2">
+					身份证号
+					<input type="text" name="" id="" v-model="idNumber" />
+				</div>
+				<div class="list" v-show="type==3">
+					车牌号
+					<input type="text" name="" id="" v-model="licensePlateNumber" />
+				</div>
+				<div class="list" v-show="type==3">
+					车辆型号
+					<!--<input type="text" name="" id=""/>-->
+					<select class="car-type" v-model="vehicleTypeId" >
+						<option v-for="(v,k) in carType" :value="v.key">{{v.label}}</option>
+					</select>
+				</div>
+				<!--<div class="list" v-show="type==3">
+					车辆所有人
+					<input type="text" name="" id="" />
+				</div>-->
+			</div>
+			<div class="footer">
+				<button type="button" class="again-btn" @click="clearUpload">重新上传</button>
+				<button type="button" class="sub-btn btn-default" @click="subEvent">确认</button>
+			</div>
+		</div>
+		<script type="text/javascript" src="../../../js/plugin/mui.min.js"></script>
+		<script type="text/javascript" src="../../../js/common/common.js"></script>
+	</body>
+	<script type="text/javascript">
+		mui.plusReady(function() {
+			var self = plus.webview.currentWebview();
+			vm.type = self.type;
+			vm.driverInfo = self.data;
+			vm.initPage();
+		})
+		var vm = new Vue({
+			el: "#vueBox",
+			data: function() {
+				return {
+					type: 3,
+					driverInfo: {},
+					imgOne: '',
+					imgTwo: '',
+					driverName: "",
+					idNumber: '',
+					licensePlateNumber: '',
+					vehicleTypeId: 1,
+					vehicleTypeText:"",
+					carType:[{
+						label:'三轮车',
+						key:1
+					},
+					{
+						label:'面包车',
+						key:2
+					}]
+				}
+			},
+			methods: {
+				initPage: function() {
+					if(this.type == 1) {
+						this.imgOne = this.driverInfo.drivingLicenceImage;
+						this.imgTwo = this.driverInfo.portraitImage;
+					} else if(this.type == 2) {
+						this.imgOne = this.driverInfo.identityCardFrontImage;
+						this.imgTwo = this.driverInfo.identityCardReverseImage;
+					} else {
+						this.imgOne = this.driverInfo.vehicleImage;
+					}
+					this.driverName = this.driverInfo.driverName;
+					this.idNumber = this.driverInfo.idNumber;
+					this.licensePlateNumber = this.driverInfo.licensePlateNumber;
+					this.vehicleTypeId = this.driverInfo.vehicleTypeId;
+					this.vehicleTypeText = this.driverInfo.vehicleTypeText;
+				},
+				uploadImg: function(index) {
+					var _that = this;
+					if(this.type == 1) {
+						if(index == 1) { //上传驾驶证件照
+							mcm.uploadImage('1', function(path) {
+								_that.imgOne = path;
+							});
+						} else { //上传司机照
+							mcm.uploadImage('5', function(path) {
+								_that.imgTwo = path;
+							});
+						}
+					} else if(this.type == 2) {
+						if(index == 1) { //上传身份证正面照
+							mcm.uploadImage('1', function(path) {
+								_that.imgOne = path;
+							});
+						} else { //上传身份证反面照
+							mcm.uploadImage('5', function(path) {
+								_that.imgTwo = path;
+							});
+						}
+					} else { //上传车辆照
+						mcm.uploadImage('2', function(path) {
+							_that.imgOne = path;
+						});
+					}
+				},
+				clearUpload: function() {
+					this.imgOne = "", this.imgTwo = "";
+				},
+				subEvent: function() {
+					var subData = {};
+					if((this.type == 1 || this.type == 2) && (!this.imgTwo || !this.imgOne)) {
+						mui.toast(mcm.message.imageNull);
+						return false;
+					}
+					if(this.type == 1) {
+						subData.drivingLicenceImage = this.imgOne;
+						subData.portraitImage = this.imgTwo;
+						subData.driverName = this.driverName;
+						if(!subData.driverName) {
+							mui.toast(mcm.message.driverNameNull);
+							return false;
+						}
+						/*缺驾驶年龄*/
+					} else if(this.type == 2) {
+						subData.identityCardFrontImage = this.imgOne;
+						subData.identityCardReverseImage = this.imgTwo;
+						subData.idNumber = this.idNumber;
+						if(!subData.idNumber) {
+							mui.toast(mcm.message.idCardNull);
+							return false;
+						}
+					} else {
+						subData.vehicleImage = this.imgOne;
+						subData.licensePlateNumber = this.licensePlateNumber;
+						subData.vehicleTypeId = this.vehicleTypeId;
+						for(var i in this.carType){
+							if(this.carType[i].key==this.vehicleTypeId)
+							subData.vehicleTypeText=this.carType[i].label;
+						}
+						/*缺车辆所有人*/
+						if(!subData.licensePlateNumber) {
+							mui.toast(mcm.message.carNumNull);
+							return false;
+						}
+						if(!subData.vehicleTypeId) {
+							mui.toast(mcm.message.carTypeNull);
+							return false;
+						}
+					}
+					var wn = plus.webview.getWebviewById("user");
+					mui.fire(wn, "updateUserInfo", {
+						data:subData
+					});
+					mui.back();
+				}
+			}
+		})
+	</script>
+
+</html>

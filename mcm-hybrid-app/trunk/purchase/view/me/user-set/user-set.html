@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../../css/common.css" />
+		<link rel="stylesheet" type="text/css" href="css/user-set.css" />
+		<script type="text/javascript" src="../../../js/plugin/vue.js"></script>
+		<title></title>
+	</head>
+
+	<body>
+		<div id="vueBox" class="user-set">
+			<article class="list">
+				<section class="item padding">
+					<span class="title pull-left">新消息通知</span>
+					<img @click="changeSwitch(true)" v-if="switchs" class="switch pull-right" src="../../../img/switch-open.png" />
+					<img @click="changeSwitch(false)" v-else class="switch pull-right" src="../../../img/switch-off.png" />
+				</section>
+				<section class="item padding" @click="goEditPsw">
+					<span class="title pull-left">修改密码</span>
+					<img class="pull-right" src="../../../img/mine_arrow2.png" />
+				</section>
+			</article>
+			<section class="item padding">
+				<span class="title pull-left">版本信息</span>
+				<span class="val pull-right">v{{version}}</span>
+			</section>
+			<!--<a href="javascipt:;" class="logout btn" @click="logout">退出登录</a>-->
+		</div>
+		<script type="text/javascript" src="../../../js/plugin/mui.min.js"></script>
+		<script type="text/javascript" src="../../../js/common/common.js"></script>
+		<script type="text/javascript" src="../../../js/api/me.js"></script>
+	</body>
+	<script type="text/javascript">
+		var vm = new Vue({
+			el: "#vueBox",
+			data: function() {
+				return {
+					switchs: true,
+					version: ''
+				}
+			},
+			mounted: function() {
+				this.version = mcm.config.VERSION
+			},
+			methods: {
+				changeSwitch: function(is) {
+					this.switchs = !is;
+				},
+				goEditPsw: function() {
+					mcm.singleJumpPage("user-amendPsw", "../user-amendPsw/user-amendPsw.html", "修改密码");
+				},
+				logout: function() {
+					api.userLogout.userLogoutAPI({
+						success: function(data) {
+							mcm.removeCookie();
+							var ws = plus.webview.getLaunchWebview();
+							ws.reload();
+							mui.fire(ws, "switchMenu", {
+								index: 1
+							});
+							var wt = plus.nativeUI.showWaiting();
+							ws.onloaded = function() {
+								wt.close();
+								var thatws = plus.webview.currentWebview();
+								thatws.close("auto");
+								ws.show();
+							}
+						}
+					});
+
+				}
+			}
+		})
+	</script>
+
+</html>

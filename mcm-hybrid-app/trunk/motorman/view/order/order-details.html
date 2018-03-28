@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/common.css" />
+		<link rel="stylesheet" type="text/css" href="css/order-details.css" />
+		<script type="text/javascript" src="../../js/plugin/vue.js"></script>
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=aFNd7tZyBy1MeoYCBXRqc6cpHWP6K7V0"></script>
+		<title></title>
+	</head>
+
+	<body>
+		<div id="vueBox" class="order-details">
+			<div class="head">
+				<h1>{{orderData.receiverName}}</h1>
+				<p>地址：{{orderData.receiverAddr}}</p>
+			</div>
+			<div class="main" :style="orderData.statusId==100?'bottom:0;':''">
+				<div class="item order-head padding">
+					<h2 class="o-status">订单{{orderData.statusText}}</h2>
+					<p class="o-time">送达时间：{{orderData.deliveryEndTime?orderData.deliveryEndTime+'之前':'尽快送达'}}</p>
+					<a href="javascript:;" class="btn-default call" @click="call(orderData.receiverMobile)"><img src="../../img/list_details_tele.png" />联系商户</a>
+				</div>
+				<div class="item order-map" v-if="orderData.statusId==40">
+					<div class="map" id="map"></div>
+					<div class="map-footer">
+						<a href="javascript:;" class="gps-btn" @click="navigationMap">导航</a>
+					</div>
+				</div>
+				<div class="item order-goods padding">
+					<div class="item-head hr">
+						<i></i>食材列表
+						<span class="pull-right">{{orderData.productCount}}种食材</span>
+					</div>
+					<div class="item-main">
+						<div class="g-list" v-for="(v,k) in orderData.products" :key="k" :class="{active:v.statusId==1}">
+							<span class="g-title pull-left ellipsis">{{v.productName}}</span>
+							<span class="g-info pull-right"><span class="g-num">{{v.productQuantity}}</span>/<span class="r-num">{{v.receivedQuantity || 0}}</span>件</span>
+						</div>
+						<!--<p class="more" v-show="orderData.productCount>3" @click="orderData.isShowAll=!orderData.isShowAll">{{orderData.isShowAll?'收起':'查看更多'}}{{orderData.productCount-3}}种食材</p>-->
+					</div>
+				</div>
+				<div class="item order-info padding">
+					<p>订单编号<span>{{orderData.deliveryOrderId}}</span></p>
+					<p>接单时间<span>{{orderData.creationTime}}</span></p>
+					<p v-show="orderData.statusId!=30">取货时间<span>{{orderData.pickedTime}}</span></p>
+					<p v-show="orderData.statusId==100">送达时间<span>{{orderData.completedTime}}</span></p>
+				</div>
+			</div>
+			<div class="footer">
+				<a href="javascript:;" v-show="orderData.statusId==30" class="btn-default btn-code" @click="barcodeGoods">扫码取货</a>
+				<a href="javascript:;" v-show="orderData.statusId==30" class="btn-default btn-code btn-claim-goods" @click="completedClaimGoods">已取完货</a>
+				<a href="javascript:;" v-show="orderData.statusId==40" class="btn-default likman-btn" @click="confirmArrive">确认送达 <span v-if="orderData.deliveryWayId==300">需收款¥{{orderData.receivableAmount|PRICE}}</span></span>
+				</a>
+			</div>
+		</div>
+		<script type="text/javascript" src="../../js/plugin/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/common/common.js"></script>
+		<script type="text/javascript" src="../../js/api/order.js"></script>
+	</body>
+	<script type="text/javascript">
+		var map = null;
+		mui.plusReady(function() {
+			var self = plus.webview.currentWebview();
+			vm.deliveryOrderId = self.orderId; //获得参数
+			vm.initPage();
+		})
+		document.addEventListener("barcodeResult", function(event) {
+			var ws = plus.webview.getWebviewById("orderBarcode");
+			ws.close();
+			var info = event.detail.resultInfo;
+			if(info.indexOf(mcm.config.BARCODE, 0) === 0) {
+				var codeId = info.replace(mcm.config.BARCODE, "");
+				vm.barcodeSuccess(codeId);
+			} else {
+				mui.toast("二维码不符合取货规范!")
+			}
+		})
+		var vm = new Vue({
+			el: "#vueBox",
+			data: function() {
+				return {
+					deliveryOrderId: '',
+					orderData: '',
+					position: {}
+				}
+			},
+			filters: {
+				PRICE: function(v) {
+					if(v == "" || v == 0)
+						return "0.00";
+					v = Math.abs(v);
+					if(v < 0.01) {
+						return 0.01;
+					}
+					return(v * 100 / 100).toFixed(2);
+				}
+			},
+			methods: {
+				initMap: function() {
+					plus.geolocation.getCurrentPosition(function(a) {
+						var info = a.address,
+							coords = a.coords;
+						vm.position = {
+							latitude: coords.latitude,
+							longitude: coords.longitude
+						}
+						var map = new BMap.Map("map");
+						map.centerAndZoom(new BMap.Point(coords.longitude, coords.latitude), 12);
+						/*var pt = new BMap.Point(coords.longitude, coords.latitude);
+						var myIcon = new BMap.Icon("../../img/list_mao_location.png", new BMap.Size(200,157));
+						var marker2 = new BMap.Marker(pt,{icon:myIcon}); 
+						map.addOverlay(marker2);  */
+					}, function(e) {
+						alert('Geolocation error: ' + e.message);
+					});
+				},
+				initPage: function() {
+					this.loadDetails();
+				},
+				loadDetails: function() {
+					var _that = this;
+					api.order.orderDetailsAPI({
+						data: {
+							deliveryOrderId: this.deliveryOrderId
+						},
+						success: function(result) {
+							if(result.productCount > 3) {
+								result.isShowAll = false;
+							}
+							_that.orderData = result;
+							if(vm.orderData.statusId == 40) {
+								setTimeout(function() {
+									vm.initMap();
+								}, 300)
+							}
+						}
+					})
+				},
+				call: function(phone) {
+					var btnArray = ['拨打', '取消'];
+					mui.confirm('是否拨打' + phone + '?', '提示', btnArray, function(e) {
+						if(e.index == 0) {
+							plus.device.dial(phone, false);
+						}
+					});
+				},
+				confirmArrive: function() {
+					var _that = this;
+					if(this.orderData.deliveryWayId == 300) {
+						mui.prompt("请输入收款金额", "收款金额", "确认收货", ["确认收货", "取消"], function(txt) {
+							txt.index === 0 && _that.subConfirmArrive(txt.value);
+						}, 'div');
+						var dom = document.getElementsByClassName('mui-popup-input')[0].children[0];
+						dom.value = orderData.receivableAmount;
+					} else {
+						_that.subConfirmArrive();
+					}
+				},
+				subConfirmArrive: function(amount) {
+					var data = {
+						deliveryOrderId: this.orderData.deliveryOrderId
+					}
+					if(amount) {
+						data.amount = amount;
+					}
+					var _that = this;
+					api.order.orderConfirmArrive({
+						data: data,
+						success: function(result) {
+							mui.toast("收货完成！");
+							var ws = plus.webview.getWebviewById('order');
+							mui.fire(ws, 'anewLoadData')
+							setTimeout(function() {
+								mui.back();
+							}, 100)
+						}
+					})
+				},
+				barcodeSuccess: function(codeId) {
+					api.order.pickupAPI({
+						data: {
+							deliveryOrderId: vm.deliveryOrderId,
+							sortingDataId: codeId
+						},
+						success: function(result) {
+							vm.loadDetails();
+						}
+					})
+				},
+				//已完成
+				completedClaimGoods: function() {
+					plus.nativeUI.confirm("你确定已取完货，提交完成取货", function(e) {
+						e.index === 0 && api.order.pickupToCompleteAPI({
+							data: {
+								deliveryOrderId: vm.deliveryOrderId
+							},
+							success: function(result) {
+								mui.toast("提交成功");
+								var order = plus.webview.getWebviewById('order');
+								if(order) {
+									mui.fire(order, 'anewLoadData')
+								}
+								setTimeout(function() {
+									mui.back();
+								}, 100)
+							}
+						})
+					});
+				},
+				barcodeGoods: function() {
+					var ws = plus.webview.getWebviewById("orderBarcode");
+					if(ws) {
+						mui.fire(ws, "againBarcode");
+						/*setTimeout(function() {
+							ws.show();
+						}, 100)*/
+					} else {
+						mcm.singleJumpPageNew({
+							id: "orderBarcode",
+							url: "order-barcode.html",
+							title: "扫码取货",
+							autoBackButton: true,
+							params: {
+								pageId: "details"
+							}
+						})
+					}
+				},
+				navigationMap: function() {
+					var src = new plus.maps.Point(vm.position.longitude, vm.position.latitude);
+					var dst = new plus.maps.Point(vm.orderData.longitude, vm.orderData.latitude);
+					plus.maps.openSysMap(dst, vm.orderData.receiverAddr, src);
+				}
+			}
+		});
+	</script>
+
+</html>

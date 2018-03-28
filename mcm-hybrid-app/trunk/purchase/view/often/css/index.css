@@ -1,0 +1,109 @@
+/**
+ * author pzh
+ * 商户系统主题配置
+ */
+/*主色调*/
+/*辅助色*/
+/*禁用*/
+/*主要字体色*/
+/*常规文字颜色*/
+/*次要文字颜色*/
+/*不可输入*/
+/*背景色*/
+/*主要边框*/
+/*分割线*/
+.clearFloat {
+  content: "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  *zoom: 1;
+  clear: both;
+  visibility: hidden;
+}
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.often-index-page {
+  height: 100%;
+}
+.often-index-page .header {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  top: 0;
+  padding-top: 0.3046875rem;
+  height: 0.71875rem;
+  line-height: 0.8125rem;
+  background: #FCFCFC;
+  text-align: center;
+  font-size: 0.3125rem;
+  z-index: 99999;
+}
+.often-index-page .header .title {
+  color: #0A0B0C;
+}
+.often-index-page .header .search {
+  position: absolute;
+  right: 0;
+  display: inline-block;
+  width: 0.3828125rem;
+  height: 0.3828125rem;
+  margin-right: 0.1875rem;
+  margin-top: 0.1875rem;
+  background: url(../../../img/login/home_classify_search.png) no-repeat;
+  background-size: cover;
+}
+.often-index-page .category-nar {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  top: 0.9921875rem;
+  z-index: 2;
+  background: #FCFCFC;
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.1);
+}
+.often-index-page .content {
+  position: absolute;
+  top: 1.75rem;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.often-index-page .content .cate-item {
+  margin-bottom: 0.1875rem;
+  background: #FFF;
+}
+.often-index-page .content .cate-item .prod-item .wrap {
+  border-bottom: 0;
+  border-top: 1px solid #F0F0F0;
+}
+.often-index-page .content .cate-item .prod-item .del-icon {
+  position: absolute;
+  right: 0.109375rem;
+  top: 0.109375rem;
+  display: inline-block;
+  width: 0.265625rem;
+  height: 0.265625rem;
+  background: url(../../../img/list_delete.png) no-repeat;
+  background-size: cover;
+}
+.often-index-page .content h4 {
+  height: 0.71875rem;
+  line-height: 0.75rem;
+  padding: 0rem 0.1875rem;
+  font-size: 0.28125rem;
+}
+.often-index-page .content h4 .c-icon {
+  position: relative;
+  top: 0.0546875rem;
+  margin-right: 0.0703125rem;
+  display: inline-block;
+  width: 0.328125rem;
+  height: 0.328125rem;
+}
+.often-index-page .content h4 .c-icon img {
+  width: 100%;
+}

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>买菜么-商城</title>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="css/index.css"/>
+    <script type="text/javascript" src="../../js/plugin/vue.js"></script>
+	</head>
+	<body>
+		<div class="shop-index-page" id="shopIndexPage">
+			<header class="header" ref="header" id="header">
+				<i class="logo">
+					<img src="../../img/login/login_logo.png" alt="" />
+				</i>
+				<div class="search" @click="jumpSearch"><p>搜索食材</p></div>
+			</header>
+			<div class="content" v-show="loading">
+				<category-nar 
+					:categorys="categorys" 
+					@selectcategory="selectCategory"
+				>
+				</category-nar>
+				<shop-goods 
+					ref="shopGoods"
+					:subcategory="subCategory" 
+					:prodlist="prodList"
+					:threecategorys="threeCategorys"
+					:threeactive="threeActive"
+					@selectsubcategory="selectSubCategory">
+				</shop-goods>
+			</div>
+			<loading v-show="!loading"></loading>
+			<number-key></number-key>
+			
+		</div>
+		<script type="text/javascript" src="../../js/plugin/mui.min.js"></script>
+    	<script type="text/javascript" src="../../js/common/common.js"></script>
+    	<script type="text/javascript" src="../../js/plugin/fastclick.js"></script>
+    	<script type="text/javascript" src="../../components/loading.js"></script>
+    	<script type="text/javascript" src="../../components/category-nar.js"></script>
+    	<script type="text/javascript" src="../../components/shop-goods.js"></script>
+    	<script type="text/javascript" src="../../components/add-cart.js"></script>
+    	<script type="text/javascript" src="../../js/plugin/vue-scroller.min.js"></script>
+    	<script type="text/javascript" src="../../js/api/shop.js"></script>
+    	<script type="text/javascript" src="../../components/number-key.js"></script>
+	 	<script type="text/javascript" >
+			document.addEventListener('openThatPage', function(event) {
+				getLocation();
+				vm.initShopData();
+			});	
+			//筛选
+			document.addEventListener('selectThreeCategory', function(event) {
+				var detail = event.detail;
+				vm.threeCategorys = detail.threeCategorys;
+				vm.threeActive = detail.threeActive;
+
+			})
+			function getLocation() {
+				var addrStr = plus.storage.getItem(mcm.config.LOCATIONINFO);
+				try{
+					var addr = JSON.parse(addrStr);
+					if(addr) {
+						var params = vm.params;
+						params.province = addr.province;
+						params.city = addr.city;
+					} else {
+						_position();
+					}
+				}catch(e) {
+					_position();
+				}
+				function _position() {
+					plus.geolocation.getCurrentPosition(function(a){
+						var info = a.address, coords = a.coords;
+						var params = vm.params;
+						params.province = info.province;
+						params.city = info.city;
+					}, function(e){
+						alert('Geolocation error: ' + e.message);
+					}); 
+				}
+				
+			}
+			mui.plusReady(function() {
+				//禁止横屏
+			plus.screen.lockOrientation("portrait-primary");
+			})
+			mcm.closeAPP();
+	 		var vm = new Vue({
+				el: "#shopIndexPage",
+				data: function() {
+					return{
+						loading: false,
+						categorys: null,
+						subCategory: null,
+						prodList: null,
+						params: {
+							pageNum: 1,
+							pageSize: 20,
+							productSecondCategoryId: "",
+							province: '',
+							city: ''
+						},
+						threeCategorys: [],
+						threeActive: false
+					}
+				},
+				mounted: function() {
+					
+				},
+				methods: {
+					jumpSearch: function() {
+						mui.openWindow({
+							url: "../index/search.html",
+							id: "search"
+						});
+					},
+					selectCategory: function(item) {
+						try{
+							var cas = vm.categorys[item.active];
+							vm.subCategory = cas.childrenList;
+							vm.threeActive = false;
+							vm.threeCategorys = [];
+							if(vm.subCategory.length > 0) {
+								this.$refs.shopGoods.initSubCategoryActive();
+								var childrenList = vm.subCategory[0].childrenList;
+								if(childrenList && childrenList.length && childrenList[0].childrenList) {
+									var threeCategorys = childrenList[0].childrenList;
+									mui.each(threeCategorys, function(k, item) {
+										item.active = false;
+									})
+									vm.threeCategorys = threeCategorys;
+								}
+								vm.getProdList(vm.subCategory[0].productCategoryId);
+							}
+						}catch(e) {}
+					},
+					selectSubCategory: function(params) {
+						if(params.productCategoryId) {
+							vm.threeActive = false;
+							vm.getProdList(params.productCategoryId);
+						}
+					},
+					initShopData: function() {
+						this.getCategory();
+					},
+					getCategory: function() {
+						var apiUrl = mcm.isLogin(false) ? "categoryAPI" : "guestCategoryAPI";
+						api.shop[apiUrl]({
+							success: function(result) {
+								vm.categorys = result;
+								if(result && result.length > 0) {
+									var childrenList = result[0].childrenList;
+									if(childrenList && childrenList.length > 0) {
+										vm.subCategory = childrenList;
+										if(childrenList && childrenList.length && childrenList[0].childrenList) {
+											var threeCategorys = childrenList[0].childrenList;
+											mui.each(threeCategorys, function(k, item) {
+												item.active = false;
+											})
+											vm.threeCategorys = threeCategorys;
+										}
+										var firstCategoryId = childrenList[0] ? childrenList[0].productCategoryId : null;
+										firstCategoryId && vm.getProdList(firstCategoryId);
+									}
+								} else {
+									vm.loading = true;
+								}	
+							},
+							error: function() {
+								vm.loading = true;
+							}
+						});
+					},
+					getProdList: function(subCategoryId) {
+						var data = vm.params, loginStatus = mcm.isLogin(false);
+						data.productSecondCategoryId = subCategoryId;
+						var apiUrl = loginStatus ? "prodListAPI" : "guestProdListAPI";
+						api.shop[apiUrl]({
+							data: data,
+							success: function(result) {
+								vm.loading = true;
+								var pList = result.resultList;
+								mui.each(pList, function(k, item) {
+									item.often = false;
+									if(item.sellProductTypeId === 1) {
+										item.productQuantity = 0
+									} else {
+										//多规格
+									}
+								})
+								vm.prodList = pList;
+								loginStatus && mcm.initProdOftenOrCartNum({
+									prodList: vm.prodList
+								})
+							}
+						});
+					}
+				}
+			})
+	 		
+	 	</script>
+	</body>
+</html>

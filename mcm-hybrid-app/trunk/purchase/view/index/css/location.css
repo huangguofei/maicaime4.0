@@ -1,0 +1,104 @@
+/**
+ * author pzh
+ * 商户系统主题配置
+ */
+/*主色调*/
+/*辅助色*/
+/*禁用*/
+/*主要字体色*/
+/*常规文字颜色*/
+/*次要文字颜色*/
+/*不可输入*/
+/*背景色*/
+/*主要边框*/
+/*分割线*/
+.clearFloat {
+  content: "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  *zoom: 1;
+  clear: both;
+  visibility: hidden;
+}
+.location-page .header .con {
+  padding: 0.03125rem 0.1875rem;
+  position: relative;
+}
+.location-page .header .con .city {
+  position: absolute;
+}
+.location-page .header .con .city .icon {
+  display: inline-block;
+  width: 0.3828125rem;
+  height: 0.3828125rem;
+  position: relative;
+  top: 0.078125rem;
+}
+.location-page .header .con .city .icon img {
+  width: 100%;
+}
+.location-page .header .con .city .name {
+  font-size: 0.28125rem;
+  width: 0.96875rem;
+  overflow: hidden;
+  color: #3E3E3E;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.location-page .header .con .search {
+  padding-left: 1.75rem;
+}
+.location-page .header .con .search input {
+  width: 100%;
+  height: 0.46875rem;
+  border: 1px solid #F2F2F2;
+  background: #F2F2F2 url(../../../img/market_search.png) no-repeat 5px 3px;
+  background-size: auto 70%;
+  border-radius: 0.265625rem;
+  margin-top: 0.125rem;
+  text-indent: 0.421875rem;
+  font-size: 0.25rem;
+}
+.location-page .content {
+  padding-top: 0.796875rem;
+}
+.location-page .content .l-item {
+  margin-top: 0.1875rem;
+}
+.location-page .content .l-item h4 {
+  font-weight: normal;
+  padding: 0.03125rem 0.1875rem;
+  color: #8F8F8F;
+}
+.location-page .content .l-item .items {
+  padding: 0.03125rem 0.1875rem;
+  margin-top: 0.1875rem;
+  background: #fff;
+}
+.location-page .content .l-item .items .item {
+  padding: 0.1875rem 0.03125rem;
+  color: #0A0B0C;
+  font-size: 0.265625rem;
+  border-bottom: 1px solid #F0F0F0;
+}
+.location-page .content .l-item .items .item:last-child {
+  border-bottom: 0;
+}
+.location-page .content .l-item .items .item:after {
+  content: "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  *zoom: 1;
+  clear: both;
+  visibility: hidden;
+}
+.location-page .content .l-item .items .right {
+  display: inline-block;
+  float: right;
+  color: #1EC551;
+  background: url(../../../img/login/home_info_address_location.png) no-repeat 0 0px;
+  background-size: auto 90%;
+  text-indent: 0.3046875rem;
+}

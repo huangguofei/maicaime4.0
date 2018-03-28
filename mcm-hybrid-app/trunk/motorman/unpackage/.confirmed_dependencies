@@ -1,0 +1,57 @@
+{
+	"index.html": {
+		"refer": [
+			"view/login/login.html",
+			"view/order/index.html"
+		]
+	},
+	"view/login/login.html": {
+		"refer": [
+			"view/login/forget-psw/forget-psw.html",
+			"view/login/amend-psw/amend-psw.html",
+			"view/order/index.html"
+		]
+	},
+	"view/order/index.html": {
+		"refer": [
+			"view/me/index.html",
+			"view/login/login.html",
+			"view/order/order-details.html",
+			"view/me/user-set/user-set.html",
+			"view/me/user-message/user-message.html",
+			"view/order/order-map.html",
+			"view/me/userInfo.html"
+		]
+	},
+	"view/me/index.html": {
+		"refer": [
+			"view/me/authentication-info/authentication-info.html"
+		]
+	},
+	"view/me/user-set/user-set.html": {
+		"refer": [
+			"view/login/amend-psw/amend-psw.html"
+		]
+	},
+	"view/order/order-details.html": {
+		"refer": [
+			"view/order/order-barcode.html"
+		]
+	},
+	"view/order/order-map.html": {
+		"resources": [
+			"view/order/purchase-more.html"
+		],
+		"refer": [
+			"view/order/purchase-map.html",
+			"view/order/purchase-more.html"
+		]
+	},
+	"view/me/userInfo.html": {
+		"refer": [
+			"view/login/login.html",
+			"view/me/index.html",
+			"view/me/user-set/user-set.html"
+		]
+	}
+}

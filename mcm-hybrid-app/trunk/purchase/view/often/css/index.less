@@ -1,0 +1,85 @@
+@import "../../../css/config.less";
+.often-index-page{
+    height:100%;
+    .header{
+        position: fixed;
+        width: 100%;
+        left: 0;
+        top: 0;
+        .pxrem(padding-top, 35);
+        .pxrem(height, 88);
+        .pxrem(line-height, 100);
+        background: #FCFCFC;
+        text-align:center;
+        .pxrem(font-size, 36);
+        z-index: 99999;
+        .title{
+            color: @mcm-color-text-primary;
+        }
+        .search{
+            position: absolute;
+            right: 0;
+            display: inline-block;
+            .pxrem(width, 45);
+            .pxrem(height, 45);
+            .pxrem(margin-right, 20);
+            .pxrem(margin-top, 20);
+            background: url(../../../img/login/home_classify_search.png) no-repeat;
+            background-size: cover;
+        }
+    }
+    .category-nar{
+        position: fixed;
+        width: 100%;
+        left: 0;
+        .pxrem(top, 123);
+        z-index: 2;
+        background: #FCFCFC;
+        box-shadow: 0px 4px 10px 0px rgba(0,0,0,0.1);
+    }
+   .content{
+        position:absolute;
+        .pxrem(top, 220);
+        bottom:0;
+        left:0;
+        right:0;
+        .cate-item{
+            .pxrem(margin-bottom, 20);
+            background: #FFF;
+            .prod-item{
+                .wrap{
+                    border-bottom:0;
+                    border-top:1px solid @mcm-border-color-base;
+                }
+                .del-icon{
+                    position:absolute;
+                    .pxrem(right, 10);
+                    .pxrem(top, 10);
+                    display:inline-block;
+                    .pxrem(width, 30);
+                    .pxrem(height, 30);
+                    background: url(../../../img/list_delete.png) no-repeat;
+                    background-size: cover;
+                }
+            }
+        }
+        h4{
+           .pxrem(height, 88); 
+           .pxrem(line-height, 92);
+           .prem(-4, 20);
+           padding: @prem;
+           .pxrem(font-size, 32);
+           .c-icon{
+               position: relative;
+               .pxrem(top, 3);
+               .pxrem(margin-right, 5);
+               display: inline-block;
+               .pxrem(width,38);
+               .pxrem(height,38);
+               img{
+                   width: 100%;
+               }
+           }
+        }
+   }
+}

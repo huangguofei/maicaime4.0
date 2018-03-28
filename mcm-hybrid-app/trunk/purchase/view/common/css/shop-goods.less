@@ -1,0 +1,128 @@
+//商城----------------------------------------------------------
+@import "../../../css/config.less";
+.shop-goods-page{
+    height:100%;
+}
+.shop-goods {
+    position: absolute;
+    bottom: 0px;
+    .pxrem(top, 91);
+    left: 0;
+    right: 0;
+    .prod-area {
+       height: 100%;
+        .left {
+            position: absolute;
+            top:0;
+            left:0;
+            height: 100%;
+            .pxrem(width, 179);
+            overflow-y: auto;
+            background: @mcm-background-color-base;
+            border-right: 1px solid #DCDFE6;
+            z-index: 9;
+            .mui-scroll {
+                border-bottom:1px solid @mcm-background-color-base;
+                min-height: 100%;
+            }
+            .item {
+                text-align: center;
+                .prem(25, 0);
+                padding: @prem;
+                .pxrem(font-size, 32);
+                color: @mcm-color-text-regular;
+                border-bottom: 1px solid #DCDFE6;
+            }
+            .active {
+                color: @mcm-color-primary;
+            }
+        }
+        .right {
+            background: @mcm-color-white;
+            .pxrem(padding-left, 181);
+            position: relative;
+            height: 100%;
+            .r-con {
+                position: relative;
+                height: 100%;
+            }
+            .condition {
+                position: absolute;
+                width: 100%;
+                z-index: 99;
+                .pxrem(height, 80);
+                .pxrem(line-height, 80);
+                .wrap {
+                    height: 100%;
+                    border-bottom: 1px solid @mcm-border-color-base;
+                }
+                .c-l,
+                .c-r {
+                    position: relative;
+                    width: 50%;
+                    float: left;
+                    text-align: center;
+                    .pxrem(font-size, 28);
+                    color: @mcm-color-text-secondary;
+                    .icon{
+                        display: inline-block;
+                        position: relative;
+                        .pxrem(left, 2);
+                        .pxrem(top, 2);
+                        .pxrem(width, 20);
+                        .pxrem(height, 30);
+                    }
+                }
+                .c-l {
+                    position: relative;
+                    .icon{
+                        background: url(../../../img/login/home_info_address_arrow1.png) no-repeat center center;
+                        background-size: 100% auto;
+                        opacity: 0.5;
+                    }
+                    &:after {
+                        content: "";
+                        position: absolute;
+                        .pxrem(width, 0.5);
+                        .pxrem(height, 50);
+                        right: 0;
+                        .pxrem(top, 10);
+                        background: @mcm-border-color-base;
+                    }
+                    .prod-sort{
+                        position:absolute;
+                        .pxrem(left, 50);
+                        background: #FFF;
+                        color: @mcm-color-text-primary;
+                        .prem(8, 16);
+                        padding:@prem;
+                        .pxrem(line-height, 60);
+                        box-shadow: 0px 2px 2px 3px rgba(0,0,0,0.08);
+                        .pxrem(border-radius, 8);
+                        .pxrem(font-size, 28);
+                        .name{
+                            padding:0;
+                        }
+                    }
+                }
+                .c-r{
+                    .icon{
+                        background: url(../../../img/login/home_classify_shaixuan.png) no-repeat center center;
+                        background-size: 100% auto;
+                        opacity: 0.5;
+                    }
+                }
+                .active {
+                    color: @mcm-color-primary;
+                }
+            }
+            .items {
+                position: absolute;
+                .pxrem(top, 85);
+                left: 0;
+                bottom: 0px;
+                right: 0;
+            }
+        }
+    }
+}

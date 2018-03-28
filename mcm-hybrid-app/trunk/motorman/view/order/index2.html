@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/common.css" />
+		<link rel="stylesheet" type="text/css" href="css/index.css" />
+		<script type="text/javascript" src="../../js/plugin/vue.js"></script>
+		<title></title>
+		<style>
+			.mui-content-padded {
+				/*overflow-y:auto ;*/
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="vueBox" class="order mui-fullscreen">
+			<div class="mui-off-canvas-wrap mui-draggable mui-slide-in">
+				<!-- 菜单容器 -->
+				<aside id="offCanvasSide" class="mui-off-canvas-left">
+					<div class="mui-scroll-wrapper side-main" id="offside">
+						<div class="side-bg"></div>
+						<div class="side-body padding">
+							<div class="side-head colse-menu">
+								<a href="javascript:;"><img src="../../img/back.png" /> 个人中心
+								</a>
+								<p>买菜么司机端</p>
+							</div>
+							<div class="side-user">
+								<img :src="userInfo.headImg?userInfo.headImg:'../../img/user-default.png'" class="user-head pull-left" />
+								<div class="user-info pull-left">
+									<h2>{{userInfo.driverName}}</h2>
+									<p>加入时间：{{timeCreated}}</p>
+								</div>
+								<a href="javascript:;" class="go-user"><img src="../../img/mine_arrow.png" /></a>
+							</div>
+							<div class="side-menu">
+								<div class="menu-list go-message">
+									我的消息<img src="../../img/mine_arrow2.png" />
+									<span class="new" v-show="userInfo.messageCount>0">{{userInfo.messageCount}}</span>
+								</div>
+								<div class="menu-list">
+									关于我们<img src="../../img/mine_arrow2.png" />
+								</div>
+								<div class="menu-list go-set">
+									设置<img src="../../img/mine_arrow2.png" />
+								</div>
+							</div>
+						</div>
+						<div class="side-footer padding">
+							<img src="../../img/mine_quit.png" />退出登录
+						</div>
+					</div>
+				</aside>
+				<div class="order-main mui-inner-wrap">
+					<!-- 主页面标题 -->
+					<header class="head mui-bar mui-bar-nav">
+						<a href="#offCanvasSide" class="mui-icon mui-action-menu mui-icon-bars user-icon pull-left"><img src="../../img/mine_icon.png"></a>
+						<a href="javascript:;" v-if="options.orderStatus === 40" class="change-icon pull-right"><img src="../../img/list_map.png" v-if="showType==1"><img v-else src="../../img/list_list.png"></a>
+						<h1 class="mui-title">配送单</h1>
+					</header>
+					<div class="mui-content" id="offcontent">
+						<div class="mui-sliders">
+							<div class="menu mui-segmented-control mui-segmented-control-inverted mui-segmented-control-positive">
+								<a class="mui-control-item mui-active" href="#item1" index="0">
+									待取货
+								</a>
+								<a class="mui-control-item" href="#item2" index="1">
+									待送达
+								</a>
+								<a class="mui-control-item" href="#item3" index="2">
+									已完成
+								</a>
+							</div>
+							<!--<order-map v-show="showType==2" ref="map"></order-map>-->
+							<div class="mui-content-padded">
+								<div id="item1" class="mui-control-content mui-active mui-scroll-wrapper">
+									<div class="mui-scroll">
+										<order-list :datas="orderData" v-if="active==0&&orderData.length!=0"></order-list>
+										<empty-page :datas="emptyData" v-else></empty-page>
+									</div>
+								</div>
+								<div id="item2" class="mui-control-content mui-scroll-wrapper">
+									<div class="mui-scroll">
+										<order-list :datas="orderData" v-if="active==1&&orderData.length!=0"></order-list>
+										<empty-page :datas="emptyData" v-else></empty-page>
+									</div>
+								</div>
+								<div id="item3" class="mui-control-content mui-scroll-wrapper">
+									<div class="mui-scroll">
+										<order-list :datas="orderData" v-if="active==2&&orderData.length!=0"></order-list>
+										<empty-page :datas="emptyData" v-else></empty-page>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="mui-off-canvas-backdrop"></div>
+				</div>
+			</div>
+			<dialog-page :datas="dialogData"></dialog-page>
+		</div>
+		<script type="text/javascript" src="../../js/plugin/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/common/common.js"></script>
+		<script type="text/javascript" src="../../js/common/order-map.js"></script>
+		<script type="text/javascript" src="../../components/dialog.js"></script>
+		<script type="text/javascript" src="../../js/api/login.js"></script>
+		<script type="text/javascript" src="../../js/api/me.js"></script>
+		<script type="text/javascript" src="../../js/api/order.js"></script>
+		<script type="text/javascript" src="../../components/order-list.js"></script>
+		<script type="text/javascript" src="../../components/empty-page.js"></script>
+	</body>
+	<script type="text/javascript">
+		mui.plusReady(function() {
+			var self = plus.webview.currentWebview();
+			vm.auditStatusId = self.auditStatusId;
+			vm.initPage();
+		});
+		window.onload = function() {
+			mui(".mui-scroll-wrapper").scroll();
+		}
+		var vm = new Vue({
+			el: "#vueBox",
+			data: function() {
+				return {
+					showType: 1,
+					dialogData: {
+						isShow: false, //是否显示弹窗
+						title: '完善个人信息', //弹窗标题
+						info: "您的信息还未完善，为了不影响您正常 接单，请前去完善个人信息", //弹窗提示语
+						logoSrc: '../../img/login_remind_icon.png', //弹窗头部图片地址
+						yBtn: {
+							str: "好的，去完善", //弹窗确认按钮文字，默认为：是
+							callback: this.goUserPage //弹窗确认事件
+						},
+						nBtn: {
+							str: "不，稍后完善", //弹窗取消按钮文字，默认为：否
+							callback: this.dialogN //弹窗取消事件
+						}
+					},
+					userInfo: {},
+					timeCreated: '',
+					auditStatusId: '',
+					active: 0,
+					options: {
+						orderStatus: 30,
+						pageNum: 1,
+						pageSize: 100
+					},
+					orderData: [],
+					orderId: '',
+					mobile: '',
+					emptyData: {
+						isShow: true,
+						src: "../../img/no_order.png",
+						info: "您还没有任何订单哦",
+						btn: {
+							str: "去逛逛",
+							callback: function() {
+
+							}
+						}
+					},
+					mapShow: true
+				}
+			},
+			created: function() {},
+			methods: {
+				changeShow: function() {
+					this.showType = this.showType == 1 ? 2 : 1;
+					var ws = plus.webview.getWebviewById('orderMap');
+					if(this.showType === 1) {
+						ws.hide();
+					} else {
+						if(ws) {
+							ws.show();
+						} else {
+							mui.openWindow({
+								url: "order-map.html",
+								id: "orderMap",
+								styles: {
+									"render": "always",
+									"top": "90px",
+									"bottom": "0px"
+								}
+							})
+						}
+					}
+				},
+				dialogN: function() {
+					this.dialogData.isShow = false;
+				},
+				logout: function() {
+					api.logout.logoutAPI({
+						success: function(result) {
+							mui.toast(mcm.message.logoutSuccess);
+							mcm.removeCookie();
+							window.location.href = "../login/login.html";
+						}
+					})
+				},
+				initPage: function() {
+					if(vm.auditStatusId == 0) {
+						this.dialogData.isShow = true;
+					}
+					this.countHeight();
+					this.getUserInfo();
+					this.getOrderList();
+				},
+				countHeight: function() {
+					var dom = document.getElementsByClassName('mui-control-content');
+					var pageHeight = window.outerHeight;
+					dom[0].style.height = (pageHeight - 95) + 'px';
+					dom[1].style.height = (pageHeight - 95) + 'px';
+					dom[2].style.height = (pageHeight - 95) + 'px';
+				},
+				getOrderList: function() {
+					var _that = this;
+					api.order.orderListAPI({
+						data: this.options,
+						success: function(data) {
+							_that.orderData = data.resultList;
+						}
+					})
+				},
+				getUserInfo: function() {
+					var _that = this;
+					api.userInfo.userDataAPI({
+						success: function(result) {
+							_that.userInfo = result;
+						}
+					});
+					if(this.status == 0) {
+						this.dialogData.isShow = true;
+					}
+				},
+				goUserPage: function() {
+					mcm.singleJumpPage("user", "../me/index.html", "个人信息");
+				},
+				call: function(phone) {
+					var btnArray = ['拨打', '取消'];
+					mui.confirm('是否拨打' + phone + '?', '提示', btnArray, function(e) {
+						if(e.index == 0) {
+							plus.device.dial(phone, false);
+						}
+					});
+				},
+				confirmArrive: function(id, type) {
+					var _that = this;
+					if(type == 300) {
+						mui.prompt("请输入收款金额", "收款金额", "确认收货", ["确认收货", "取消"], function(txt) {
+							_that.subConfirmArrive(id, txt.value);
+						}, 'div');
+					} else {
+						_that.subConfirmArrive(id);
+					}
+				},
+				subConfirmArrive: function(id, amount) {
+					var data = {
+						deliveryOrderId: id
+					}
+					if(amount) {
+						data.amount = amount;
+					}
+					var _that = this;
+					api.order.orderConfirmArrive({
+						data: data,
+						success: function(result) {
+							mui.toast("收货完成！");
+							_that.initPage();
+						}
+					})
+				}
+
+			}
+		});
+		mui(".mui-off-canvas-wrap").on('tap', '.call', function(event) {
+			vm.call(this.getAttribute("call"));
+		});
+		mui(".mui-off-canvas-wrap").on('tap', '.change-icon', function(event) {
+			vm.changeShow();
+		});
+		mui(".mui-off-canvas-wrap").on('tap', '.go-user', function() {
+			vm.goUserPage();
+		});
+		mui(".mui-off-canvas-wrap").on('tap', '.colse-menu', function() {
+			mui(".mui-off-canvas-wrap").offCanvas('close');
+		});
+		mui(".mui-off-canvas-wrap").on('tap', '.hide-icon', function() {
+			vm.$refs.map.zoom();
+		});
+		mui(".mui-off-canvas-wrap").on('tap', '.go-details', function() {
+			mcm.singleJumpPage("details", "../order/order-details.html", "订单详情", {
+				orderId: this.getAttribute("oid")
+			});
+		});
+		mui(".mui-off-canvas-wrap").on('tap', '.go-set', function() {
+			mcm.singleJumpPage("set", "../me/user-set/user-set.html", "设置");
+		});
+		mui(".mui-off-canvas-wrap").on('tap', '.go-message', function() {
+			mcm.singleJumpPage("message", "../me/user-message/user-message.html", "我的消息");
+		});
+		mui(".mui-off-canvas-wrap").on('tap', '.side-footer', function() {
+			vm.logout();
+		});
+		/*mui(".mui-off-canvas-wrap").on('tap', '.confirm-btn', function() {
+			var type = this.getAttribute("otype");
+			var id = this.getAttribute("oid");
+			vm.confirmArrive(id, type);
+		});*/
+		mui(".mui-off-canvas-wrap").on('tap', '.mui-control-item', function() {
+			vm.orderData = [];
+			vm.active = this.getAttribute("index");
+			vm.options.orderStatus = vm.active == 0 ? 30 : vm.active == 1 ? 40 : 100;
+			if(vm.options.orderStatus != 40) {
+				var ws = plus.webview.getWebviewById('orderMap');
+				ws && ws.close();
+				vm.showType = 1;
+			}
+			vm.getOrderList();
+
+		});
+		window.addEventListener('refreshMsg', function(event) {
+			vm.userInfo.messageCount--;
+		});
+	</script>
+
+</html>

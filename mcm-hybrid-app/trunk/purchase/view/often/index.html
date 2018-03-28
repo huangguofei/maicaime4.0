@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>买菜么-常用清单</title>
+		<link rel="stylesheet" type="text/css" href="../../css/common.css" />
+		<link rel="stylesheet" type="text/css" href="css/index.css" />
+		<script type="text/javascript" src="../../js/plugin/vue.js"></script>
+	</head>
+
+	<body>
+		<div class="often-index-page" id="oftenIndexPage">
+			<header class="header" ref="header">
+				<span class="title">常用清单</span>
+				<!--<span class="search" @click="jumpSearch" ></span>-->
+			</header>
+			<category-nar ref="categoryNar" v-if="loading && categorys.length" :categorys="categorys" @selectcategory="selectCategory"></category-nar>
+			<div class="content" v-if="loading" v-cloak>
+				<scroller :on-scrollend="scrollEnd" :on-scrollmove="scrollMove" :on-refresh="refresh" ref="scroller" class="mcm-scroller" v-if="oftenList.length">
+
+					<div class="cate-item" :id="o.productCategory.productCategoryId" :key="index" v-for="(o, index) in oftenList">
+						<h4><i class="c-icon"><img :src="o.productCategory.image" alt="" /></i>{{o.productCategory.categoryName}}</h4>
+						<div class="prod-item" v-for="p in o.prods">
+							<div class="p-con">
+								<div class="wrap">
+									<i class="p-img">
+											<img :src="p.mainImage" alt="" />
+										</i>
+									<div class="p-info">
+										<p class="name">{{p.productName}}</p>
+										<p class="sku" v-if="p.sellProductTypeId == 1"><span>{{p.sellUnit}} </span><span>¥{{(p.sellPrice * 1).toFixed(2)}}</span></p>
+										<span class="price" v-if="p.sellProductTypeId != 1">
+												¥
+												<span v-if="p.minSellPrice && p.maxSellPrice">{{(p.minSellPrice * 1).toFixed(2)}}~{{(p.maxSellPrice * 1).toFixed(2)}}</span>
+										<span v-else-if="p.minSellPrice && !p.maxSellPrice">{{(p.minSellPrice * 1).toFixed(2)}}}}</span>
+										<span v-else-if="!p.minSellPrice && p.maxSellPrice">{{(p.maxSellPrice * 1).toFixed(2)}}}}</span>
+										<span v-else></span> /{{p.settleUnit}}
+										</span>
+										<span class="price" v-else>
+												¥{{(p.sellPrice/p.matrixingMultiple) < 0.01 ? 0.01 : (p.sellPrice/p.matrixingMultiple).toFixed(2)}}/{{p.settleUnit}}
+											</span>
+										<span class="select-sku" v-if="p.sellProductTypeId != 1" @click="skuSelect(p)">
+												<span>{{p.show ? "收起" : "选规格"}}</span>
+										</span>
+										<add-cart v-else :row="p" :num="p.productQuantity" class="cart"></add-cart>
+										<i class="del-icon" @click="delProd(p)"></i>
+									</div>
+								</div>
+							</div>
+							<div class="sku-area" v-if="p.sellProductTypeId == 2 && p.show">
+								<div class="s-item" v-for="s in p.products">
+									<p class="sku"><span>{{s.specName}} </span><span>¥{{(s.sellPrice * 1).toFixed(2)}}</span></p>
+									<span class="price">¥{{(s.sellPrice/s.matrixingMultiple) < 0.01 ? 0.01 : (s.sellPrice/s.matrixingMultiple).toFixed(2)}}/{{s.settleUnit}}</span>
+									<add-cart :row="s" :num="s .productQuantity" class="cart"></add-cart>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</scroller>
+				<empty-page :datas="notDatas" v-else></empty-page>
+			</div>
+			<loading v-else></loading>
+			<span class="parabola-area">
+				<cart-parabola  ref="parabold" >
+					 <div class="inner inner-hook">
+			         </div>
+				</cart-parabola>
+			</span>
+		</div>
+		<script type="text/javascript" src="../../js/plugin/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/common/common.js"></script>
+		<script type="text/javascript" src="../../js/plugin/fastclick.js"></script>
+		<script type="text/javascript" src="../../components/loading.js"></script>
+		<script type="text/javascript" src="../../components/category-nar.js"></script>
+		<script type="text/javascript" src="../../components/add-cart.js"></script>
+		<script type="text/javascript" src="../../js/plugin/vue-scroller.min.js"></script>
+		<script type="text/javascript" src="../../js/api/often.js"></script>
+		<script type="text/javascript" src="../../components/empty-page.js"></script>
+		<script type="text/javascript" src="../../components/cart-parabola.js"></script>
+		<script type="text/javascript">
+			document.addEventListener('openThatPage', function(event) {
+				vm.initData();
+			});
+			mui.plusReady(function() {
+				//禁止横屏
+				plus.screen.lockOrientation("portrait-primary");
+			})
+			mcm.closeAPP();
+			var vm = new Vue({
+				el: "#oftenIndexPage",
+				data: function() {
+					return {
+						loading: false,
+						oftenList: [],
+						categorys: [],
+						timer: 0,
+						scrollY: 0,
+						categoryActive: 0,
+						notDatas: {
+							src: '../../img/list_vacant.png',
+							info: '<p style="font-size:18px;color:#0A0B0C">常用清单里暂未添加任何食材</p><p style="margin-top:-30px;font-size:12px;">添加最常买的食材，方便下单</p>',
+							isShow: true
+						}
+					}
+				},
+				mounted: function() {
+					window.$ref_parabold = this.$refs.parabold;
+				},
+				beforeDestroy: function() {
+					clearInterval(this.timer)
+				},
+				methods: {
+					jumpSearch: function() {
+						mui.openWindow({
+							url: "../index/search.html",
+							id: "search"
+						});
+					},
+					refresh: function() {
+						setTimeout(function() {
+							vm.initData();
+
+						}, 1000);
+					},
+					selectCategory: function(params) {
+						var top = 0;
+						this.categoryActive = params.active;
+						if(params.active) {
+							var index = params.active - 1;
+							var cId = vm.categorys[index].productCategoryId;
+							var obj = document.getElementById(cId);
+							top = obj.offsetHeight + 10;
+						} else {
+							top = 0;
+						}
+						vm.$refs.scroller.scrollTo(0, top, true);
+					},
+					scrollMove: function(position) {
+						vm.selectCategoryActive(position)
+					},
+					scrollEnd: function(position) {
+						vm.selectCategoryActive(position)
+					},
+					selectCategoryActive: function(position) {
+						/*var categorys = this.categorys, firstTop = 0, y = position.top;
+						var fId = categorys[0].productCategoryId;
+						var fObj = document.getElementById(fId);
+						firstTop = fObj.offsetTop;
+						mui.each(categorys, function(i, item) {
+							var cId = item.productCategoryId;
+							var obj = document.getElementById(cId);
+							var top = obj.offsetTop - firstTop;
+							if(y < top + obj.offsetHeight) {
+								vm.$refs.categoryNar && vm.$refs.categoryNar.defaultCategoryActive(i);
+								return false;
+							}
+						})*/
+					},
+					initData: function() {
+						this.getOftenList()
+					},
+					skuSelect: function(item) {
+						item.show = !item.show;
+					},
+					getOftenList: function() {
+						api.often.listAPI({
+							success: function(result) {
+								vm.loading = true;
+								vm.categorys = [];
+								var oftenList = vm.packageOftenData(result);
+								result = null;
+								mui.each(oftenList, function(k, item) {
+									vm.categorys.push(item.productCategory)
+								});
+								vm.oftenList = [];
+								Vue.nextTick().then(function() {
+									vm.$refs.scroller && vm.$refs.scroller.finishPullToRefresh();
+									vm.oftenList = oftenList ? oftenList : [];
+									oftenList && vm.getCartNum()
+								})
+							},
+							error: function() {
+								vm.loading = true;
+							}
+						})
+					},
+					//重新组装清单数据
+					packageOftenData: function(result) {
+						var oftenList = [];
+						if(result && result.length) {
+							mui.each(result, function(i, items) {
+								var categorys = {},
+									productCategory = items.productCategory;
+								categorys.productCategory = {
+									productCategoryId: productCategory.productCategoryId,
+									categoryName: productCategory.categoryName,
+									image: productCategory.image
+								};
+								var buyerCollects = items.buyerCollects,
+									prodItems = []
+								mui.each(buyerCollects, function(b, prods) {
+									var cllectRefObj = prods.cllectRefObj;
+									var sellProductTypeId = cllectRefObj.sellProductTypeId;
+									var prodInfo = {
+										buyerCollectId: prods.buyerCollectId,
+										productName: cllectRefObj.productName,
+										mainImage: cllectRefObj.mainImage,
+										settleUnit: cllectRefObj.settleUnit,
+										sellProductTypeId: sellProductTypeId,
+										sellProductId: cllectRefObj.sellProductId
+									}
+									if(sellProductTypeId === 1) {
+										prodInfo.matrixingMultiple = cllectRefObj.matrixingMultiple;
+										prodInfo.sellPrice = cllectRefObj.sellPrice;
+										prodInfo.sellUnit = cllectRefObj.sellUnit;
+										prodInfo.productQuantity = 0
+									} else {
+										prodInfo.maxSellPrice = cllectRefObj.maxSellPrice;
+										prodInfo.minSellPrice = cllectRefObj.minSellPrice;
+										prodInfo.show = false;
+										prodInfo.products = []
+										var products = cllectRefObj.products;
+										mui.each(products, function(p, prod) {
+											var pitem = {
+												specName: prod.specName,
+												mainImage: prod.mainImage,
+												settleUnit: prod.settleUnit,
+												matrixingMultiple: prod.matrixingMultiple,
+												sellPrice: prod.sellPrice,
+												sellUnit: prod.sellUnit,
+												productQuantity: 0,
+												sellProductId: prod.sellProductId
+											}
+											prodInfo.products.push(pitem);
+										})
+									}
+									prodItems.push(prodInfo);
+								})
+								categorys.prods = prodItems;
+								oftenList.push(categorys)
+							});
+						}
+						return oftenList;
+					},
+					getCartNum: function() {
+						api.common.getProdCartNumAPI({
+							success: function(result) {
+								var catrs = result;
+								var oftenList = vm.oftenList;
+								mui.each(oftenList, function(k, item) {
+									var prods = item.prods;
+									mui.each(prods, function(n, buy) {
+										if(buy.sellProductTypeId === 1) {
+											var cart = catrs[buy.sellProductId];
+											if(cart) {
+												buy.productQuantity = cart.productQuantity;
+											}
+										} else {
+											var skus = buy.products;
+											mui.each(skus, function(s, sku) {
+												var cart = catrs[sku.sellProductId];
+												if(cart) {
+													sku.productQuantity = cart.productQuantity;
+												}
+											})
+										}
+									})
+								});
+							}
+						})
+					},
+					delProd: function(item) {
+						api.often.delAPI({
+							data: {
+								buyerCollectIdStr: item.buyerCollectId
+							},
+							success: function(result) {
+								vm.getOftenList();
+							}
+						})
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

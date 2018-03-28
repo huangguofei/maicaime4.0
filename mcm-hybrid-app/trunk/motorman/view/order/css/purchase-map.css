@@ -1,0 +1,88 @@
+/**
+ * author pzh
+ * 商户系统主题配置
+ */
+/*主色调*/
+/*辅助色*/
+/*禁用*/
+/*主要字体色*/
+/*常规文字颜色*/
+/*次要文字颜色*/
+/*不可输入*/
+/*背景色*/
+/*主要边框*/
+/*分割线*/
+.clearFloat {
+  content: "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  *zoom: 1;
+  clear: both;
+  visibility: hidden;
+}
+.purchase-map-body {
+  background: none;
+}
+.purchase-map {
+  background: #FFF;
+}
+.purchase-map .switch {
+  position: fixed;
+  z-index: 9;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 25px;
+  background: #FFF url(../../../img/order-icon.png) no-repeat top center;
+  background-size: 30px auto;
+}
+.purchase-map .list {
+  padding: 0.1875rem;
+  padding-top: 35px;
+}
+.purchase-map .list .item {
+  position: relative;
+  padding: 0.1875rem 0rem;
+  border-bottom: 1px solid #F0F0F0;
+}
+.purchase-map .list .item .h-img {
+  position: absolute;
+  display: inline-block;
+  width: 0.359375rem;
+  height: 0.359375rem;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.purchase-map .list .item .gps {
+  position: absolute;
+  right: 0;
+  display: inline-block;
+  width: 0.65625rem;
+  height: 0.65625rem;
+  border-radius: 50%;
+  background: url(../../../img/list_Navigation.png) no-repeat;
+  background-size: cover;
+}
+.purchase-map .list .item .content {
+  padding-left: 0.3828125rem;
+}
+.purchase-map .list .item .content h4 {
+  font-size: 0.28125rem;
+}
+.purchase-map .list .item .content h4 .km {
+  font-size: 0.1875rem;
+  color: #3E3E3E;
+}
+.purchase-map .list .item .content .addr {
+  padding: 0.109375rem 0rem;
+  color: #9C9C9E;
+}
+.purchase-map .list .item .content .event .btn {
+  width: 48%;
+}
+.purchase-map .list .item .content .event .btn-complete {
+  float: right;
+  background: #F4C922;
+  border-color: #F4C922;
+}

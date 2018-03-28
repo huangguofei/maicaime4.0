@@ -1,0 +1,51 @@
+@import "../../../../css/config.less";
+ body{
+        background: #fff;
+    }
+    .forget-psw {
+        padding-top: 20%;
+        .content {
+            width: 80%;
+            margin: 0 auto;
+            p {
+                .pxrem(font-size, 28);
+                color: #8F8F8F;
+            }
+            h3 {
+                .pxrem(font-size, 44);
+                .pxrem(margin-bottom, 80);
+                color: #0A0B0C;
+                font-weight: normal;
+            }
+            .form {
+                .pxrem(margin-bottom, 90);
+                .item {
+                    .pxrem(margin-bottom, 40);
+                    position: relative;
+                    img {
+                        .pxrem(width, 36);
+                        .pxrem(margin-right, 20);
+                        vertical-align: middle;
+                    }
+                    input {
+                        .pxrem(font-size, 36);
+                        width: 85%;
+                        border: 0;
+                        border-bottom: 1px solid #f0f0f0;
+                        .pxrem(padding-bottom, 10);
+                    }
+                    
+                    .code-status {
+                        position: absolute;
+                        top: 0;
+                        right: 5%;
+                        color: @mcm-color-primary;
+                    }
+                }
+            }
+            .disabled {
+                background: #E9E9E9;
+                /*cursor: ;*/
+            }
+        }
+    }

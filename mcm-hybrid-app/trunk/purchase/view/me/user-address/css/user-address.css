@@ -1,0 +1,93 @@
+/**
+ * author pzh
+ * 商户系统主题配置
+ */
+/*主色调*/
+/*辅助色*/
+/*禁用*/
+/*主要字体色*/
+/*常规文字颜色*/
+/*次要文字颜色*/
+/*不可输入*/
+/*背景色*/
+/*主要边框*/
+/*分割线*/
+.clearFloat {
+  content: "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  *zoom: 1;
+  clear: both;
+  visibility: hidden;
+}
+.user-address {
+  padding-top: 10px;
+}
+.user-address .address-add {
+  background: #fff;
+  font-size: 0.28125rem;
+  color: #0A0B0C;
+  border-bottom: 1px solid #F0F0F0;
+}
+.user-address .address-add img {
+  width: 0.421875rem;
+  vertical-align: middle;
+}
+.user-address .address-list .address-item {
+  background: #fff;
+  margin-bottom: 10px;
+}
+.user-address .address-list .address-item .item-main {
+  position: relative;
+  padding-bottom: 20px;
+}
+.user-address .address-list .address-item .item-main .address-info {
+  font-size: 0.28125rem;
+  color: #0A0B0C;
+  margin-bottom: 10px;
+}
+.user-address .address-list .address-item .item-main .address-info span {
+  display: inline-block;
+  color: #fff;
+  background: #1EC551;
+  font-size: 0.1875rem;
+  padding: 2px 4px;
+  border-radius: 5px;
+  margin-left: 5px;
+}
+.user-address .address-list .address-item .item-main .address-details {
+  font-size: 0.25rem;
+  color: #8f8f8f;
+}
+.user-address .address-list .address-item .item-main .address-details span {
+  display: inline-block;
+  width: 70%;
+  vertical-align: text-top;
+}
+.user-address .address-list .address-item .item-main .edit-icon {
+  position: absolute;
+  top: 20px;
+  right: 10px;
+  width: 0.5rem;
+  height: auto;
+}
+.user-address .address-list .address-item .item-fol {
+  font-size: 0.25rem;
+  color: #3E3E3E;
+  border-top: 1px solid #F0F0F0;
+  padding-top: 10px;
+}
+.user-address .address-list .address-item .item-fol .select-icon {
+  width: 0.34375rem;
+  height: auto;
+  margin-right: 5px;
+  vertical-align: middle;
+}
+.user-address .address-list .address-item .item-fol .delete-icon {
+  width: 0.265625rem;
+  height: auto;
+}
+.user-address .address-list .address-item .item-fol .address-state {
+  color: #F77E44;
+}

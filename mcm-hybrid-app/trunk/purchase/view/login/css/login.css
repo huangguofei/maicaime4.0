@@ -1,0 +1,164 @@
+/**
+ * author pzh
+ * 商户系统主题配置
+ */
+/*主色调*/
+/*辅助色*/
+/*禁用*/
+/*主要字体色*/
+/*常规文字颜色*/
+/*次要文字颜色*/
+/*不可输入*/
+/*背景色*/
+/*主要边框*/
+/*分割线*/
+.clearFloat {
+  content: "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  *zoom: 1;
+  clear: both;
+  visibility: hidden;
+}
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.login-page {
+  width: 100%;
+  height: 100%;
+}
+.login-page .bac {
+  width: 100%;
+  height: 100%;
+  background: url(../../../img/login/login_bg.jpg) no-repeat;
+  background-size: cover;
+}
+.login-page .return-back {
+  position: fixed;
+  top: 0.34375rem;
+  left: 0.1875rem;
+  display: inline-block;
+  width: 0.578125rem;
+  height: 0.578125rem;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  text-align: center;
+}
+.login-page .return-back img {
+  height: 60%;
+  margin-top: 20%;
+}
+.login-page .main {
+  position: absolute;
+  left: 0.265625rem;
+  right: 0.265625rem;
+  top: 1.59375rem;
+  background: #fff;
+  border-radius: 0.265625rem;
+  box-shadow: 0px 3px 10px #ccc;
+  padding-bottom: 30px;
+}
+.login-page .main .forget_psw {
+  position: absolute;
+  top: 0.265625rem;
+  right: 0.1875rem;
+  text-align: right;
+  font-size: 0.28125rem;
+  color: #8f8f8f;
+}
+.login-page .main .logo {
+  width: 1.59375rem;
+  height: auto;
+  display: block;
+  margin: 15px auto;
+  margin-top: 50px;
+}
+.login-page .main .login-form {
+  padding: 0 20px;
+  background: #FFF;
+}
+.login-page .main .login-form .list {
+  position: relative;
+  box-sizing: border-box;
+  height: 0.8125rem;
+  border-bottom: 1px solid #f0f0f0;
+  padding-top: 0.265625rem;
+}
+.login-page .main .login-form .list img {
+  width: 0.34375rem;
+  height: auto;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+.login-page .main .login-form .list input {
+  color: #3e3e3e;
+  font-size: 0.28125rem;
+  border: 0;
+  outline: none;
+  width: 80%;
+}
+.login-page .main .login-form .list .get_code {
+  position: absolute;
+  display: inline-block;
+  top: 0.2265625rem;
+  right: 0.109375rem;
+  font-size: 0.21875rem;
+  border: 1px solid #1EC551;
+  color: #1EC551;
+  padding: 0.0625rem 0.1484375rem;
+  border-radius: 0.234375rem;
+}
+.login-page .main .login-form input[type=button] {
+  background: #1EC551;
+  text-align: center;
+  width: 100%;
+  height: 0.71875rem;
+  border-radius: 0.375rem;
+  border: 0;
+  margin: 40px 0;
+  font-size: 0.3125rem;
+  color: #fff;
+}
+.login-page .main .code_log {
+  display: block;
+  text-align: center;
+  color: #3E3E3E;
+  font-size: 0.3125rem;
+}
+.login-page .main .go_login,
+.login-page .main .go_register {
+  font-size: 0.28125rem;
+  color: #1EC551;
+  display: block;
+  text-align: center;
+  margin-top: 0.1875rem;
+  margin-bottom: 0.1875rem;
+}
+.login-page .main .go_register {
+  margin-top: 0.65625rem;
+}
+.forget-page {
+  height: 100%;
+  background: #FFF;
+}
+.forget-page .main {
+  background: none;
+  box-shadow: none;
+  padding-top: 0.8125rem;
+}
+.forget-page .content {
+  padding-top: 0.8125rem;
+}
+.forget-page .content .title,
+.forget-page .content h3 {
+  padding-left: 0.5rem;
+}
+.forget-page .content .title {
+  color: #8F8F8F;
+}
+.forget-page .content h3 {
+  font-size: 0.34375rem;
+}

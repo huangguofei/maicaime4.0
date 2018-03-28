@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>买菜么-商城</title>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="css/category-footer.css"/>
+    <script type="text/javascript" src="../../js/plugin/vue.js"></script>
+</head>
+	<body class="category-footer">
+		<div class="" id="categoryFooter">
+		 	<footer class="footer" ref="footer" id="footer"  >
+				<span class="cart"><span class="num">{{cartNum}}</span></span>
+				<div class="con">
+					<div class="right go-cart" @click="jumpCart">去购物车</div>
+					<div class="right price">
+						<p class="total">合计：<span>¥{{totalAmount.toFixed(2)}}</span></p>
+						<p class="adv">包含配送费：<span>¥0.00</span></p>
+					</div>
+				</div>
+		 	</footer>
+	 	</div>
+	 	<script type="text/javascript" src="../../js/plugin/mui.min.js"></script>
+    	<script type="text/javascript" src="../../js/common/common.js"></script>
+    	<script type="text/javascript" src="../../js/plugin/fastclick.js"></script>
+	 	<script type="text/javascript" >
+	 		mui.plusReady(function() {
+	 			vm.getCartNum()
+	 		})
+	 		document.addEventListener('anewLoadData',  function() {
+	 			vm.getCartNum();
+	 		})
+	 		var vm = new Vue({
+				el: "#categoryFooter",
+				data: function() {
+					return{
+						cartNum: 0,
+						totalAmount: 0
+					}
+				},
+				methods: {
+					jumpCart: function() {
+						if(mcm.isLogin(true, '../login/login.html')) {
+							var wn = plus.webview.getWebviewById("cart"),
+							url = "../cart/index.html";
+							if(wn) {
+								mui.fire(wn, "openThatPage");
+								setTimeout(function() {
+									wn.show("auto");
+									mcm.closeWebView(["category", "shopDetail"]);
+								}, 100);
+							} else {
+								plus.webview.currentWebview().hide();
+								mui.openWindow({
+									url: url,
+									id: page,
+									styles: {
+										"top" : "0px",
+										"bottom" : height + "px"
+									},
+									show: {
+										"aniShow" : "none"
+									}
+								});
+							}
+						} 
+					},
+					getCartNum: function() {
+						mcm.isLogin(false) && mcm.getCartNumAndTotal(function(result) {
+							vm.cartNum = result.totalQuantity;
+							vm.totalAmount = result.totalAmount;
+						});
+					}
+				}
+			})
+	 		
+	 	</script>
+	</body>
+</html>

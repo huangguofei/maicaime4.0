@@ -1,0 +1,106 @@
+/**
+ * author pzh
+ * 商户系统主题配置
+ */
+/*主色调*/
+/*辅助色*/
+/*禁用*/
+/*主要字体色*/
+/*常规文字颜色*/
+/*次要文字颜色*/
+/*不可输入*/
+/*背景色*/
+/*主要边框*/
+/*分割线*/
+.clearFloat {
+  content: "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  *zoom: 1;
+  clear: both;
+  visibility: hidden;
+}
+.user-moneyDetails .head {
+  zoom: 1;
+  background: #FCFCFC;
+}
+.user-moneyDetails .head:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.user-moneyDetails .head .date {
+  border-right: 1px solid #d7d7d7;
+  padding-right: 5px;
+}
+.user-moneyDetails .head .date .time {
+  text-align: center;
+}
+.user-moneyDetails .head .date .time b {
+  color: #000;
+  font-size: 0.3125rem;
+}
+.user-moneyDetails .head .date .time p {
+  color: #666;
+  font-size: 0.25rem;
+}
+.user-moneyDetails .head .date img {
+  width: 0.265625rem;
+  height: auto;
+  margin: 10px 5px;
+}
+.user-moneyDetails .head .amount {
+  padding-left: 10px;
+}
+.user-moneyDetails .head .amount span {
+  color: #666;
+  font-size: 0.21875rem;
+}
+.user-moneyDetails .head .amount p {
+  color: #000;
+  font-size: 0.28125rem;
+}
+.user-moneyDetails .moneyDetails-list {
+  margin-top: 10px;
+  background: #fff;
+}
+.user-moneyDetails .moneyDetails-list .item {
+  height: 0.734375rem;
+  zoom: 1;
+  border-bottom: 1px solid #F0F0F0;
+}
+.user-moneyDetails .moneyDetails-list .item:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.user-moneyDetails .moneyDetails-list .item img {
+  width: 0.578125rem;
+  height: 40px;
+  margin-right: 0.265625rem;
+}
+.user-moneyDetails .moneyDetails-list .item .reduce-img {
+  display: none;
+}
+.user-moneyDetails .moneyDetails-list .item section p {
+  font-size: 0.28125rem;
+}
+.user-moneyDetails .moneyDetails-list .item section span {
+  font-size: 0.21875rem;
+  color: #535353;
+}
+.user-moneyDetails .moneyDetails-list .item > span {
+  font-size: 0.3125rem;
+  color: #1EC551;
+  line-height: 0.734375rem;
+}
+.user-moneyDetails .moneyDetails-list .active img {
+  display: none;
+}
+.user-moneyDetails .moneyDetails-list .active .reduce-img {
+  display: inline-block;
+}
+.user-moneyDetails .moneyDetails-list .active > span {
+  color: #F9AB0C;
+}

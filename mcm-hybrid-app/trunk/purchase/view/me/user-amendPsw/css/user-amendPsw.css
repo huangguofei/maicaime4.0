@@ -1,0 +1,71 @@
+/**
+ * author pzh
+ * 商户系统主题配置
+ */
+/*主色调*/
+/*辅助色*/
+/*禁用*/
+/*主要字体色*/
+/*常规文字颜色*/
+/*次要文字颜色*/
+/*不可输入*/
+/*背景色*/
+/*主要边框*/
+/*分割线*/
+.clearFloat {
+  content: "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  *zoom: 1;
+  clear: both;
+  visibility: hidden;
+}
+body {
+  background: #fff;
+}
+.find-psw {
+  padding-top: 20%;
+}
+.find-psw .content {
+  width: 80%;
+  margin: 0 auto;
+}
+.find-psw .content p {
+  font-size: 0.25rem;
+  color: #8F8F8F;
+}
+.find-psw .content h3 {
+  font-size: 0.34375rem;
+  margin-bottom: 0.65625rem;
+  color: #0A0B0C;
+}
+.find-psw .content .form {
+  margin-bottom: 0.734375rem;
+}
+.find-psw .content .form .item {
+  margin-bottom: 0.34375rem;
+  position: relative;
+}
+.find-psw .content .form .item img {
+  width: 0.3125rem;
+  margin-right: 0.1875rem;
+  vertical-align: middle;
+}
+.find-psw .content .form .item input {
+  font-size: 0.3125rem;
+  width: 85%;
+  border: 0;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 0.109375rem;
+}
+.find-psw .content .form .item .code-status {
+  position: absolute;
+  top: 0;
+  right: 5%;
+  color: #1EC551;
+}
+.find-psw .content .disabled {
+  background: #E9E9E9;
+  /*cursor: ;*/
+}

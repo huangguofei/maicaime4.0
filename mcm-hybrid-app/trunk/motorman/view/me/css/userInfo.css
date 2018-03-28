@@ -1,0 +1,132 @@
+/**
+ * author pzh
+ * 商户系统主题配置
+ */
+/*主色调*/
+/*辅助色*/
+/*禁用*/
+/*主要字体色*/
+/*常规文字颜色*/
+/*次要文字颜色*/
+/*不可输入*/
+/*背景色*/
+/*主要边框*/
+/*分割线*/
+.clearFloat {
+  content: "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  *zoom: 1;
+  clear: both;
+  visibility: hidden;
+}
+.user-info-body {
+  background: none;
+}
+.user-info-body .back-layer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.user-info {
+  height: 100%;
+}
+.user-info .content {
+  position: absolute;
+  z-index: 99;
+  top: 0;
+  left: 0;
+  right: 100px;
+  bottom: 0;
+  background: #FFF url(../../../img/mine_bg.png) no-repeat;
+  background-size: 100% auto;
+  box-shadow: 10px 0px 24px 0px rgba(0, 0, 0, 0.16);
+}
+.user-info .header {
+  padding: 0.4375rem 0.359375rem;
+}
+.user-info .header .back {
+  font-size: 0.328125rem;
+  color: #282828;
+}
+.user-info .header .back img {
+  height: 0.3046875rem;
+  position: relative;
+  top: 0.03125rem;
+}
+.user-info .header .app-title {
+  text-indent: 0.3046875rem;
+  color: #282828;
+  padding-top: 0.0546875rem;
+}
+.user-info .header .info {
+  position: relative;
+  padding: 0.96875rem 0rem 0.8125rem 0rem;
+  border-bottom: 1px solid #F0F0F0;
+}
+.user-info .header .info .h-img {
+  position: absolute;
+  width: 0.96875rem;
+  height: 0.96875rem;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #FFF;
+}
+.user-info .header .info .h-img img {
+  width: 100%;
+  height: 100%;
+}
+.user-info .header .info .more-info {
+  position: absolute;
+  width: 0.421875rem;
+  height: 0.421875rem;
+  right: -0.125rem;
+  top: 1.3203125rem;
+}
+.user-info .header .info .more-info img {
+  width: 100%;
+}
+.user-info .header .info .info-con {
+  padding-left: 1.09375rem;
+  padding-top: 0.265625rem;
+}
+.user-info .header .info .info-con .name {
+  font-size: 0.3125rem;
+  color: #282828;
+}
+.user-info .header .info .info-con .date {
+  font-size: 0.21875rem;
+  color: #6E6E6E;
+}
+.user-info .menu {
+  padding: 0.359375rem;
+}
+.user-info .menu .item {
+  padding: 0.1875rem 0rem;
+  position: relative;
+}
+.user-info .menu .item .more-icon {
+  position: absolute;
+  right: 0;
+  display: inline-block;
+  width: 0.125rem;
+  height: 0.2109375rem;
+  background: url(../../../img/mine_arrow2.png) no-repeat;
+  background-size: auto 100%;
+  top: 0.25rem;
+}
+.user-info .log-out {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-top: 1px solid #F0F0F0;
+  padding: 0.359375rem;
+  background: url(../../../img/mine_quit.png) no-repeat 20px center;
+  background-size: auto 22px;
+  text-indent: 30px;
+  font-size: 0.28125rem;
+}

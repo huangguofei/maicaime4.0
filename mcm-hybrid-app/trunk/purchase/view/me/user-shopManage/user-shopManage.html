@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../../css/common.css" />
+		<link rel="stylesheet" type="text/css" href="css/user-shopManage.css" />
+		<script type="text/javascript" src="../../../js/plugin/vue.js"></script>
+		<title></title>
+	</head>
+
+	<body>
+		<div id="vueBox" class="shop-manage">
+			<div class="shop-list">
+				<div class="shop-item padding">
+					<div class="shop-info" @click="goDetails">
+						<img :src="shopData.shopImage?shopData.shopImage:'../../../img/user-default.png'" class="shop-logo pull-left" />
+						<div class="shop-details pull-left">
+							<div class="shop-name">
+								<h2 class="pull-left">{{shopData.buyerName}}</h2>
+								<span class="active pull-left">当前登录</span>
+							</div>
+							<p>{{shopData.principal}}-{{shopData.principalMobile}}</p>
+						</div>
+						<!--<img src="../../../img/mine_arrow1.png" class="details-icon" />-->
+					</div>
+					<div class="item-fol">
+						<!--<img src="../../../img/shopcar_chosen.png" /><img src="../../../img/shopcar_unchoose.png" />登录-->
+						<span class="pull-right" v-show="shopData.auditStatusId === 0" @click="goDetails">信息未完善，<span class="go-perfect">去完善></span></span>
+						<span class="pull-right" v-show="shopData.auditStatusId === 1" >审核中</span>
+						<span class="pull-right" v-show="shopData.auditStatusId === 3" @click="goDetails">信息不通过，<span class="go-perfect">重新去填写></span></span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="../../../js/plugin/mui.min.js"></script>
+		<script type="text/javascript" src="../../../js/common/common.js"></script>
+		<script type="text/javascript" src="../../../js/api/me.js"></script>
+	</body>
+	<script type="text/javascript">
+		mui.plusReady(function() {
+			var self = plus.webview.currentWebview();
+			vm.initPage();
+		})
+		var vm = new Vue({
+			el: "#vueBox",
+			data: function() {
+				return {
+					shopData: '',
+					isComplete: ''
+				}
+			},
+			methods: {
+				changeShop: function() {
+					/*mui.confirm("确定切换门店至杰克 船长的店？", "切换门店", function(e) {
+						if(e.index) {
+							alert("yes")
+						} else {
+							alert("no")
+						}
+					});*/
+				},
+				initPage: function() {
+					this.loadData();
+				},
+				loadData: function() {
+					var _that = this;
+					api.userShopMessage.userShopMessageListAPI({
+						success: function(result) {
+							_that.shopData = result;
+						}
+					})
+				},
+				goDetails: function (){
+					mui.openWindow({
+						url: "../../login/completeInfo/completeInfo.html",
+						id: "completeInfo"
+					});
+				}
+			}
+		})
+	</script>
+
+</html>

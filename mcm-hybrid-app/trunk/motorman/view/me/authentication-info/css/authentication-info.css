@@ -1,0 +1,93 @@
+/**
+ * author pzh
+ * 商户系统主题配置
+ */
+/*主色调*/
+/*辅助色*/
+/*禁用*/
+/*主要字体色*/
+/*常规文字颜色*/
+/*次要文字颜色*/
+/*不可输入*/
+/*背景色*/
+/*主要边框*/
+/*分割线*/
+.clearFloat {
+  content: "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  *zoom: 1;
+  clear: both;
+  visibility: hidden;
+}
+.authentication-info {
+  padding-top: 10px;
+}
+.authentication-info .item .title {
+  color: #9C9C9E;
+  font-size: 0.25rem;
+  padding-left: 10px;
+  height: 0.578125rem;
+  line-height: 0.578125rem;
+}
+.authentication-info .item .item-main {
+  background: #fff;
+}
+.authentication-info .item .item-main .image-box {
+  background: #F4F6F7;
+  text-align: center;
+  padding: 10px 0;
+}
+.authentication-info .item .item-main .image-box img {
+  width: 90%;
+  height: auto;
+}
+.authentication-info .item .item-main .image-box img.img-icon {
+  width: 20%;
+}
+.authentication-info .info-form {
+  margin-top: 10px;
+  background: #fff;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.authentication-info .info-form .list {
+  padding: 0.1875rem;
+  color: #6E6E6E;
+  font-size: 0.25rem;
+  border-bottom: 1px solid #EFEFEF;
+}
+.authentication-info .info-form .list input {
+  text-align: right;
+  float: right;
+  color: #282828;
+  border: 0;
+  height: 0.265625rem;
+  line-height: 0.265625rem;
+  font-size: 0.25rem;
+}
+.authentication-info .info-form .list select {
+  float: right;
+  height: 0.265625rem;
+  font-size: 0.21875rem;
+  border: 0;
+  background: #fff;
+}
+.authentication-info .footer {
+  text-align: center;
+  padding: 20px 0;
+}
+.authentication-info .footer button {
+  width: 40%;
+  display: inline-block;
+  height: 0.578125rem;
+  line-height: 0.578125rem;
+  color: #282828;
+  font-size: 0.25rem;
+}
+.authentication-info .footer .again-btn {
+  border: 1px solid #CECFD2;
+  background: #fff;
+  border-radius: 5px;
+}

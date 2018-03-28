@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/common.css" />
+		<link rel="stylesheet" type="text/css" href="css/order-map.css" />
+		<script type="text/javascript" src="../../js/plugin/vue.js"></script>
+		<title></title>
+	</head>
+
+	<body>
+		<div id="vueBox" class="order-map">
+			<div id="orderMap" class="map-wrap">
+			</div>
+		</div>
+		<script type="text/javascript" src="../../js/plugin/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/common/common.js"></script>
+		<script type="text/javascript" src="../../js/api/order.js"></script>
+	</body>
+	<script type="text/javascript">
+		var map = null, center = null;
+		mui.plusReady(function() {
+			map = new plus.maps.Map('orderMap');
+			map.setZoom(16);
+		    map.showUserLocation(true);
+		    map.showZoomControls( true );
+	    	map.getUserLocation( function(state, point){
+		        center = new plus.maps.Point(point.longitude, point.latitude);
+	        	map.setCenter(center)
+		    });
+		    vm.getOrderList();
+		    
+		})
+		document.addEventListener("switchPurchaserList", function() {
+			var ws = plus.webview.getWebviewById('purchaseMap');
+			mui.fire(ws, "setPurchaseList", {
+				list: vm.orderData
+			});
+			setTimeout(function() {
+				ws.show();
+			})
+		})
+		mui.init({
+		    subpages:[{
+		     	url: "purchase-more.html",
+				id: "purchaseMore",
+				styles: {
+					"render": "always",
+					"height": "35px",
+					"bottom" : "0px",
+					"left": "20px",
+					"right": "20px"
+				},
+				show: {
+					autoShow: false
+				}
+		    },{
+		    	url: "purchase-map.html",
+				id: "purchaseMap",
+				styles: {
+					"render": "always",
+					"top": "200px",
+					"bottom" : "0px",
+					"left": "20px",
+					"right": "20px"
+				},
+				show: {
+					 aniShow: 'slide-in-bottom',
+					 duration: 300
+				}
+		    }]
+		});
+		function purchaseMarker() {
+	        var orders = vm.orderData;
+			mui.each(orders,  function(i, item) {
+				var bike = new plus.maps.Point(item.longitude, item.latitude);
+		        var marker = new plus.maps.Marker(bike);
+	        	marker.setIcon('../../img/list_mao_location.png');
+	        	marker.setDraggable(true);
+	       		map.addOverlay(marker);
+			})
+		}
+		var vm = new Vue({
+			el: "#vueBox",
+			data: function() {
+				return {
+					options: {
+						orderStatus: 40,
+						pageNum: 1,
+						pageSize: 100
+					},
+					orderData: []
+				}
+			},
+			methods: {
+				getOrderList: function() {
+					var _that = this;
+					api.order.orderListAPI({
+						data: this.options,
+						success: function(data) {
+							_that.orderData = data.resultList;
+							purchaseMarker();
+							var currentView = plus.webview.currentWebview();
+							setTimeout(function() {
+								currentView.show();
+								plus.nativeUI.closeWaiting();
+							}, 1000)
+						},
+						error: function() {
+							plus.nativeUI.closeWaiting();
+						}
+					})
+				}
+			}
+		});
+
+	</script>
+
+</html>

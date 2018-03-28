@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../../css/common.css" />
+		<link rel="stylesheet" type="text/css" href="css/user-details.css" />
+		<script type="text/javascript" src="../../../js/plugin/vue.js"></script>
+		<title></title>
+	</head>
+
+	<body>
+		<div id="vueBox" class="user-info">
+			<article class="group padding">
+				<section class="item">
+					<b>头像</b>
+					<aside class="pull-right">
+						<img class="headimg" :src="userData.headImg" v-if="userData.headImg" />
+						<img class="headimg" src="../../../img/user-default.png" v-else />
+						<img class="icon" src="../../../img/mine_arrow2.png" />
+					</aside>
+				</section>
+				<section class="item">
+					<b>昵称</b>
+					<aside class="pull-right">
+						<span class="user-name">{{userData.nickName}}</span>
+						<img class="icon" src="../../../img/mine_arrow2.png" />
+					</aside>
+				</section>
+				<section class="item">
+					<b>真实名称</b>
+					<aside class="pull-right">
+						<span class="user-linkman">{{userData.realName}}</span>
+						<img class="icon" src="../../../img/mine_arrow2.png" />
+					</aside>
+				</section>
+				<section class="item">
+					<b>电话</b>
+					<aside class="pull-right">
+						<span class="user-phone">{{userData.mobile}}</span>
+						<img class="icon" src="../../../img/mine_arrow2.png" />
+					</aside>
+				</section>
+
+			</article>
+		</div>
+		<script type="text/javascript" src="../../../js/plugin/mui.min.js"></script>
+		<script type="text/javascript" src="../../../js/common/common.js"></script>
+		<script type="text/javascript" src="../../../js/api/me.js"></script>
+	</body>
+	<script type="text/javascript">
+		mui.plusReady(function() {
+			vm.initPage();
+		});
+		var vm = new Vue({
+			el: "#vueBox",
+			data: function() {
+				return {
+					userData: ""
+				}
+			},
+			methods: {
+				initPage: function() {
+					this.loadData();
+				},
+				loadData: function() {
+					api.userInfo.userInfoAPI({
+						success: function(data) {
+							vm.userData = data;
+						}
+					});
+				}
+			}
+		});
+	</script>
+
+</html>

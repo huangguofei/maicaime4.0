@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../../css/common.css" />
+		<link rel="stylesheet" type="text/css" href="css/forget-psw.css" />
+		<script type="text/javascript" src="../../../js/plugin/vue.js"></script>
+		<title></title>
+	</head>
+
+	<body>
+		<div id="vueBox" class="forget-psw">
+			<article class="content">
+				<p>找回密码？</p>
+				<h3>输入要找回的买菜么账号</h3>
+				<article class="form">
+					<section class="item">
+						<img src="../../../img/login_account.png" />
+						<input type="text" class="phone" v-model="mobile" maxlength="11" placeholder="手机号" />
+						<a href="javascript:;" class="code-status" @click="sendcode">{{codeStr}}</a>
+					</section>
+					<section class="item">
+						<img src="../../../img/login_check.png" />
+						<input type="text" class="code" v-model="authCode" maxlength="6" placeholder="验证码" />
+					</section>
+					<section class="item">
+						<img src="../../../img/login_secret.png" />
+						<input type="password" class="phone" v-model="newUserPassword" placeholder="新密码" />
+					</section>
+				</article>
+				<button type="button" class="btn-default" @click="subEvent" :class="{disabled:!isDisabled}">确定</button>
+			</article>
+		</div>
+		<script type="text/javascript" src="../../../js/plugin/mui.min.js"></script>
+		<script type="text/javascript" src="../../../js/common/common.js"></script>
+		<script type="text/javascript" src="../../../js/api/login.js"></script>
+	</body>
+	<script type="text/javascript">
+		const timeNum = 60;
+		var vm = new Vue({
+			el: "#vueBox",
+			data: function() {
+				return {
+					isDisabled: true,
+					mobile: "",
+					authCode: "",
+					newUserPassword: "",
+					codeStr: "发送验证码",
+					timer: null,
+					numTime: "",
+				}
+			},
+			methods: {
+				sendcode: function() {
+					if(!this.mobile) {
+						mui.toast(mcm.message.mobileNull);
+						return false;
+					} else if(!mcm.validation.checkMobile(this.mobile)) {
+						mui.toast(mcm.message.mobileError);
+						return false;
+					}
+					var _that = this;
+					if(!this.timer) {
+						api.sendCode.sendForgetPswCodeAPI({
+							data: {
+								mobile: _that.mobile
+							},
+							success: function(result) {
+								_that.numTime = timeNum;
+								_that.timer = setInterval(() => {
+									if(_that.numTime > 0) {
+										_that.numTime--;
+										_that.codeStr = _that.numTime + "s后获取";
+									} else {
+										clearInterval(_that.timer);
+										_that.timer = null;
+										_that.numTime = timeNum;
+										_that.codeStr = "重新获取";
+									}
+								}, 1000);
+								mui.toast("发送成功");
+							}
+						})
+					}
+				},
+				subEvent: function() {
+					if(!this.mobile) {
+						mui.toast(mcm.message.mobileNull);
+						return false;
+					} else if(!mcm.validation.checkMobile(this.mobile)) {
+						mui.toast(mcm.message.mobileError);
+						return false;
+					}
+					if(!this.authCode) {
+						mui.toast(mcm.message.codeNull);
+						return false;
+					}
+					if(!this.newUserPassword) {
+						mui.toast(mcm.message.pwdNull);
+						return false;
+					}
+					var _that=this;
+					api.forgetPsw.forgetPswAPI({
+						data:{
+							mobile:_that.mobile,
+							newUserPassword:_that.newUserPassword,
+							authCode:_that.authCode
+						},
+						success:function(result){
+							mui.toast(mcm.message.forgetSuccess);
+							mui.back();
+						}
+					})
+				}
+			}
+		})
+	</script>
+
+</html>

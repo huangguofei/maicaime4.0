@@ -1,0 +1,205 @@
+/**
+ * author pzh
+ * 商户系统主题配置
+ */
+/*主色调*/
+/*辅助色*/
+/*禁用*/
+/*主要字体色*/
+/*常规文字颜色*/
+/*次要文字颜色*/
+/*不可输入*/
+/*背景色*/
+/*主要边框*/
+/*分割线*/
+.clearFloat {
+  content: "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  *zoom: 1;
+  clear: both;
+  visibility: hidden;
+}
+.order-details .head {
+  background: url(../../../img/list_details_bg.png) no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 3.15625rem;
+  color: #282828;
+  text-align: center;
+  padding-top: 30px;
+  box-sizing: border-box;
+}
+.order-details .head h1 {
+  font-size: 0.34375rem;
+}
+.order-details .head p {
+  font-size: 0.21875rem;
+}
+.order-details .main {
+  position: absolute;
+  top: 1.59375rem;
+  left: 3%;
+  right: 3%;
+  width: 94%;
+  bottom: 0.8125rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.order-details .main .item {
+  background: #fff;
+  margin-bottom: 10px;
+}
+.order-details .main .order-head {
+  border-radius: 5px 5px 0 0;
+  text-align: center;
+  padding: 0.5rem;
+}
+.order-details .main .order-head .o-status {
+  font-size: 0.34375rem;
+  color: #282828;
+}
+.order-details .main .order-head .o-time {
+  font-size: 0.25rem;
+  color: #6E6E6E;
+  margin-bottom: 20px;
+}
+.order-details .main .order-head .call {
+  height: 0.578125rem;
+  line-height: 0.578125rem;
+  font-size: 0.25rem;
+  color: #282828;
+}
+.order-details .main .order-head .call img {
+  width: 0.265625rem;
+  height: auto;
+  margin-right: 5px;
+  vertical-align: middle;
+}
+.order-details .main .order-map {
+  background: #fff;
+}
+.order-details .main .order-map .map {
+  height: 160px;
+  width: 100%;
+}
+.order-details .main .order-map .map-footer {
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.order-details .main .order-map .map-footer a {
+  display: inline-block;
+  width: 80%;
+  color: #282828;
+  font-size: 0.25rem;
+  height: 0.578125rem;
+  line-height: 0.578125rem;
+}
+.order-details .main .order-map .map-footer .gps-btn {
+  border: 1px solid #CECFD2;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+.order-details .main .order-goods {
+  padding-top: 0;
+}
+.order-details .main .order-goods .item-head {
+  font-size: 0.25rem;
+  color: #282828;
+  height: 0.734375rem;
+  line-height: 0.734375rem;
+}
+.order-details .main .order-goods .item-head i {
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  border: 2px solid #EA4335;
+  margin-right: 2px;
+}
+.order-details .main .order-goods .item-head span {
+  color: #9C9C9E;
+}
+.order-details .main .order-goods .hr {
+  border-bottom-style: solid;
+  border-bottom-color: #EFEFEF;
+}
+.order-details .main .order-goods .item-main {
+  font-size: 0.25rem;
+  padding-top: 10px;
+}
+.order-details .main .order-goods .item-main .g-list {
+  zoom: 1;
+  height: 0.5rem;
+  line-height: 0.5rem;
+  position: relative;
+}
+.order-details .main .order-goods .item-main .g-list:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.order-details .main .order-goods .item-main .g-list .g-title {
+  color: #282828;
+  width: 70%;
+}
+.order-details .main .order-goods .item-main .g-list .g-info {
+  color: #9C9C9E;
+  position: absolute;
+  right: 0;
+}
+.order-details .main .order-goods .item-main .g-list .g-num {
+  color: #EA4335;
+}
+.order-details .main .order-goods .item-main .g-list .r-num {
+  font-size: 0.28125rem;
+  color: #F77E44;
+}
+.order-details .main .order-goods .item-main .active .g-num {
+  color: #9C9C9E;
+}
+.order-details .main .order-goods .item-main .more {
+  text-align: center;
+  font-size: 0.21875rem;
+  color: #9C9C9E;
+}
+.order-details .main .order-info {
+  font-size: 0.25rem;
+}
+.order-details .main .order-info p {
+  height: 0.421875rem;
+  line-height: 0.421875rem;
+  color: #9C9C9E;
+}
+.order-details .main .order-info p span {
+  color: #282828;
+  margin-left: 20px;
+}
+.order-details .footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: #fff;
+  height: 0.8125rem;
+  line-height: 0.8125rem;
+  text-align: center;
+}
+.order-details .footer a {
+  display: inline-block;
+  font-size: 0.25rem;
+  color: #282828;
+  width: 80%;
+  height: 0.578125rem;
+  line-height: 0.578125rem;
+  box-sizing: border-box;
+  border: 1px solid #F4C922;
+}
+.order-details .footer .btn-code {
+  width: 40%;
+}
+.order-details .footer .btn-claim-goods {
+  background: none;
+  border: 1px solid #F0F0F0;
+}

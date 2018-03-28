@@ -1,0 +1,96 @@
+@import "../../../css/config.less";
+.payment-type-body{
+    background: none;
+}
+.payment-type{
+    background: none;
+   .bank{
+       position: absolute;
+       top:0;
+       bottom: 0;
+       left: 0;
+       right: 0;
+       background: rgba(0, 0, 0, 0.5);
+   }
+   .fixed-pay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: #FFF;
+    width: 100%;
+    z-index: 999;
+    .pay-content {
+        .prem(20);
+        padding: @prem;
+        .header {
+            text-align: center;
+            border-bottom: 1px solid @mcm-border-color-base;
+            .pxrem(height, 100);
+            .pxrem(line-height, 100);
+            .pxrem(font-size, 36);
+            .close {
+                display: inline-block;
+                .pxrem(width, 31);
+                .pxrem(height, 31);
+                float: right;
+                .pxrem(margin-top, 25);
+                background: url(../../../img/shopcar_details_pay_close.png) no-repeat;
+                background-size: cover;
+            }
+        }
+        .pay-con {
+            .item {
+                .prem(20, -4);
+                padding: @prem;
+                width: 100%;
+                position: relative;
+                display: table;
+                .pay-icon {
+                    position: absolute;
+                    .pxrem(width, 80);
+                    .pxrem(height, 80);
+                    img {
+                        width: 100%;
+                    }
+                }
+                .check {
+                    position: absolute;
+                    right: 0;
+                    display: inline-block;
+                    .pxrem(width, 60);
+                    .pxrem(height, 60);
+                    background: url(../../../img/shopcar_unchoose.png) no-repeat;
+                    background-size: cover;
+                }
+                .active {
+                    background: url(../../../img/login/home_info_address_choice.png) no-repeat;
+                    background-size: cover;
+                }
+                .info {
+                    .prem(0, 0, 0, 100);
+                    .pxrem(height, 80);
+                    display: table-cell;
+                    vertical-align: middle;
+                    padding: @prem;
+                    .title {
+                        .pxrem(font-size, 32);
+                    }
+                    .val {
+                        color: @mcm-color-text-placeholder;
+                        .pxrem(font-size, 24);
+                    }
+                }
+            }
+            .btn-pay {
+                width: 100%;
+                background: @mcm-color-primary;
+                color: #FFF;
+                border-color: @mcm-color-primary;
+                .prem(20, -4);
+                padding: @prem;
+                .pxrem(font-size, 32);
+            }
+        }
+    }
+}
+}

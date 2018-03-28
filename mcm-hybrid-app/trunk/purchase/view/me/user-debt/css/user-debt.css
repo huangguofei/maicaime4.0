@@ -1,0 +1,62 @@
+/**
+ * author pzh
+ * 商户系统主题配置
+ */
+/*主色调*/
+/*辅助色*/
+/*禁用*/
+/*主要字体色*/
+/*常规文字颜色*/
+/*次要文字颜色*/
+/*不可输入*/
+/*背景色*/
+/*主要边框*/
+/*分割线*/
+.clearFloat {
+  content: "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  *zoom: 1;
+  clear: both;
+  visibility: hidden;
+}
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.user-debt {
+  padding-top: 10px;
+}
+.user-debt .page-right {
+  color: #0A0B0C;
+  font-size: 0.25rem;
+}
+.user-debt .main {
+  background: #fff;
+  text-align: center;
+  padding: 30px;
+}
+.user-debt .main img {
+  width: 0.96875rem;
+  height: auto;
+}
+.user-debt .main .title {
+  color: #3E3E3E;
+  font-size: 0.21875rem;
+  margin: 20px 0 5px;
+}
+.user-debt .main .money {
+  color: #0A0B0C;
+  font-size: 0.265625rem;
+}
+.user-debt .main .money b {
+  font-size: 0.578125rem;
+  vertical-align: -webkit-baseline-middle;
+  font-weight: normal;
+}
+.user-debt button {
+  width: 90%;
+  margin: 30px auto;
+}

@@ -1,0 +1,71 @@
+/**
+ * author pzh
+ * 商户系统主题配置
+ */
+/*主色调*/
+/*辅助色*/
+/*禁用*/
+/*主要字体色*/
+/*常规文字颜色*/
+/*次要文字颜色*/
+/*不可输入*/
+/*背景色*/
+/*主要边框*/
+/*分割线*/
+.clearFloat {
+  content: "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  *zoom: 1;
+  clear: both;
+  visibility: hidden;
+}
+.message ul li {
+  width: 100%;
+  border: 1px solid #E9E9E9;
+  border-radius: 0.09375rem;
+  background: #fff;
+  margin-bottom: 0.1875rem;
+  box-sizing: border-box;
+}
+.message ul li header {
+  zoom: 1;
+}
+.message ul li header:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.message ul li header section img {
+  width: 0.34375rem;
+  height: 0.34375rem;
+  margin-right: 0.109375rem;
+  margin-top: -0.0859375rem;
+  vertical-align: middle;
+}
+.message ul li header section span {
+  font-size: 0.28125rem;
+  color: #000;
+  font-weight: bold;
+}
+.message ul li header span {
+  color: #666;
+  font-size: 0.2109375rem;
+}
+.message ul li .content {
+  margin-top: 0.1875rem;
+  color: #666;
+  font-size: 0.25rem;
+}
+.message ul li .new {
+  position: relative;
+}
+.message ul li .new i {
+  position: absolute;
+  width: 0.109375rem;
+  height: 0.109375rem;
+  border-radius: 50%;
+  background: #FF5B60;
+  right: -0.05rem;
+}

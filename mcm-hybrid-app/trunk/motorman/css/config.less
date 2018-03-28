@@ -1,0 +1,87 @@
+/**
+ * author pzh
+ * 商户系统主题配置
+ */
+@mcm-color-white: #fff;
+@mcm-color-black: #000;
+
+/*主色调*/
+@mcm-color-primary: #F4C922;
+
+/*辅助色*/
+@mcm-color-secondary: #F77E44;
+@mcm-color-success: #1EC551;
+@mcm-color-warning: #F9AB0C;
+@mcm-color-danger: #FF5B60;
+@mcm-color-info: #909399;
+
+/*禁用*/
+@mcm-color-disable: #C0C4CC;
+
+/*主要字体色*/
+@mcm-color-text-primary: #282828;
+
+/*常规文字颜色*/
+@mcm-color-text-regular: #606266;
+
+/*次要文字颜色*/
+@mcm-color-text-secondary: #6E6E6E;
+
+/*不可输入*/
+@mcm-color-text-placeholder: #8F8F8F;
+
+/*背景色*/
+@mcm-background-color-base: #F2F2F2;
+
+/*主要边框*/
+@mcm-border-width-base: 1px;
+@mcm-border-style-base: solid;
+@mcm-border-color-base: #F0F0F0;
+@mcm-border-base: mcm-border-width-base  mcm-border-style-base mcm-border-color-base;
+
+/*分割线*/
+@mcm-border-line-color: #F0F0F0;
+
+@baseFontSize: 64;
+.rem(@px) {
+    @rem : (@px / 2 + 2)/ @baseFontSize * 1rem;
+}
+
+.pxrem(@name, @px) {
+    .rem(@px);
+    @{name}: @rem;
+}
+
+.prem(@px) {
+    @prem : (@px / 2 + 2)/ @baseFontSize * 1rem;
+}
+
+.prem(@px1, @px2) {
+    @prem : (@px1 / 2 + 2)/ @baseFontSize * 1rem (@px2 / 2 + 2)/ @baseFontSize * 1rem;
+}
+
+.prem(@px1, @px2, @px3) {
+    @prem : (@px1 / 2 + 2)/ @baseFontSize * 1rem (@px2 / 2 + 2)/ @baseFontSize * 1rem (@px3 / 2 + 2)/ @baseFontSize * 1rem;
+}
+
+.prem(@px1, @px2, @px3, @px4) {
+    @prem : (@px1 / 2 + 2)/ @baseFontSize * 1rem (@px2 / 2 + 2)/ @baseFontSize * 1rem (@px3 / 2 + 2)/ @baseFontSize * 1rem (@px4 / 2 + 2)/ @baseFontSize * 1rem;
+}
+
+.clearFloat {
+    content: "";
+    display: block;
+    height: 0;
+    overflow: hidden;
+    *zoom: 1;
+    clear: both;
+    visibility: hidden;
+}
+.clearfix() {
+    &:after {
+        content: "";
+        display: block;
+        clear: both
+    }
+    zoom:1
+}

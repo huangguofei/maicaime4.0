@@ -1,0 +1,247 @@
+/**
+ * author pzh
+ * 商户系统主题配置
+ */
+/*主色调*/
+/*辅助色*/
+/*禁用*/
+/*主要字体色*/
+/*常规文字颜色*/
+/*次要文字颜色*/
+/*不可输入*/
+/*背景色*/
+/*主要边框*/
+/*分割线*/
+.clearFloat {
+  content: "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  *zoom: 1;
+  clear: both;
+  visibility: hidden;
+}
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.order-details .item {
+  background: #fff;
+  margin-bottom: 10px;
+}
+.order-details .item:last-child {
+  margin: 0;
+}
+.order-details .o-head .head {
+  text-align: center;
+  padding-bottom: 10px;
+}
+.order-details .o-head .head .o-state {
+  position: relative;
+  font-size: 0.3125rem;
+  color: #0A0B0C;
+  margin-bottom: 5px;
+}
+.order-details .o-head .head .o-state img {
+  width: 0.1484375rem;
+  height: auto;
+}
+.order-details .o-head .head .o-state .tiem {
+  position: absolute;
+  top: 3px;
+  right: 10px;
+  font-size: 0.25rem;
+  color: #666;
+}
+.order-details .o-head .head .remark {
+  font-size: 0.21875rem;
+  color: #8F8F8F;
+}
+.order-details .o-head .main {
+  text-align: center;
+}
+.order-details .o-head .main a {
+  display: inline-block;
+  width: 30%;
+  height: 30px;
+  line-height: 30px;
+  border: 1px solid #F0F0F0;
+  border-radius: 3px;
+  font-size: 0.25rem;
+  color: #222;
+}
+.order-details .o-head .main a.disabled {
+  color: #C0C4CC;
+}
+.order-details .o-head .footer {
+  border-top: 1px solid #F0F0F0;
+  text-align: center;
+  font-size: 0.25rem;
+  color: #222;
+  padding-top: 10px;
+}
+.order-details .o-head .footer img {
+  vertical-align: middle;
+}
+.order-details .o-head .footer .head-icon {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+.order-details .o-head .footer .call-icon {
+  width: 0.421875rem;
+}
+.order-details .o-goods .head {
+  padding: 0px 0 10px;
+  font-size: 0.25rem;
+  color: #0A0B0C;
+  border-bottom: 1px solid #F0F0F0;
+}
+.order-details .o-goods .head img {
+  width: 0.34375rem;
+  height: auto;
+  vertical-align: middle;
+}
+.order-details .o-goods .main ul li {
+  zoom: 1;
+  padding: 10px 0;
+  border-bottom: 1px solid #F0F0F0;
+}
+.order-details .o-goods .main ul li:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.order-details .o-goods .main ul li .goods-img {
+  width: 0.96875rem;
+  height: 0.96875rem;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+}
+.order-details .o-goods .main ul li .goods-img img {
+  width: 100%;
+  height: auto;
+}
+.order-details .o-goods .main ul li .goods-info h2 {
+  font-size: 0.25rem;
+  color: #0A0B0C;
+}
+.order-details .o-goods .main ul li .goods-info .goods-specs {
+  font-size: 0.21875rem;
+  color: #8F8F8F;
+  margin: 1px 0 3px;
+}
+.order-details .o-goods .main ul li .goods-info .goods-price {
+  font-size: 0.1875rem;
+  color: #F77E44;
+}
+.order-details .o-goods .main ul li .goods-num {
+  margin-bottom: 20px;
+  text-align: right;
+}
+.order-details .o-goods .main ul li .goods-count {
+  font-size: 0.25rem;
+  color: #3E3E3E;
+  margin-top: 40px;
+}
+.order-details .o-goods .footer {
+  display: block;
+  margin-top: 10px;
+  text-align: center;
+  font-size: 0.21875rem;
+  color: #606266;
+}
+.order-details .o-delivery h2 {
+  font-weight: normal;
+}
+.order-details .o-delivery .head {
+  font-size: 0.28125rem;
+  color: #222;
+  padding-bottom: 10px;
+}
+.order-details .o-delivery .main {
+  zoom: 1;
+  padding-top: 10px;
+}
+.order-details .o-delivery .main:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.order-details .o-delivery .main img {
+  width: 0.265625rem;
+  height: auto;
+  margin-top: 10px;
+  margin-right: 5px;
+}
+.order-details .o-delivery .main .address-info {
+  width: 90%;
+}
+.order-details .o-delivery .main .address-info h2 {
+  font-size: 0.28125rem;
+  color: #0A0B0C;
+}
+.order-details .o-delivery .main .address-info p {
+  font-size: 0.21875rem;
+  color: #8F8F8F;
+}
+.order-details .o-info .main,
+.order-details .o-money .main {
+  padding-bottom: 5px;
+}
+.order-details .o-info .footer,
+.order-details .o-money .footer {
+  padding-top: 5px;
+}
+.order-details .o-info .list,
+.order-details .o-money .list {
+  font-size: 0.25rem;
+  color: #8F8F8F;
+  line-height: 30px;
+}
+.order-details .o-info .list span,
+.order-details .o-money .list span {
+  color: #3E3E3E;
+}
+.order-details .o-info span {
+  margin-left: 20px;
+}
+.order-details .o-money span {
+  font-size: 0.265625rem;
+  float: right;
+}
+.order-details .o-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  zoom: 1;
+  height: 49px;
+  line-height: 49px;
+  background: #fff;
+  box-shadow: 0 -3px 15px #ccc;
+}
+.order-details .o-footer:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.order-details .o-footer .price {
+  font-size: 0.25rem;
+  margin-left: 0.1875rem;
+  color: #0A0B0C;
+}
+.order-details .o-footer .price i {
+  color: #F77E44;
+  font-style: normal;
+}
+.order-details .o-footer .pay_btn {
+  line-height: 50px;
+  font-size: 0.28125rem;
+  color: #fff;
+  padding: 0 20px;
+  background: #1EC551;
+}

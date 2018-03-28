@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>买菜么-商城</title>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="css/goods.css"/>
+    <script type="text/javascript" src="../../js/plugin/vue.js"></script>
+	</head>
+	<body>
+		<div class="shop-goods-page" id="shopGoodsPage">
+			<category-nar></category-nar>
+			<div class="prod-area" id="prodArea">
+		 		<div class="left sub-category" id="subCategory">
+		 			<div class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<ul>
+								<li class="item" 
+									v-for="s in subCategory" 
+									:class="s.id === subActive ? 'active' : ''"
+									@click="subCategoryActive(s.id)">
+									<span>{{s.name}}</span>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+		 		<div class="right prod-list">
+	 				<div class="condition" id="condition">
+	 					<div class="wrap">
+	 						<div class="c-l active"><span>综合排序</span></div>
+	 						<div class="c-r"><span>筛选</span></div>
+	 					</div>
+	 				</div>
+	 				<div class="items" id="items">
+		 				<div class="mui-scroll-wrapper">
+							<div class="mui-scroll" id="muiScroll">
+								<div class="prod-item" v-for="p in prods" :class="p.show ? 'border':''">
+									<div class="p-con">
+										<div class="wrap">
+											<i class="p-img" @click="jumpDetail">
+												<img :src="p.img" alt="" />
+											</i>
+											<div class="p-info">
+												<p class="name" @click="jumpDetail">{{p.name}}</p>
+												<p class="sku" v-if="!p.skus"><span>{{p.sku}} </span><span>¥{{p.skuPrice}}</span></p>
+												<span class="price" v-if="p.skus">¥{{p.minPrice}}~{{p.maxPrice}}/斤</span>
+												<span class="price" v-else>¥{{p.unitPirce}}/斤</span>
+												<span class="select-sku" v-if="p.skus" @click="skuSelect(p)">
+													<span>{{p.show ? "收起" : "选规格"}}</span>
+												</span>
+												<add-cart v-else :row="p" :num="0" class="cart" ></add-cart>
+												<i class="add-often" @click="oftenEvent(p)"><i :class="p.often ? 'active':''"></i></i>
+											</div>
+										</div>
+									</div>
+									<div class="sku-area" v-if="p.skus && p.show">
+										<div class="s-item" v-for="s in p.skus">
+											<p class="sku"><span>{{s.skuName}} </span><span>¥{{s.skuPrice}}</span></p>
+											<span class="price">¥{{s.unitPrice}}/斤</span>
+											<add-cart :row="s" :num="0" class="cart" ></add-cart>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+		 		</div>
+		 	</div>
+		</div>
+		<script type="text/javascript" src="../../js/plugin/mui.min.js"></script>
+    	<script type="text/javascript" src="../../js/common/common.js"></script>
+    	<script type="text/javascript" src="../../js/plugin/fastclick.js"></script>
+    	<script type="text/javascript" src="../../components/category-nar.js"></script>
+    	<script type="text/javascript" src="../../components/add-cart.js"></script>
+	 	<script type="text/javascript" >
+	 		function itemsHeight() {
+	 			var nar = document.getElementById("categoryNar");
+				if(nar) {
+					var nh = nar.offsetHeight ? nar.offsetHeight : 0;
+					var height = document.body.clientHeight,
+					ch = document.getElementById("condition").offsetHeight;
+					var areaH = height - nh;
+					document.getElementById("prodArea").style.height = areaH + "px";
+					document.getElementById("subCategory").style.height = areaH + "px";
+					/*document.getElementById("items").style.height = (height - nh - ch) + "px";
+					document.getElementById("subCategory").style.height = (height - nh - ch) + "px";*/
+				}
+	 		}
+	 		mui.plusReady(function() {
+	 			itemsHeight();
+	 		});
+	 		
+	 		var vm = new Vue({
+				el: "#shopGoodsPage",
+				data: function() {
+					return{
+						subActive: 1,
+						subCategory: [
+							{
+								id: 1,
+								name: "促销"
+							},
+							{
+								id: 2,
+								name: "叶菜类"
+							},
+							{
+								id: 3,
+								name: "叶菜类"
+							},
+							{
+								id: 4,
+								name: "葱姜蒜"
+							},
+							{
+								id: 5,
+								name: "豆类"
+							},
+							{
+								id: 6,
+								name: "菌菇类"
+							},
+							{
+								id: 7,
+								name: "特色菜"
+							},
+							{
+								id: 8,
+								name: "其他"
+							},
+							{
+								id: 7,
+								name: "特色菜"
+							},
+							{
+								id: 8,
+								name: "其他"
+							},
+							{
+								id: 7,
+								name: "特色菜"
+							},
+							{
+								id: 8,
+								name: "其他"
+							},
+							{
+								id: 7,
+								name: "特色菜"
+							},
+							{
+								id: 8,
+								name: "其他"
+							}
+						],
+						prods: [
+							{
+								id: "111",
+								name: "经典瘦猪肉",
+								sku: "2斤装",
+								skuPrice: "5.80",
+								unitPirce: "2.90",
+								img: "../../img/home/home_classify3.png",
+								count: 0,
+								often: false
+							},
+							{
+								id: "222",
+								name: "清远上等三黄鸡",
+								sku: "一只5斤",
+								skuPrice: "55.80",
+								unitPirce: "11.16",
+								img: "../../img/home/home_classify5.png",
+								count: 0,
+								often: false
+							},
+							{
+								id: "222",
+								name: "清远上等三黄鸡",
+								sku: "一只5斤",
+								skuPrice: "55.80",
+								unitPirce: "11.16",
+								img: "../../img/home/home_classify5.png",
+								count: 0,
+								often: false
+							},
+							{
+								id: "222",
+								name: "清远上等三黄鸡",
+								sku: "一只5斤",
+								skuPrice: "55.80",
+								unitPirce: "11.16",
+								img: "../../img/home/home_classify5.png",
+								count: 0,
+								often: false
+							},
+							{
+								id: "222",
+								name: "清远上等三黄鸡",
+								sku: "一只5斤",
+								skuPrice: "55.80",
+								unitPirce: "11.16",
+								img: "../../img/home/home_classify5.png",
+								count: 0,
+								often: false
+							},
+							{
+								id: "222",
+								name: "清远上等三黄鸡",
+								sku: "一只5斤",
+								skuPrice: "55.80",
+								unitPirce: "11.16",
+								img: "../../img/home/home_classify5.png",
+								count: 0,
+								often: false
+							},
+							{
+								id: "333",
+								name: "清真优质黄牛肉",
+								minPrice: "45.00",
+								maxPrice: "212.50",
+								img: "../../img/home/home_dish1.png",
+								count: 0,
+								often: false,
+								show: false,
+								skus : [
+									{
+										skuName: "1斤装",
+										skuPrice: "45.00",
+										unitPirce: "45.00",
+									},
+									{
+										skuName: "5斤装",
+										skuPrice: "212.50",
+										unitPirce: "42.50",
+									}
+								]
+							}
+						]
+					}
+				},
+				created: function() {
+				},
+				mounted: function() {
+					
+				},
+				methods: {
+					subCategoryActive: function(id) {
+						vm.subActive = id;
+					},
+					skuSelect: function(item) {
+						item.show = !item.show;
+					},
+					oftenEvent: function(item) {
+						item.often = !item.often;
+					},
+					jumpDetail: function() {
+						var webview = plus.webview.getWebviewById("shopDetail");
+						if(!webview) {
+							webview = mui.openWindow({
+							    url:"detail.html",
+							    id:"shopDetail",
+							    styles:{
+						    		"render": "always",
+			            			"popGesture": "hide",
+							    },
+							    extras : {}
+							});
+							webview.addEventListener('close',function(){
+								webview=null;
+							},false);
+						} else {
+							webview.show("slide-in-right",300);
+						}
+					}
+				}
+			})
+	 		
+	 	</script>
+	</body>
+</html>

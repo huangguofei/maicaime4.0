@@ -1,0 +1,143 @@
+/**
+ * author pzh
+ * 商户系统主题配置
+ */
+/*主色调*/
+/*辅助色*/
+/*禁用*/
+/*主要字体色*/
+/*常规文字颜色*/
+/*次要文字颜色*/
+/*不可输入*/
+/*背景色*/
+/*主要边框*/
+/*分割线*/
+.clearFloat {
+  content: "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  *zoom: 1;
+  clear: both;
+  visibility: hidden;
+}
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.order-list {
+  background: #F2F2F2;
+}
+.order-list #sliderNav {
+  background: #fff;
+}
+.order-list #sliderPage {
+  margin-top: 10px;
+}
+.order-list .o-item {
+  margin-bottom: 10px;
+}
+.order-list .o-item .item-head {
+  height: 0.765625rem;
+  line-height: 0.765625rem;
+  zoom: 1;
+  box-sizing: border-box;
+  background: #fff;
+  padding: 0rem 0.1875rem;
+}
+.order-list .o-item .item-head:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.order-list .o-item .item-head img {
+  position: relative;
+  top: 0.203125rem;
+  width: 0.3125rem;
+  height: auto;
+  margin-right: 5px;
+}
+.order-list .o-item .item-head .o-shopname {
+  font-size: 0.265625rem;
+  color: #0A0B0C;
+}
+.order-list .o-item .item-head .o-state {
+  font-size: 0.25rem;
+  color: #8F8F8F;
+}
+.order-list .o-item .item-main {
+  background: #F8F8F8;
+  padding-top: 0.265625rem;
+}
+.order-list .o-item .item-main ul {
+  zoom: 1;
+}
+.order-list .o-item .item-main ul:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.order-list .o-item .item-main ul li {
+  width: 20%;
+  padding-right: 10px;
+  float: left;
+  box-sizing: border-box;
+  display: table;
+}
+.order-list .o-item .item-main ul li a {
+  position: relative;
+  display: table-cell;
+  vertical-align: middle;
+  border: 1px solid #ebebeb;
+  height: 0.96875rem;
+  background: #FFF;
+}
+.order-list .o-item .item-main ul li a img {
+  vertical-align: middle;
+  width: 100%;
+  height: 100%;
+}
+.order-list .o-item .item-main ul li a .goods-count {
+  position: absolute;
+  top: -0.046875rem;
+  right: -0.046875rem;
+  background: #F77E44;
+  display: inline-block;
+  font-size: 0.1875rem;
+  border-radius: 0.109375rem;
+  padding: 0rem 0.0546875rem;
+  height: 0.203125rem;
+  line-height: 0.203125rem;
+  color: #FFF;
+  text-align: center;
+}
+.order-list .o-item .item-main .o-count {
+  margin-top: 0.1875rem;
+  text-align: right;
+  color: #8f8f8f;
+  font-size: 0.21875rem;
+}
+.order-list .o-item .item-main .o-count .o-price {
+  color: #0A0B0C;
+  font-size: 0.234375rem;
+}
+.order-list .o-item .item-fol {
+  background: #FFF;
+  text-align: right;
+}
+.order-list .o-item .item-fol a {
+  display: inline-block;
+  width: 100px;
+  height: 30px;
+  line-height: 30px!important;
+  border: 1px solid #F0F0F0;
+  border-radius: 15px;
+  color: #3E3E3E;
+  font-size: 0.25rem;
+  text-align: center;
+}
+.order-list .o-item .item-fol .active {
+  color: #fff;
+  background: #1EC551;
+}

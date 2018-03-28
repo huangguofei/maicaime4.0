@@ -1,0 +1,146 @@
+/**
+ * author pzh
+ * 商户系统主题配置
+ */
+/*主色调*/
+/*辅助色*/
+/*禁用*/
+/*主要字体色*/
+/*常规文字颜色*/
+/*次要文字颜色*/
+/*不可输入*/
+/*背景色*/
+/*主要边框*/
+/*分割线*/
+.clearFloat {
+  content: "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  *zoom: 1;
+  clear: both;
+  visibility: hidden;
+}
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.user-coupon .order-null {
+  text-align: center;
+  color: #999;
+  line-height: 0.421875rem;
+}
+.user-coupon ul li {
+  position: relative;
+  width: 100%;
+  height: 1.75rem;
+  border-radius: 0.140625rem;
+  background: #fff;
+  margin-bottom: 0.1875rem;
+  box-sizing: border-box;
+  zoom: 1;
+}
+.user-coupon ul li:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.user-coupon ul li .item-left {
+  width: 28%;
+  text-align: center;
+  border-right: 1px dashed #D7D7D7;
+  position: relative;
+  height: 100%;
+}
+.user-coupon ul li .item-left p {
+  font-size: 0.421875rem;
+  color: #F77E44;
+  line-height: 0.8125rem;
+}
+.user-coupon ul li .item-left p b {
+  font-size: 0.734375rem;
+  font-weight: normal;
+}
+.user-coupon ul li .item-left span {
+  font-size: 0.21875rem;
+  color: #999;
+}
+.user-coupon ul li .item-left:before {
+  content: "";
+  display: inline-block;
+  width: 0.1875rem;
+  height: 0.1875rem;
+  border-radius: 0.109375rem;
+  position: absolute;
+  background: #F3F3F3;
+  right: -0.0859375rem;
+  top: -0.28125rem;
+}
+.user-coupon ul li .item-left:after {
+  content: "";
+  display: inline-block;
+  width: 0.1875rem;
+  height: 0.1875rem;
+  border-radius: 0.109375rem;
+  position: absolute;
+  background: #F3F3F3;
+  right: -0.0859375rem;
+  bottom: -0.28125rem;
+}
+.user-coupon ul li .item-right {
+  padding-left: 0.109375rem;
+}
+.user-coupon ul li .item-right .title {
+  font-size: 0.3125rem;
+}
+.user-coupon ul li .item-right .title img {
+  width: 0.8125rem;
+  height: 20px;
+  position: relative;
+  top: -0.046875rem;
+  left: 0.109375rem;
+}
+.user-coupon ul li .item-right .time {
+  font-size: 0.1875rem;
+  color: #8F8F8F;
+  margin: 5px 0 10px;
+}
+.user-coupon ul li .item-right .remark {
+  font-size: 0.21875rem;
+  color: #999;
+  display: inline-block;
+  padding-left: 0.171875rem;
+  padding-right: 0.171875rem;
+  background: #F2F2F2;
+  height: 0.390625rem;
+  line-height: 0.390625rem;
+  border-radius: 0.2109375rem;
+}
+.user-coupon ul li .item-right .remark i {
+  display: inline-block;
+  width: 0.109375rem;
+  height: 0.109375rem;
+  margin-right: 0.0703125rem;
+  background: #666;
+  border-radius: 0.0703125rem;
+}
+.user-coupon .view-other {
+  display: block;
+  margin-top: .2rem;
+  font-size: 0.25rem;
+  color: #9a9a9a;
+  text-align: center;
+  vertical-align: middle;
+}
+.user-coupon .view-other img {
+  width: 0.265625rem;
+  height: auto;
+  margin-left: 0.0703125rem;
+  vertical-align: middle;
+}
+.user-coupon .active {
+  background: url(../../images/order_check.png) no-repeat -1px -1px;
+  background-size: 120% auto;
+  border-color: #1EC551;
+}
